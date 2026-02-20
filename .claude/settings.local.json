@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nv0.5.0 — scrolling-with-purpose skill\n\nNeuer Skill: scrolling-with-purpose\n- useGSAP() statt useEffect — kein Memory Leak, kein doppelter Trigger\n- Lenis + ScrollTrigger korrekt integriert (lenis.on statt window.addEventListener)\n- Horizontales Scroll: scrub:1, overflow-x:clip, dynamisches end\n- Sequential Animations: fromTo() oder Timeline gegen Cached-Value-Bug\n- Wann CSS Scroll-Driven Animations GSAP ersetzt\n\nPressure Test mit 4 belegten Szenarien (GSAP Forum #35621, #30514, #25649, Lenis Docs)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -92,6 +92,7 @@ before working on that domain.**
 ### Stack Orchestration (Critical)
 - `orchestrating-gsap-lenis` — GSAP + Lenis: autoRaf, ticker, cleanup
 - `orchestrating-react-animations` — GSAP/Framer in React lifecycle
+- `scrolling-with-purpose` — ScrollTrigger cleanup, Lenis integration, horizontal scroll, sequential animations
 
 ### Alex's Workflow
 - `starting-a-project` — PRD → stack → structure → first screen
