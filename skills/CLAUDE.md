@@ -79,10 +79,15 @@ before working on that domain.**
 - `optimizing-performance` — Core Web Vitals, LCP, INP, CLS
 - `building-accessibly` — WCAG, keyboard nav, ARIA
 
+### Data & Stack
+- `fetching-data-correctly` — Race conditions, TanStack Query, AbortController, optimistic updates
+- `building-with-nextjs` — App Router, Server vs Client Components, caching, metadata
+
 ### Award-Level Craft
 - `designing-with-perception` — Human perception, fluid type, contrast
 - `designing-for-mobile` — Touch targets, thumb zones, safe areas
 - `handling-ui-states` — All 4 states, skeleton, form states
+- `crafting-typography` — Fluid type scale, variable fonts, hierarchy
 
 ### Stack Orchestration (Critical)
 - `orchestrating-gsap-lenis` — GSAP + Lenis: autoRaf, ticker, cleanup

@@ -71,7 +71,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Skills (14 total)
+## Skills (17 total)
 
 ### Foundation
 
@@ -86,6 +86,13 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 | `optimizing-performance` | Core Web Vitals, LCP, INP, CLS |
 | `building-accessibly` | WCAG, keyboard nav, ARIA |
 
+### Data & Stack
+
+| Skill | Use When |
+|-------|----------|
+| `fetching-data-correctly` | Race conditions, TanStack Query, optimistic updates |
+| `building-with-nextjs` | App Router, Server vs Client Components, caching, metadata |
+
 ### Award-Level Craft
 
 | Skill | Use When |
@@ -93,6 +100,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 | `designing-with-perception` | Human perception, fluid typography, contrast |
 | `designing-for-mobile` | Touch targets, thumb zones, safe areas |
 | `handling-ui-states` | Loading/Error/Empty/Content — all 4 states |
+| `crafting-typography` | Fluid type scale, variable fonts, hierarchy |
 
 ### Stack Orchestration (Critical)
 
@@ -123,7 +131,7 @@ See [docs/philosophy.md](docs/philosophy.md)
 
 ## Status
 
-**v0.3.0** — 14 skills across 5 categories.
+**v0.4.0** — 17 skills across 6 categories, all evidence-based with pressure tests.
 
 ## License
 

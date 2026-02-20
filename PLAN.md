@@ -1,69 +1,179 @@
-# Plan: Klare Installationsstrategie für Brudi
+# Plan: Brudi — Nächste Phase (v0.4.0)
 
-## Das eigentliche Problem
+## Ausgangslage
 
-Das aktuelle install.sh hat einen Denkfehler:
-- Es läuft "wo man es ausführt" — das ist nicht definiert
-- Es versucht Agent-Erkennung, Global-Install und Projekt-Setup gleichzeitig
-- Kein Nutzer versteht danach wirklich was passiert ist
+**Was existiert:**
+- 14 Skills live auf GitHub (alexejluft/brudi, public)
+- Installationssystem fertig (install.sh, use.sh, INSTALL.md)
+- CLAUDE.md + AGENTS.md als Einstiegspunkte
 
-## Zwei unvermeidbare Schritte (immer)
+**Was fehlt:**
+- 13 geplante Skills noch nicht gebaut (Phase 2–5)
+- Nur 5 von 14 Skills haben Pressure Tests
+- Kein Skill basiert auf echter Recherche — alles aus Erfahrung geschrieben
+
+---
+
+## Das Kernproblem: Behauptung vs. Beweis
+
+Aktuell behauptet jeder Skill: "KI macht das falsch."
+Beweis dafür: keiner. Das reicht nicht für "weltbestes Projekt."
+
+**Der neue Standard:**
+Jeder Skill muss auf echter, belegter Evidenz basieren.
+Quellen: GitHub Issues, Stack Overflow, Postmortems, offizielle Docs.
+
+---
+
+## Der Prozess (für jeden neuen Skill)
 
 ```
-Schritt 1 (einmalig, global):   Brudi auf den PC laden → ~/.brudi/
-Schritt 2 (pro Projekt):        Projekt-Ordner mit Brudi verbinden → CLAUDE.md / AGENTS.md
+Schritt 1: RECHERCHE
+  → Parallele Agents recherchieren gleichzeitig
+  → Quellen: GitHub Issues, Stack Overflow, Dev.to, offizielle Changelogs
+  → Ergebnis: Liste der 3–5 häufigsten, schwersten, belegten Fehler
+
+Schritt 2: PRESSURE TEST
+  → 4 Szenarien aus Recherche-Ergebnissen destillieren
+  → "Without skill" = dokumentiertes Verhalten, nicht Vermutung
+  → Format identisch mit bestehenden Tests
+
+Schritt 3: SKILL schreiben
+  → Jedes Pattern adressiert einen recherchierten Fehler
+  → < 120 Zeilen, verb-first, kein Padding
+  → Jede Aussage belegbar
+
+Schritt 4: Commit + Push
 ```
 
-Diese Trennung ist die Lösung. Zwei Skripte, zwei klare Aufgaben.
+---
 
-## Was gebaut wird
+## Priorität der nächsten 3 Skills
 
-### 1. install.sh — Nur globale Installation
+### 1. `fetching-data-correctly` (höchste Priorität)
 
-Macht genau eine Sache: klont Brudi nach `~/.brudi/`
+**Warum:** Datenabruf ist der Kern jeder App. Race Conditions und
+stale Data sind die häufigsten Produktionsbugs in React-Apps.
+FairSplit ist direkt betroffen — Echtzeit-Splits, Offline-Sync.
 
-```bash
-curl -fsSL .../install.sh | sh
-# → Brudi liegt danach in ~/.brudi/
-# → Fertig. Kein Projekt berührt.
+**Recherche-Fokus:**
+- Race Conditions in useEffect (klassischer Fehler, gut dokumentiert)
+- AbortController — wann notwendig, wie korrekt
+- TanStack Query: häufige Misconfigurations (staleTime, gcTime, refetch)
+- Optimistic Updates — Pattern und Rollback bei Fehler
+- Stale data nach Navigation (Back-Button Problem)
+
+**Erwartetes Skill-Ergebnis:**
+- Wann useEffect für Fetch nie die richtige Antwort ist
+- Korrektes TanStack Query Setup
+- AbortController Pattern
+- Optimistic Update mit Rollback
+
+---
+
+### 2. `crafting-typography` (visuell, sofort sichtbar)
+
+**Warum:** Typografie ist der schnellste visuelle Unterschied zwischen
+"KI-generiert" und "Designer war dabei."
+KI setzt immer feste px-Werte, ignoriert Fluid Type, kennt keine Hierarchie.
+
+**Recherche-Fokus:**
+- Fluid Type Scale Methodik (utopia.fyi Ansatz)
+- Variable Fonts: häufige Fehler beim Einbinden (FOUT, FOIT)
+- Heading-Hierarchie die tatsächlich führt (nicht nur größer = wichtiger)
+- Optical sizing, letter-spacing bei großen Headlines
+- Kinetic Type ohne Performance-Probleme
+
+**Erwartetes Skill-Ergebnis:**
+- Fluid Type Scale mit clamp() für alle Heading-Level
+- Variable Fonts korrekt laden (font-display, preload)
+- Hierarchie-Regeln die KI nie anwendet
+- Wann und wie Kinetic Type sinnvoll ist
+
+---
+
+### 3. `building-with-nextjs` (kritisch für App-Projekte)
+
+**Warum:** Next.js App Router ist fundamental anders als Pages Router.
+KI halluziniert ständig veraltete Patterns (getServerSideProps, etc.)
+FairSplit läuft auf Next.js — direkt relevant.
+
+**Recherche-Fokus:**
+- RSC vs Client Component: wo ist die Grenze, wann falsch gezogen
+- Data Fetching im App Router: fetch() in RSC, cache, revalidate
+- Veraltete Patterns die KI noch schreibt (getServerSideProps, etc.)
+- Route Groups, Parallel Routes — häufige Missverständnisse
+- Metadata API korrekt nutzen (häufig falsch oder vergessen)
+
+**Erwartetes Skill-Ergebnis:**
+- Klare RSC/Client-Entscheidungsregel
+- Korrektes Data Fetching mit fetch() + cache
+- Die 5 veralteten Patterns die KI nie vergisst aber vergessen sollte
+- Metadata Pattern für SEO
+
+---
+
+## Bestehende Skills nachrüsten (parallel zu neuen Skills)
+
+5 bestehende Skills haben noch keinen Pressure Test:
+
+| Skill | Recherche-Fokus |
+|-------|-----------------|
+| `typing-with-typescript` | Häufigste Type-Fehler in echten Codebases |
+| `testing-user-interfaces` | Was KI beim Testen systematisch falsch macht |
+| `optimizing-performance` | Real-world LCP/INP/CLS Fehler aus Produktionsdaten |
+| `building-accessibly` | Häufigste WCAG-Verstöße in KI-generiertem Code |
+| `building-layouts` | Grid/Flexbox Bugs die in Produktion auftauchen |
+
+Vorgehen: Recherche → Test. Skill nur anpassen wenn Lücken gefunden.
+
+---
+
+## Was wir NICHT tun
+
+- Keine Skills ohne Recherche-Basis schreiben
+- Keine Pressure Tests die nur bestätigen was wir sowieso glauben
+- Nicht mehr als 3 neue Skills gleichzeitig — Qualität vor Quantität
+- Keine Recherche ohne konkretes Ergebnis (Liste belegter Fehler)
+
+---
+
+## Konkreter Ablauf der nächsten Ausführung
+
+```
+Block 1 — Recherche (3 Agents parallel, gleichzeitig gestartet)
+  Agent A: fetching-data-correctly
+  Agent B: crafting-typography
+  Agent C: building-with-nextjs
+  → Jeder Agent liefert: Liste der 3–5 belegten Fehlermuster
+
+Block 2 — Pressure Tests (aus Recherche destilliert)
+  → Je 4 Szenarien pro Skill
+  → Format: identisch mit animating-interfaces-test.md
+  → Parallel schreiben sobald Recherche fertig
+
+Block 3 — Skills schreiben
+  → Je < 120 Zeilen
+  → Jedes Pattern = ein belegter Fehler + Lösung
+
+Block 4 — Bestehende Skills nachrüsten
+  → 5 fehlende Pressure Tests recherchieren und schreiben
+  → Skills nur anpassen wo Recherche echte Lücken zeigt
+
+Block 5 — Commit + Push
+  → Version: v0.4.0
+  → 17 Skills + 9 Pressure Tests, alle recherche-basiert
 ```
 
-### 2. ~/.brudi/use.sh — Projekt verbinden
+---
 
-Man läuft dieses Skript IM Projektordner:
+## Warum das Brudi zum weltbesten macht
 
-```bash
-cd ~/projects/fairsplit
-sh ~/.brudi/use.sh
-# → Legt CLAUDE.md und/oder AGENTS.md an
-# → Fertig.
-```
+Andere Skill-Pakete schreiben "best practices" aus dem Bauch.
 
-### 3. INSTALL.md — Klartext-Anleitung
+Brudi schreibt:
+"Dieser Fehler tritt dokumentiert und wiederholt in echten Projekten auf.
+Hier ist der exakte Fix, warum er funktioniert, und was ohne ihn passiert."
 
-Ersetzt alle Installations-Erklärungen in README.md mit einer einzigen, ehrlichen Anleitung die alle 3 Szenarien abdeckt:
-
-- Szenario A: Noch kein Agent → Global installieren, später verbinden
-- Szenario B: Claude Code / OpenClaw / Cursor vorhanden
-- Szenario C: KI-Agent soll selbst installieren (Anweisung die man dem Agent gibt)
-
-### 4. install.sh vereinfachen
-
-Altes install.sh: 159 Zeilen, verwirrt.
-Neues install.sh: ~40 Zeilen, macht nur eine Sache.
-
-## Was NICHT gemacht wird
-
-- Kein Auto-detect von Agents (zu fragil, zu verwirrend)
-- Kein Versuch alles in einem Skript zu lösen
-- Keine Annahmen darüber wo ein Projekt liegt
-
-## Ergebnis
-
-Nach dieser Änderung kann Alex einem KI-Agenten sagen:
-"Wir starten FairSplit. Installiere Brudi und dann fang an."
-
-Der Agent führt aus:
-1. `curl ... | sh`  → Brudi global installiert
-2. `sh ~/.brudi/use.sh` → Projekt verbunden
-3. Liest CLAUDE.md → Weiß alles
+Das ist der Unterschied zwischen Meinung und Beweis.
+Beweis gewinnt.

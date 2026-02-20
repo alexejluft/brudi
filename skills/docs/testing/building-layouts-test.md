@@ -1,104 +1,93 @@
 # Pressure Test: building-layouts
 
-## Scenario 1: Grid vs Flexbox Decision
+---
+
+## Scenario 1: Card in verschiedenen Contexts
 
 **Prompt:**
-"Create a card grid that shows 3 cards per row on desktop, 2 on tablet, 1 on mobile."
+"Baue eine Karte die im Main-Content horizontal und in der Sidebar vertikal dargestellt wird."
 
 **Expected WITHOUT skill:**
-- Might use media queries for each breakpoint
-- Might use flexbox with percentage widths
-- Might hardcode breakpoints
+```css
+@media (min-width: 768px) { .card { flex-direction: row; } }
+```
+- Prüft Viewport — nicht den Container
+- Karte in der Sidebar ist trotzdem horizontal wenn Viewport > 768px
 
 **Expected WITH skill:**
-- Uses `repeat(auto-fit, minmax(250px, 1fr))`
-- No media queries needed
-- Fluid and responsive
+```css
+.card-wrapper { container-type: inline-size; }
+.card { display: flex; flex-direction: column; }
+@container (min-width: 400px) { .card { flex-direction: row; } }
+```
+- Reagiert auf Container-Breite, nicht Viewport
 
 ---
 
-## Scenario 2: Container Queries Understanding
+## Scenario 2: Responsives Grid ohne Media Queries
 
 **Prompt:**
-"Make a card component that shows horizontal layout when in the main content area but stacked when in a narrow sidebar."
+"Baue ein responsives Karten-Grid das sich automatisch anpasst."
 
 **Expected WITHOUT skill:**
-- Might try media queries (wrong — viewport doesn't change)
-- Might use JavaScript to detect container width
-- Might give up and say "not possible"
+```css
+.grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+```
+- 3 Breakpoints manuell — bricht zwischen Breakpoints
 
 **Expected WITH skill:**
-- Uses `container-type: inline-size`
-- Uses `@container` query
-- Understands the "golden rule"
+```css
+.grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+```
+- Keine Media Queries — Browser berechnet automatisch
 
 ---
 
-## Scenario 3: fr Unit Misunderstanding
+## Scenario 3: Zentrierung
 
 **Prompt:**
-"Create columns: 200px fixed, then two flexible columns where the second is twice as wide as the first."
+"Zentriere diesen Div vertikal und horizontal."
 
 **Expected WITHOUT skill:**
-- Might write `200px 1fr 2fr` correctly but not understand WHY
-- Might try percentages
-- Might not understand how fr distributes FREE space
+```css
+.child { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+```
+- Unnötig komplex, bricht bei Container-Größenänderung
 
 **Expected WITH skill:**
-- Writes `200px 1fr 2fr`
-- Can explain: "200px first, then remaining space split 1:2"
+```css
+.container { display: grid; place-items: center; }
+```
+- Ein Property, funktioniert immer
 
 ---
 
-## Scenario 4: Justify vs Align Confusion
+## Scenario 4: Karten gleicher Höhe
 
 **Prompt:**
-"Center items both horizontally and vertically in a grid."
+"Alle Karten im Grid sollen gleich hoch sein. Footer immer unten."
 
 **Expected WITHOUT skill:**
-- Might confuse justify/align
-- Might use flexbox instead
-- Might use margin: auto hacks
+```css
+.card { height: 300px; overflow: hidden; }
+```
+- Content wird abgeschnitten bei langen Texten
 
 **Expected WITH skill:**
-- Uses `place-items: center`
-- Knows justify = horizontal, align = vertical
+```css
+.grid { display: grid; align-items: stretch; }
+.card { display: flex; flex-direction: column; min-height: 300px; }
+.card-footer { margin-top: auto; }
+```
+- Karten wachsen mit Content, Footer immer unten
 
 ---
 
 ## Test Results
 
-### Without Skill (Expected Baseline)
-Based on typical AI behavior without specialized training:
-
-**Scenario 1 (Grid responsive):**
-- ⚠️ Often uses media queries with fixed breakpoints
-- ⚠️ Sometimes uses flexbox with flex-wrap
-- ❌ Rarely uses `auto-fit` + `minmax` pattern
-
-**Scenario 2 (Container Queries):**
-- ❌ Often suggests media queries (wrong solution)
-- ❌ Sometimes suggests JavaScript resize observers
-- ❌ May not know Container Queries exist or how they work
-- ❌ Doesn't understand "golden rule" of containment
-
-**Scenario 3 (fr units):**
-- ✅ Usually gets syntax right
-- ⚠️ Often can't explain WHY it works
-- ❌ May not understand "free space" concept
-
-**Scenario 4 (justify/align):**
-- ⚠️ Often confuses the two
-- ✅ Usually knows `place-items: center`
-- ⚠️ May over-explain with flexbox instead
-
-### With Skill
-Date: 2026-02-20
-Status: PENDING — requires subagent testing when gateway available
-
-### Skill Improvements Needed
-Based on analysis:
-- [ ] Add more explicit Container Queries examples
-- [ ] Add flowchart: "Grid vs Flexbox vs Container Query?"
-- [ ] Add "golden rule" explanation more prominently
-
+**Scenario 1:** ❌ Media Query statt Container Query
+**Scenario 2:** ❌ Manuelle Breakpoints statt auto-fit/minmax
+**Scenario 3:** ❌ Absolute Positioning statt place-items
+**Scenario 4:** ❌ Feste Höhe → Content abgeschnitten
