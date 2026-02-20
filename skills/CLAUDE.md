@@ -103,6 +103,7 @@ before working on that domain.**
 
 ### SaaS
 - `architecting-saas` — Route groups, getUser vs getSession, multi-tenancy schema, service layer
+- `integrating-supabase` — Server vs browser client, realtime cleanup, Storage RLS, typed queries
 
 ### Alex's Workflow
 - `starting-a-project` — PRD → stack → structure → first screen
