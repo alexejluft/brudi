@@ -88,6 +88,7 @@ before working on that domain.**
 - `designing-for-mobile` — Touch targets, thumb zones, safe areas
 - `handling-ui-states` — All 4 states, skeleton, form states
 - `crafting-typography` — Fluid type scale, variable fonts, hierarchy
+- `creating-visual-depth` — Layered shadows, glassmorphism limits, grainy gradients, z-index system
 
 ### Stack Orchestration (Critical)
 - `orchestrating-gsap-lenis` — GSAP + Lenis: autoRaf, ticker, cleanup

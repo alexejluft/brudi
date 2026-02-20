@@ -1,9 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir:*)",
-      "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nv0.5.0 — scrolling-with-purpose skill\n\nNeuer Skill: scrolling-with-purpose\n- useGSAP() statt useEffect — kein Memory Leak, kein doppelter Trigger\n- Lenis + ScrollTrigger korrekt integriert (lenis.on statt window.addEventListener)\n- Horizontales Scroll: scrub:1, overflow-x:clip, dynamisches end\n- Sequential Animations: fromTo() oder Timeline gegen Cached-Value-Bug\n- Wann CSS Scroll-Driven Animations GSAP ersetzt\n\nPressure Test mit 4 belegten Szenarien (GSAP Forum #35621, #30514, #25649, Lenis Docs)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git push:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nv0.6.0 — creating-visual-depth skill\n\nNeuer Skill: creating-visual-depth\n- Layered shadows: jede Schicht verdoppelt Offset + Blur, gleiche niedrige Opacity\n- Color-matched shadows: Hue vom Hintergrund ableiten statt pure black\n- Glassmorphism: max 12px blur, max 2-3 Elemente, Mobile Fallback\n- Grainy Gradients: SVG feTurbulence + mix-blend-mode:overlay gegen Banding\n- Elevation System: CSS Token-basiert (--z-dropdown, --z-overlay etc.) statt z-index:9999\n- Contact Shadows: ::after radial-gradient für Ambient Occlusion\n\nPressure Test: 4 Szenarien (Josh Comeau, CSS-Tricks, Material Design, Salt DS)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []
