@@ -85,6 +85,7 @@ before working on that domain.**
 
 ### Code Quality
 - `maintaining-quality` — Zod for JSON.parse, typed tryCatch, T3 env validation, unused imports
+- `making-tech-decisions` — State management, rendering strategy, abstractions, bundle size
 
 ### Award-Level Craft
 - `designing-with-perception` — Human perception, fluid type, contrast

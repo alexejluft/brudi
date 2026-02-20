@@ -71,7 +71,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Skills (22 total)
+## Skills (23 total)
 
 ### Foundation
 
@@ -98,6 +98,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 | Skill | Use When |
 |-------|----------|
 | `maintaining-quality` | Zod validation, typed tryCatch, T3 env, unused imports |
+| `making-tech-decisions` | State management, rendering strategy, abstractions, bundle size |
 
 ### Award-Level Craft
 
@@ -141,7 +142,7 @@ See [docs/philosophy.md](docs/philosophy.md)
 
 ## Status
 
-**v0.9.0** — 22 skills across 7 categories, all evidence-based with pressure tests.
+**v0.10.0** — 23 skills across 7 categories, all evidence-based with pressure tests.
 
 ## License
 
