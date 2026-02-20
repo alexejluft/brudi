@@ -1,13 +1,12 @@
 ---
 name: animating-interfaces
-description: Use when adding animations, scroll effects, or smooth scrolling. Especially important for GSAP + Lenis integration and respecting reduced motion preferences.
+description: Use when adding animations, scroll effects, or smooth scrolling. Start here for timing, easing, and performance rules. For GSAP+Lenis setup see orchestrating-gsap-lenis. For React integration see orchestrating-react-animations.
 ---
 
 # Animating Interfaces
 
 ## Critical: Reduced Motion First
 
-**Before ANY animation code:**
 ```css
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -17,48 +16,23 @@ description: Use when adding animations, scroll effects, or smooth scrolling. Es
 }
 ```
 
-Or in JS:
 ```javascript
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (reducedMotion) return; // Skip animation setup
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+if (reducedMotion) return // Skip animation setup
 ```
 
 ## Timing Hierarchy
 
 | Type | Duration | When |
 |------|----------|------|
-| Micro | 100-200ms | Button hover, toggles |
-| Standard | 200-400ms | Card reveals, panels |
-| Dramatic | 400-800ms | Hero, page transitions |
+| Micro | 100–200ms | Button hover, toggles, icon swap |
+| Standard | 200–400ms | Card reveal, dropdown, panel |
+| Dramatic | 400–800ms | Hero, page transition, modal |
 
 **Easing:**
-- Enter (appearing): `ease-out`
-- Exit (leaving): `ease-in`
-- Never: `linear` for movement
-
-## GSAP + Lenis Setup (Critical)
-
-```javascript
-import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
-const lenis = new Lenis({
-  lerp: 0.1,
-  autoRaf: false  // ⚠️ MUST be false with GSAP
-});
-
-// Connect Lenis to GSAP ticker
-gsap.ticker.add((time) => lenis.raf(time * 1000));
-gsap.ticker.lagSmoothing(0);
-
-// Sync ScrollTrigger with Lenis
-lenis.on('scroll', ScrollTrigger.update);
-```
-
-**Common Bug:** `autoRaf: true` with GSAP = double RAF loop = broken animations
+- Entering: `ease-out` — responsive, impactful
+- Leaving: `ease-in` — graceful exit
+- Never `linear` for movement — robotic, unnatural
 
 ## Performance Rule
 
@@ -66,89 +40,39 @@ lenis.on('scroll', ScrollTrigger.update);
 - ✅ `transform` (translate, scale, rotate)
 - ✅ `opacity`
 
-**Never animate:**
-- ❌ `width`, `height`
-- ❌ `top`, `left`, `right`, `bottom`
-- ❌ `margin`, `padding`
+**Never animate** (causes layout thrashing):
+- ❌ `width`, `height`, `top`, `left`, `margin`, `padding`
 
 ```javascript
-// ❌ Layout thrashing
-gsap.to('.sidebar', { width: 300 });
-
-// ✅ GPU-accelerated
-gsap.to('.sidebar', { x: 300 });
+gsap.to('.sidebar', { x: 300 })    // ✅ GPU
+gsap.to('.sidebar', { width: 300 }) // ❌ CPU
 ```
-
-## ScrollTrigger Essentials
-
-```javascript
-gsap.to('.element', {
-  y: -100,
-  scrollTrigger: {
-    trigger: '.section',
-    start: 'top center',
-    end: 'bottom center',
-    scrub: 1  // 1s smooth catch-up
-  }
-});
-```
-
-**scrub values:**
-- `true` = instant (jerky)
-- `0.5-1` = smooth (recommended)
-- `2+` = laggy
 
 ## Stagger
 
 ```javascript
-gsap.from('.card', {
-  y: 40,
-  opacity: 0,
-  stagger: 0.08  // 80ms between each
-});
+gsap.from('.card', { y: 40, opacity: 0, stagger: 0.08 })
+// Max 150ms between items — more feels draggy
 ```
-
-Max stagger: 150ms. More feels draggy.
 
 ## View Transitions (Astro)
 
-**Problem:** View Transitions swap DOM, but scripts don't re-execute. Animations break on navigation.
-
-**Solution:** Use `astro:page-load` event:
-
 ```javascript
+// ✅ Re-initializes after EVERY navigation
 document.addEventListener('astro:page-load', () => {
-  // Initialize animations HERE
-  // This fires on initial load AND after each navigation
-  
-  gsap.registerPlugin(ScrollTrigger);
-  
-  // Your GSAP animations...
-  gsap.from('.hero', { y: 50, opacity: 0 });
-});
-```
+  gsap.from('.hero', { y: 50, opacity: 0 })
+})
 
-**Cleanup on navigation:**
-
-```javascript
+// ✅ Cleanup before DOM swap
 document.addEventListener('astro:before-swap', () => {
-  // Kill ScrollTriggers before DOM swap
-  ScrollTrigger.getAll().forEach(t => t.kill());
-  
-  // Destroy Lenis
-  if (window.lenis) {
-    window.lenis.destroy();
-  }
-});
+  ScrollTrigger.getAll().forEach(t => t.kill())
+  window.lenis?.destroy()
+})
 ```
 
-**Common mistake:**
-```javascript
-// ❌ Only runs once, breaks after navigation
-gsap.from('.hero', { y: 50 });
+**Common mistake:** Initializing GSAP outside `astro:page-load` = breaks after navigation.
 
-// ✅ Re-initializes after each navigation
-document.addEventListener('astro:page-load', () => {
-  gsap.from('.hero', { y: 50 });
-});
-```
+## Related Skills
+
+- **orchestrating-gsap-lenis** — Full GSAP + Lenis setup, autoRaf, ticker, cleanup
+- **orchestrating-react-animations** — GSAP/Framer Motion lifecycle in React

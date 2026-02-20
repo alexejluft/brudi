@@ -66,16 +66,19 @@ setUser({ ...user, name: 'Alex' });
 
 ```javascript
 // ❌ ANTI-PATTERN - unnecessary effect + re-render
-const [items, setItems] = useState([]);
-const [total, setTotal] = useState(0);
-
 useEffect(() => {
   setTotal(items.reduce((sum, i) => sum + i.price, 0));
 }, [items]);
 
-// ✅ CORRECT - calculate during render
-const [items, setItems] = useState([]);
+// ✅ CORRECT - calculate during render (simple values)
 const total = items.reduce((sum, i) => sum + i.price, 0);
+
+// ✅ useMemo — only for genuinely expensive calculations
+const sortedItems = useMemo(() =>
+  [...items].sort((a, b) => b.price - a.price),
+  [items]
+)
+// Don't useMemo by default — only when profiling shows it's slow
 ```
 
 ## State Update Pattern
