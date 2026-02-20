@@ -89,6 +89,7 @@ before working on that domain.**
 - `handling-ui-states` — All 4 states, skeleton, form states
 - `crafting-typography` — Fluid type scale, variable fonts, hierarchy
 - `creating-visual-depth` — Layered shadows, glassmorphism limits, grainy gradients, z-index system
+- `building-interactions` — Hover states, :active feedback, transition:all bug, prefers-reduced-motion, :focus-visible
 
 ### Stack Orchestration (Critical)
 - `orchestrating-gsap-lenis` — GSAP + Lenis: autoRaf, ticker, cleanup

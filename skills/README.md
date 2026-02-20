@@ -71,7 +71,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Skills (19 total)
+## Skills (20 total)
 
 ### Foundation
 
@@ -102,6 +102,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 | `handling-ui-states` | Loading/Error/Empty/Content — all 4 states |
 | `crafting-typography` | Fluid type scale, variable fonts, hierarchy |
 | `creating-visual-depth` | Layered shadows, glassmorphism, grainy gradients, elevation system |
+| `building-interactions` | Hover states, :active, transition:all bug, prefers-reduced-motion |
 
 ### Stack Orchestration (Critical)
 
@@ -133,7 +134,7 @@ See [docs/philosophy.md](docs/philosophy.md)
 
 ## Status
 
-**v0.6.0** — 19 skills across 6 categories, all evidence-based with pressure tests.
+**v0.7.0** — 20 skills across 6 categories, all evidence-based with pressure tests.
 
 ## License
 
