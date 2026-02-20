@@ -71,7 +71,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Skills (20 total)
+## Skills (21 total)
 
 ### Foundation
 
@@ -111,6 +111,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 | `orchestrating-gsap-lenis` | Combining GSAP and Lenis smooth scroll |
 | `orchestrating-react-animations` | GSAP or Framer Motion in React |
 | `scrolling-with-purpose` | ScrollTrigger cleanup, Lenis integration, horizontal scroll |
+| `orchestrating-css-js-animations` | CSS vs GSAP ownership, fill-mode conflict, will-change limits |
 
 ### Alex's Workflow
 
@@ -134,7 +135,7 @@ See [docs/philosophy.md](docs/philosophy.md)
 
 ## Status
 
-**v0.7.0** — 20 skills across 6 categories, all evidence-based with pressure tests.
+**v0.8.0** — 21 skills across 6 categories, all evidence-based with pressure tests.
 
 ## License
 

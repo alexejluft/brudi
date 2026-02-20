@@ -95,6 +95,7 @@ before working on that domain.**
 - `orchestrating-gsap-lenis` — GSAP + Lenis: autoRaf, ticker, cleanup
 - `orchestrating-react-animations` — GSAP/Framer in React lifecycle
 - `scrolling-with-purpose` — ScrollTrigger cleanup, Lenis integration, horizontal scroll, sequential animations
+- `orchestrating-css-js-animations` — CSS vs GSAP ownership, fill-mode conflict, will-change limits
 
 ### Alex's Workflow
 - `starting-a-project` — PRD → stack → structure → first screen
