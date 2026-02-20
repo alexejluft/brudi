@@ -101,6 +101,9 @@ before working on that domain.**
 - `scrolling-with-purpose` — ScrollTrigger cleanup, Lenis integration, horizontal scroll, sequential animations
 - `orchestrating-css-js-animations` — CSS vs GSAP ownership, fill-mode conflict, will-change limits
 
+### SaaS
+- `architecting-saas` — Route groups, getUser vs getSession, multi-tenancy schema, service layer
+
 ### Alex's Workflow
 - `starting-a-project` — PRD → stack → structure → first screen
 

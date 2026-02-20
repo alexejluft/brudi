@@ -71,7 +71,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Skills (23 total)
+## Skills (24 total)
 
 ### Foundation
 
@@ -120,6 +120,12 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 | `scrolling-with-purpose` | ScrollTrigger cleanup, Lenis integration, horizontal scroll |
 | `orchestrating-css-js-animations` | CSS vs GSAP ownership, fill-mode conflict, will-change limits |
 
+### SaaS
+
+| Skill | Use When |
+|-------|----------|
+| `architecting-saas` | Route groups, auth middleware, multi-tenancy, service layer |
+
 ### Alex's Workflow
 
 | Skill | Use When |
@@ -142,7 +148,7 @@ See [docs/philosophy.md](docs/philosophy.md)
 
 ## Status
 
-**v0.10.0** — 23 skills across 7 categories, all evidence-based with pressure tests.
+**v0.11.0** — 24 skills across 8 categories, all evidence-based with pressure tests.
 
 ## License
 
