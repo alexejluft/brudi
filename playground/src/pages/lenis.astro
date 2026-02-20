@@ -1,0 +1,345 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="brudi.dev — Lenis Deep Dive">
+  <main class="max-w-5xl mx-auto px-6 py-16">
+    
+    <header class="mb-12">
+      <a href="/" class="text-zinc-500 hover:text-zinc-300 text-sm mb-4 inline-block">← Zurück</a>
+      <h1 class="text-4xl font-bold mb-2 page-title">
+        <span class="text-amber-500">Lenis</span> Smooth Scroll
+      </h1>
+      <p class="text-zinc-400">
+        Warum fühlt sich native Scrolling "snappy" an — und wie Lenis das fixt.
+      </p>
+    </header>
+
+    <!-- The Problem -->
+    <section class="mb-16 p-6 bg-red-500/10 border border-red-500/30 rounded-xl">
+      <h2 class="text-red-400 font-medium mb-3">❌ Das Problem mit Browser-Scroll</h2>
+      <p class="text-zinc-300 mb-4">
+        Native Browser-Scrolling springt <strong>direkt</strong> zur Zielposition.
+      </p>
+      <div class="bg-zinc-900 rounded p-4 font-mono text-sm">
+        <p class="text-zinc-400">Wheel Event → scrollTop = 500px <span class="text-red-400">// SOFORT</span></p>
+      </div>
+      <p class="text-zinc-400 text-sm mt-3">
+        Das fühlt sich "snappy" an. Kein Gewicht, keine Trägheit, keine Physik.
+      </p>
+    </section>
+
+    <!-- The Solution -->
+    <section class="mb-16 p-6 bg-green-500/10 border border-green-500/30 rounded-xl">
+      <h2 class="text-green-400 font-medium mb-3">✅ Die Lösung: Linear Interpolation (LERP)</h2>
+      <p class="text-zinc-300 mb-4">
+        Lenis interpoliert zwischen <strong>aktuellem</strong> und <strong>Ziel</strong>-Wert.
+      </p>
+      <div class="bg-zinc-900 rounded p-4 font-mono text-sm space-y-1">
+        <p class="text-zinc-400">Frame 1: scroll = 0, target = 500 → <span class="text-green-400">scroll = 50</span></p>
+        <p class="text-zinc-400">Frame 2: scroll = 50, target = 500 → <span class="text-green-400">scroll = 95</span></p>
+        <p class="text-zinc-400">Frame 3: scroll = 95, target = 500 → <span class="text-green-400">scroll = 135</span></p>
+        <p class="text-zinc-500">... smooth approach ...</p>
+      </div>
+      <p class="text-zinc-400 text-sm mt-3">
+        <code class="text-amber-400">lerp: 0.1</code> = 10% des Weges pro Frame → buttrig smooth
+      </p>
+    </section>
+
+    <!-- LERP Explained -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        LERP — Das Herzstück
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <div class="bg-zinc-800 rounded p-4 font-mono text-sm mb-4">
+          <p class="text-amber-400">// Die Formel</p>
+          <p class="text-zinc-300">newValue = currentValue + (targetValue - currentValue) * lerp</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-4 mt-6">
+          <div class="bg-zinc-800/50 rounded p-4">
+            <code class="text-green-400">lerp: 0.1</code>
+            <p class="text-zinc-400 text-sm mt-2">Sehr smooth. Langsam. Premium-Feel.</p>
+          </div>
+          <div class="bg-zinc-800/50 rounded p-4">
+            <code class="text-yellow-400">lerp: 0.3</code>
+            <p class="text-zinc-400 text-sm mt-2">Balanced. Smooth aber responsive.</p>
+          </div>
+          <div class="bg-zinc-800/50 rounded p-4">
+            <code class="text-red-400">lerp: 1.0</code>
+            <p class="text-zinc-400 text-sm mt-2">Instant. Wie Browser-native.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic Setup -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Basic Setup
+      </h2>
+      
+      <div class="space-y-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <p class="text-zinc-400 text-sm mb-3">1. Installation:</p>
+          <pre class="text-sm font-mono text-green-300">npm install lenis</pre>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <p class="text-zinc-400 text-sm mb-3">2. Minimal Setup (mit autoRaf):</p>
+          <pre class="text-sm font-mono text-zinc-300 overflow-x-auto">{`import Lenis from 'lenis'
+import 'lenis/dist/lenis.css'
+
+const lenis = new Lenis({
+  autoRaf: true,  // Automatischer RAF-Loop
+  lerp: 0.1,      // Smooth-Faktor
+})
+
+// Optional: auf Scroll Events hören
+lenis.on('scroll', (e) => {
+  console.log(e.scroll, e.velocity)
+})`}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- GSAP Integration -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        GSAP ScrollTrigger Integration
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <pre class="text-sm font-mono text-zinc-300 overflow-x-auto">{`import Lenis from 'lenis'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const lenis = new Lenis()
+
+// 1. Lenis informiert ScrollTrigger über Scroll-Position
+lenis.on('scroll', ScrollTrigger.update)
+
+// 2. Lenis läuft im GSAP Ticker (perfekter Sync)
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000)
+})
+
+// 3. Kein Lag-Smoothing (würde Sync brechen)
+gsap.ticker.lagSmoothing(0)`}</pre>
+        
+        <div class="mt-4 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+          <p class="text-amber-400 text-sm">
+            <strong>Warum funktioniert das?</strong> Lenis macht das Smooth-Scrolling, 
+            ScrollTrigger bekommt die interpolierten Werte und triggert Animationen basierend darauf.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Properties -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Wichtige Properties
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-amber-400">lenis.scroll</code>
+          <p class="text-zinc-400 text-sm mt-1">Aktueller (interpolierter) Scroll-Wert</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-amber-400">lenis.targetScroll</code>
+          <p class="text-zinc-400 text-sm mt-1">Ziel-Wert (wo User hin will)</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-amber-400">lenis.velocity</code>
+          <p class="text-zinc-400 text-sm mt-1">Scroll-Geschwindigkeit (für Effekte)</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-amber-400">lenis.progress</code>
+          <p class="text-zinc-400 text-sm mt-1">0 bis 1 (für Progress-Bars)</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-amber-400">lenis.direction</code>
+          <p class="text-zinc-400 text-sm mt-1">1 = down, -1 = up</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-amber-400">lenis.isScrolling</code>
+          <p class="text-zinc-400 text-sm mt-1">"smooth" | "native" | false</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Methods -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Wichtige Methoden
+      </h2>
+      
+      <div class="space-y-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-green-400">lenis.scrollTo(target, options)</code>
+          <p class="text-zinc-400 text-sm mt-2">Programmatisch scrollen.</p>
+          <pre class="text-xs font-mono text-zinc-500 mt-2">{`lenis.scrollTo('#section', { offset: -100, duration: 2 })
+lenis.scrollTo(500, { immediate: true })  // Sofort, kein smooth`}</pre>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-yellow-400">lenis.stop() / lenis.start()</code>
+          <p class="text-zinc-400 text-sm mt-2">Scrolling pausieren/fortsetzen. Für Modals!</p>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-red-400">lenis.destroy()</code>
+          <p class="text-zinc-400 text-sm mt-2">Cleanup. Wichtig bei React/Vue unmount!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Options Deep Dive -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Options verstehen
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <pre class="text-sm font-mono text-zinc-300 overflow-x-auto">{`new Lenis({
+  // Smooth-Verhalten
+  lerp: 0.1,           // 0.05-0.2 ist sweet spot
+  duration: 1.2,       // Ignoriert wenn lerp gesetzt!
+  easing: (t) => ...,  // Ignoriert wenn lerp gesetzt!
+  
+  // Scroll-Richtung
+  orientation: 'vertical',    // oder 'horizontal'
+  gestureOrientation: 'both', // Touch-Gesten
+  
+  // Performance
+  smoothWheel: true,   // Wheel Events smoothen
+  syncTouch: false,    // Touch smoothen (instabil auf iOS!)
+  
+  // Nested Scrolling
+  prevent: (node) => node.classList.contains('modal'),
+  
+  // Anchor Links
+  anchors: true,  // Smooth scroll zu #anchors
+})`}</pre>
+      </div>
+      
+      <div class="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+        <p class="text-red-400 text-sm">
+          <strong>Achtung:</strong> <code>duration</code> und <code>easing</code> werden von <code>lerp</code> überschrieben!
+          Verwende entweder LERP oder Duration/Easing, nicht beides.
+        </p>
+      </div>
+    </section>
+
+    <!-- Nested Scroll -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Nested Scrolling (Modals, etc.)
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <p class="text-zinc-400 text-sm mb-3">Mit HTML-Attribut:</p>
+          <pre class="text-sm font-mono text-zinc-300">{`<div data-lenis-prevent>
+  <!-- Normales Scrolling hier -->
+</div>`}</pre>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <p class="text-zinc-400 text-sm mb-3">Mit JavaScript:</p>
+          <pre class="text-sm font-mono text-zinc-300">{`new Lenis({
+  prevent: (node) => {
+    return node.id === 'modal'
+  }
+})`}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- React Hook -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        React Integration
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <pre class="text-sm font-mono text-zinc-300 overflow-x-auto">{`import { ReactLenis, useLenis } from 'lenis/react'
+
+// Provider
+function App() {
+  return (
+    <ReactLenis root options={{ lerp: 0.1 }}>
+      <YourContent />
+    </ReactLenis>
+  )
+}
+
+// Hook
+function Component() {
+  const lenis = useLenis()
+  
+  const handleClick = () => {
+    lenis?.scrollTo('#target', { duration: 1.5 })
+  }
+  
+  return <button onClick={handleClick}>Scroll</button>
+}`}</pre>
+      </div>
+    </section>
+
+    <!-- Performance -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Performance-Tipps
+      </h2>
+      
+      <div class="space-y-3">
+        <div class="flex items-start gap-3 text-zinc-300">
+          <span class="text-green-400">✅</span>
+          <span><code>autoRaf: true</code> für einfache Setups</span>
+        </div>
+        <div class="flex items-start gap-3 text-zinc-300">
+          <span class="text-green-400">✅</span>
+          <span>GSAP Ticker für komplexe Animationen (besserer Sync)</span>
+        </div>
+        <div class="flex items-start gap-3 text-zinc-300">
+          <span class="text-yellow-400">⚠️</span>
+          <span><code>syncTouch: false</code> auf iOS (kann instabil sein)</span>
+        </div>
+        <div class="flex items-start gap-3 text-zinc-300">
+          <span class="text-yellow-400">⚠️</span>
+          <span>Safari ist auf 60fps gedeckelt (Hardware-Limit)</span>
+        </div>
+        <div class="flex items-start gap-3 text-zinc-300">
+          <span class="text-red-400">❌</span>
+          <span>iframes brechen Smooth Scroll (forwarden keine Events)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- What I learned -->
+    <section class="mb-16 p-6 bg-green-500/10 border border-green-500/30 rounded-xl">
+      <h2 class="text-green-400 font-medium mb-3">✅ Was ich WIRKLICH verstanden habe</h2>
+      <ul class="space-y-2 text-zinc-300 text-sm">
+        <li>• <strong>LERP</strong> ist das Kernkonzept — interpoliert zwischen current und target</li>
+        <li>• <strong>lerp: 0.1</strong> = 10% pro Frame → smooth, <strong>lerp: 1</strong> = instant</li>
+        <li>• <strong>duration/easing werden von lerp überschrieben</strong> — nicht mischen!</li>
+        <li>• <strong>GSAP Integration:</strong> lenis.on('scroll') + gsap.ticker.add()</li>
+        <li>• <strong>data-lenis-prevent</strong> für nested scrolling (Modals)</li>
+        <li>• <strong>lenis.stop()</strong> / <strong>start()</strong> für Modal-Overlays</li>
+      </ul>
+    </section>
+
+    <nav class="flex gap-4 pt-8 border-t border-zinc-800">
+      <a href="/testing" class="text-amber-400 hover:text-amber-300">← Testing</a>
+      <a href="/" class="text-amber-400 hover:text-amber-300 ml-auto">Home →</a>
+    </nav>
+
+  </main>
+</Layout>

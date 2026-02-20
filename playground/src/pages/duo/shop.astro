@@ -1,0 +1,595 @@
+---
+import DuoLayout from '../../layouts/DuoLayout.astro';
+
+const products = [
+  {
+    id: "design-system-starter",
+    name: "Design System Starter",
+    category: "Digital Product",
+    price: 49,
+    description: "A complete Figma + code template for building your own design system. Variables, components, documentation.",
+    tags: ["Figma", "React", "Tailwind"],
+    featured: true
+  },
+  {
+    id: "astro-portfolio-template",
+    name: "Astro Portfolio Template",
+    category: "Template",
+    price: 29,
+    description: "The same template this site is built on. Dark mode, animations, responsive. Just add your content.",
+    tags: ["Astro", "TypeScript", "CSS"],
+    featured: true
+  },
+  {
+    id: "react-hooks-collection",
+    name: "React Hooks Collection",
+    category: "Code",
+    price: 19,
+    description: "15 production-ready custom hooks with TypeScript. useMediaQuery, useLocalStorage, useDebounce, and more.",
+    tags: ["React", "TypeScript"],
+    featured: true
+  },
+  {
+    id: "supabase-auth-starter",
+    name: "Supabase Auth Starter",
+    category: "Template",
+    price: 39,
+    description: "Complete authentication flow with email, OAuth, magic links. RLS policies included.",
+    tags: ["Next.js", "Supabase"]
+  },
+  {
+    id: "one-on-one",
+    name: "1:1 Consultation",
+    category: "Service",
+    price: 150,
+    priceUnit: "/hour",
+    description: "Direct access to Brudi for code reviews, architecture discussions, or pair programming sessions.",
+    tags: ["Consulting"]
+  },
+  {
+    id: "merch-tshirt",
+    name: "A&B T-Shirt",
+    category: "Merch",
+    price: 35,
+    description: "Premium cotton tee with the A&B logo. Minimal design, maximum comfort.",
+    tags: ["Apparel"],
+    comingSoon: true
+  }
+];
+
+const categories = ["All", "Digital Product", "Template", "Code", "Service", "Merch"];
+---
+
+<DuoLayout title="Shop">
+  
+  <div class="shop-page">
+    
+    <!-- Hero -->
+    <section class="page-hero">
+      <div class="hero-content">
+        <span class="page-label">Shop</span>
+        <h1 class="page-title">Resources & Products</h1>
+        <p class="page-intro">
+          Tools, templates, and resources we've built.<br/>
+          Everything is battle-tested from our own projects.
+        </p>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories-section">
+      <div class="categories">
+        {categories.map((cat, i) => (
+          <button class:list={['category-btn', { active: i === 0 }]}>{cat}</button>
+        ))}
+      </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="products-section">
+      <div class="products-grid">
+        {products.filter(p => p.featured).map(product => (
+          <article class="product-card featured">
+            <div class="product-image">
+              <div class="product-image-placeholder">
+                <span class="placeholder-icon">
+                  {product.category === 'Digital Product' && '◆'}
+                  {product.category === 'Template' && '◇'}
+                  {product.category === 'Code' && '{ }'}
+                </span>
+              </div>
+              {product.comingSoon && <span class="coming-soon-badge">Coming Soon</span>}
+            </div>
+            <div class="product-content">
+              <span class="product-category">{product.category}</span>
+              <h2 class="product-name">{product.name}</h2>
+              <p class="product-description">{product.description}</p>
+              <div class="product-tags">
+                {product.tags.map(tag => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+              <div class="product-footer">
+                <span class="product-price">
+                  ${product.price}{product.priceUnit || ''}
+                </span>
+                <button class="buy-button" disabled={product.comingSoon}>
+                  {product.comingSoon ? 'Notify Me' : 'Buy Now'}
+                </button>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- All Products -->
+    <section class="all-products-section">
+      <div class="section-header">
+        <h2 class="section-title">All Products</h2>
+      </div>
+      
+      <div class="products-list">
+        {products.map(product => (
+          <article class="product-row">
+            <div class="row-info">
+              <span class="row-category">{product.category}</span>
+              <span class="row-name">{product.name}</span>
+            </div>
+            <div class="row-tags">
+              {product.tags.map(tag => (
+                <span class="tag-small">{tag}</span>
+              ))}
+            </div>
+            <div class="row-price">
+              <span>${product.price}{product.priceUnit || ''}</span>
+            </div>
+            <button class="row-button" disabled={product.comingSoon}>
+              {product.comingSoon ? 'Soon' : 'Buy'}
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+      <div class="section-header">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+      
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>How do I access digital products after purchase?</summary>
+          <p>You'll receive an email with download links immediately after purchase. All products include lifetime access and updates.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use these in commercial projects?</summary>
+          <p>Yes! All our templates and code come with a commercial license. Use them in as many projects as you want.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do you offer refunds?</summary>
+          <p>Yes, within 14 days of purchase if you're not satisfied. Just email us with your order number.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does the 1:1 consultation work?</summary>
+          <p>Book a time slot, tell us what you need help with, and we'll pair up via screen share. You can record the session.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Custom Work CTA -->
+    <section class="cta-section">
+      <div class="cta-content">
+        <span class="cta-label">Need something custom?</span>
+        <h2>Let's build it together</h2>
+        <p>We take on select projects for clients who value quality over speed.</p>
+        <a href="/duo/contact" class="cta-button">
+          <span>Discuss your project</span>
+          <span class="cta-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+</DuoLayout>
+
+<style>
+  .shop-page {
+    padding-top: 8rem;
+  }
+
+  /* Hero */
+  .page-hero {
+    padding: 8rem 2rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .page-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    display: block;
+    margin-bottom: 2rem;
+  }
+  
+  .page-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+  
+  .page-intro {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  /* Categories */
+  .categories-section {
+    padding: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .categories {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .category-btn {
+    font-size: 0.875rem;
+    padding: 0.5rem 1.5rem;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    transition: all 0.3s;
+  }
+  
+  .category-btn:hover,
+  .category-btn.active {
+    color: var(--color-text);
+    border-color: var(--color-text);
+  }
+
+  /* Products Grid */
+  .products-section {
+    padding: 6rem 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .products-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+  
+  @media (max-width: 968px) {
+    .products-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  
+  .product-card:hover {
+    border-color: var(--color-text-muted);
+    transform: translateY(-4px);
+  }
+  
+  .product-image {
+    aspect-ratio: 16/10;
+    position: relative;
+  }
+  
+  .product-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+  }
+  
+  .placeholder-icon {
+    font-size: 3rem;
+    color: var(--color-text-muted);
+  }
+  
+  .coming-soon-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+  
+  .product-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-category {
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+  
+  .product-name {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+  }
+  
+  .product-description {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex: 1;
+  }
+  
+  .product-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .tag {
+    font-size: 0.625rem;
+    padding: 0.3rem 0.6rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+  
+  .product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+  
+  .product-price {
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+  
+  .buy-button {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-text);
+    color: var(--color-bg);
+    transition: background 0.3s, opacity 0.3s;
+  }
+  
+  .buy-button:hover:not(:disabled) {
+    background: var(--color-accent);
+  }
+  
+  .buy-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* All Products List */
+  .all-products-section {
+    padding: 6rem 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .section-header {
+    max-width: 1400px;
+    margin: 0 auto 3rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+  
+  .products-list {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .product-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--color-border);
+    align-items: center;
+  }
+  
+  @media (max-width: 768px) {
+    .product-row {
+      grid-template-columns: 1fr auto auto;
+    }
+    
+    .row-tags {
+      display: none;
+    }
+  }
+  
+  .row-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .row-category {
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  
+  .row-name {
+    font-size: 1rem;
+  }
+  
+  .row-tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .tag-small {
+    font-size: 0.625rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+  
+  .row-price {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  
+  .row-button {
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .row-button:hover:not(:disabled) {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+  
+  .row-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* FAQ */
+  .faq-section {
+    padding: 6rem 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .faq-item {
+    border-top: 1px solid var(--color-border);
+  }
+  
+  .faq-item summary {
+    padding: 1.5rem 0;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+  }
+  
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  
+  .faq-item summary::after {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: 200;
+    color: var(--color-text-muted);
+    transition: transform 0.3s;
+  }
+  
+  .faq-item[open] summary::after {
+    transform: rotate(45deg);
+  }
+  
+  .faq-item p {
+    padding-bottom: 1.5rem;
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 10rem 2rem;
+    text-align: center;
+  }
+  
+  .cta-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    display: block;
+    margin-bottom: 1rem;
+  }
+  
+  .cta-content h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 200;
+    margin-bottom: 1rem;
+  }
+  
+  .cta-content p {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    margin-bottom: 3rem;
+  }
+  
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.125rem;
+    padding: 1rem 2rem;
+    border: 1px solid var(--color-text);
+    transition: background 0.3s, gap 0.3s;
+  }
+  
+  .cta-button:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+    gap: 1.5rem;
+  }
+</style>

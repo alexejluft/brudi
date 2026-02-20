@@ -1,0 +1,271 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="brudi.dev — CSS Grid Deep Dive">
+  <main class="max-w-5xl mx-auto px-6 py-16">
+    
+    <header class="mb-12">
+      <a href="/" class="text-zinc-500 hover:text-zinc-300 text-sm mb-4 inline-block">← Zurück</a>
+      <h1 class="text-4xl font-bold mb-2 page-title">
+        CSS <span class="text-blue-500">Grid</span>
+      </h1>
+      <p class="text-zinc-400">
+        Nicht nur benutzen — VERSTEHEN.
+      </p>
+    </header>
+
+    <!-- Mental Model -->
+    <section class="mb-16 p-6 bg-blue-500/10 border border-blue-500/30 rounded-xl">
+      <h2 class="text-blue-400 font-medium mb-3">🧠 Das mentale Modell</h2>
+      <p class="text-zinc-300 mb-4">
+        Grid ist ein <strong>2D Layout System</strong>. Du definierst <strong>Lines</strong> (unsichtbare Trennlinien), 
+        und Items positionieren sich <strong>zwischen</strong> diesen Lines.
+      </p>
+      <div class="grid grid-cols-4 gap-2 text-center text-sm">
+        <div class="text-zinc-500">Line 1</div>
+        <div class="text-zinc-500">Line 2</div>
+        <div class="text-zinc-500">Line 3</div>
+        <div class="text-zinc-500">Line 4</div>
+      </div>
+      <div class="grid grid-cols-3 gap-2 mt-1">
+        <div class="bg-blue-500/30 p-4 rounded text-center text-sm">Track 1</div>
+        <div class="bg-blue-500/30 p-4 rounded text-center text-sm">Track 2</div>
+        <div class="bg-blue-500/30 p-4 rounded text-center text-sm">Track 3</div>
+      </div>
+    </section>
+
+    <!-- FR Unit Deep Dive -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Die fr Unit — wirklich verstanden
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 mb-6">
+        <p class="text-zinc-300 mb-4">
+          <code>fr</code> = <strong>Fraction of FREE space</strong>. Nicht total space. FREE space.
+        </p>
+        
+        <div class="mb-6">
+          <p class="text-zinc-400 text-sm mb-2">Beispiel: Container 400px | Columns: 100px 1fr 2fr</p>
+          <div class="h-16 flex border border-zinc-700 rounded overflow-hidden max-w-md">
+            <div class="bg-red-500/50 flex items-center justify-center text-sm w-1/4">
+              100px
+            </div>
+            <div class="bg-blue-500/50 flex items-center justify-center text-sm w-1/4">
+              1fr
+            </div>
+            <div class="bg-green-500/50 flex items-center justify-center text-sm w-2/4">
+              2fr
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-zinc-800 rounded p-4 text-sm">
+          <p class="text-zinc-300 font-mono">
+            1. Fixe Größen abziehen: 400px - 100px = 300px frei<br/>
+            2. fr-Summe: 1fr + 2fr = 3fr<br/>
+            3. 1fr = 300px ÷ 3 = 100px<br/>
+            4. Ergebnis: 100px | 100px | 200px
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid Template Columns -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        grid-template-columns Patterns
+      </h2>
+      
+      <div class="space-y-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-blue-400">1fr 1fr 1fr</code>
+          <p class="text-zinc-400 text-sm mt-1">3 gleich breite Spalten</p>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-blue-400">repeat(3, 1fr)</code>
+          <p class="text-zinc-400 text-sm mt-1">Gleich wie oben, kürzer geschrieben</p>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-blue-400">200px 1fr 1fr</code>
+          <p class="text-zinc-400 text-sm mt-1">Erste Spalte fix, Rest flexibel</p>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-blue-400">minmax(200px, 1fr) 2fr</code>
+          <p class="text-zinc-400 text-sm mt-1">Erste Spalte: min 200px, max 1fr</p>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-blue-400">repeat(auto-fit, minmax(250px, 1fr))</code>
+          <p class="text-zinc-400 text-sm mt-1">Responsive: So viele Spalten wie passen, min 250px</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid Areas -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Grid Areas — Visual Layout
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <div class="bg-zinc-800 rounded p-4 text-sm mb-4 font-mono">
+          <p class="text-zinc-300">
+            grid-template-areas:<br/>
+            &nbsp;&nbsp;"header header header"<br/>
+            &nbsp;&nbsp;"sidebar main main"<br/>
+            &nbsp;&nbsp;"footer footer footer";
+          </p>
+        </div>
+
+        <div class="grid grid-cols-3 grid-rows-3 gap-2 h-48">
+          <div class="col-span-3 bg-blue-500/40 rounded p-2 flex items-center justify-center">header</div>
+          <div class="row-span-1 bg-green-500/40 rounded p-2 flex items-center justify-center">sidebar</div>
+          <div class="col-span-2 bg-purple-500/40 rounded p-2 flex items-center justify-center">main</div>
+          <div class="col-span-3 bg-orange-500/40 rounded p-2 flex items-center justify-center">footer</div>
+        </div>
+        
+        <p class="text-zinc-500 text-sm mt-4">
+          💡 Lines werden automatisch benannt: header-start, header-end, etc.
+        </p>
+      </div>
+    </section>
+
+    <!-- Justify vs Align -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        justify-* vs align-*
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <h3 class="text-blue-400 font-medium mb-3">justify-* (horizontal)</h3>
+          <p class="text-zinc-400 text-sm mb-4">Inline axis = Zeilen-Richtung →</p>
+          <ul class="space-y-2 text-sm text-zinc-300">
+            <li><code>justify-items</code> — Items in ihren Cells</li>
+            <li><code>justify-content</code> — Das ganze Grid</li>
+            <li><code>justify-self</code> — Ein einzelnes Item</li>
+          </ul>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <h3 class="text-green-400 font-medium mb-3">align-* (vertikal)</h3>
+          <p class="text-zinc-400 text-sm mb-4">Block axis = Spalten-Richtung ↓</p>
+          <ul class="space-y-2 text-sm text-zinc-300">
+            <li><code>align-items</code> — Items in ihren Cells</li>
+            <li><code>align-content</code> — Das ganze Grid</li>
+            <li><code>align-self</code> — Ein einzelnes Item</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+        <p class="text-yellow-400 text-sm">
+          <strong>Merkregel:</strong> justify = "J" liegt horizontal. align = aufrecht stehen = vertikal.
+        </p>
+      </div>
+    </section>
+
+    <!-- Item Positioning -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Items positionieren
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <div class="space-y-4 text-sm">
+          <div>
+            <code class="text-blue-400">grid-column: 1 / 3</code>
+            <p class="text-zinc-400">Von Line 1 bis Line 3 (= 2 Spalten)</p>
+          </div>
+          <div>
+            <code class="text-blue-400">grid-column: span 2</code>
+            <p class="text-zinc-400">2 Spalten breit (egal wo)</p>
+          </div>
+          <div>
+            <code class="text-blue-400">grid-row: 1 / -1</code>
+            <p class="text-zinc-400">Von erster bis letzter Line (ganze Höhe)</p>
+          </div>
+          <div>
+            <code class="text-blue-400">grid-area: header</code>
+            <p class="text-zinc-400">In den benannten Bereich "header"</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- place-items shortcut -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Der place-items Shortcut
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <div class="bg-zinc-800 rounded p-4 text-sm mb-4 font-mono">
+          <p class="text-zinc-300">
+            .center-everything &#123;<br/>
+            &nbsp;&nbsp;display: grid;<br/>
+            &nbsp;&nbsp;place-items: center;<br/>
+            &#125;
+          </p>
+        </div>
+        <p class="text-zinc-400 text-sm">
+          <code>place-items: center</code> = <code>align-items: center</code> + <code>justify-items: center</code>
+        </p>
+        <p class="text-green-400 text-sm mt-2">
+          ✅ Der einfachste Weg um etwas zu zentrieren!
+        </p>
+      </div>
+    </section>
+
+    <!-- Quick Reference -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">Quick Reference</h2>
+      
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <h3 class="font-medium mb-3 text-zinc-300">Container</h3>
+          <ul class="space-y-1 text-sm text-zinc-400">
+            <li><code>display: grid</code></li>
+            <li><code>grid-template-columns</code></li>
+            <li><code>grid-template-rows</code></li>
+            <li><code>grid-template-areas</code></li>
+            <li><code>gap</code></li>
+            <li><code>place-items</code></li>
+          </ul>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <h3 class="font-medium mb-3 text-zinc-300">Items</h3>
+          <ul class="space-y-1 text-sm text-zinc-400">
+            <li><code>grid-column</code></li>
+            <li><code>grid-row</code></li>
+            <li><code>grid-area</code></li>
+            <li><code>place-self</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- What I learned -->
+    <section class="mb-16 p-6 bg-green-500/10 border border-green-500/30 rounded-xl">
+      <h2 class="text-green-400 font-medium mb-3">✅ Was ich WIRKLICH verstanden habe</h2>
+      <ul class="space-y-2 text-zinc-300 text-sm">
+        <li>• <strong>fr</strong> berechnet sich aus dem FREE space NACH fixen Größen</li>
+        <li>• <strong>Lines</strong> sind nummeriert ab 1, Items positionieren sich ZWISCHEN Lines</li>
+        <li>• <strong>justify</strong> = horizontal, <strong>align</strong> = vertikal. Immer.</li>
+        <li>• <strong>-items</strong> = innerhalb der Cells, <strong>-content</strong> = das ganze Grid</li>
+        <li>• <strong>place-items: center</strong> ist der einfachste Centering-Trick</li>
+      </ul>
+    </section>
+
+    <nav class="flex gap-4 pt-8 border-t border-zinc-800">
+      <a href="/patterns" class="text-blue-400 hover:text-blue-300">← Patterns</a>
+      <a href="/" class="text-blue-400 hover:text-blue-300 ml-auto">Home →</a>
+    </nav>
+
+  </main>
+</Layout>

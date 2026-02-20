@@ -1,0 +1,202 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="brudi.dev — Patterns">
+  <main class="max-w-4xl mx-auto px-6 py-16">
+    
+    <header class="mb-16">
+      <a href="/" class="text-zinc-500 hover:text-zinc-300 text-sm mb-4 inline-block">← Zurück</a>
+      <h1 class="text-4xl font-bold mb-2 page-title">
+        Code <span class="text-blue-500">Patterns</span>
+      </h1>
+      <p class="text-zinc-400">
+        Bewährte Lösungen die ich gesammelt habe.
+      </p>
+    </header>
+
+    <!-- Pattern 1: Modern CSS Reset -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        1. Modern CSS Reset
+      </h2>
+      <p class="text-zinc-400 mb-6">
+        Minimaler Reset für konsistentes Verhalten in allen Browsern.
+      </p>
+      
+      <div class="bg-zinc-900 rounded-lg p-6 border border-zinc-800">
+        <pre class="text-sm overflow-x-auto"><code class="text-zinc-300">*, *::before, *::after {'{'}
+  box-sizing: border-box;
+{'}'}
+
+* {'{'}
+  margin: 0;
+{'}'}
+
+body {'{'}
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+{'}'}
+
+img, picture, video, canvas, svg {'{'}
+  display: block;
+  max-width: 100%;
+{'}'}
+
+input, button, textarea, select {'{'}
+  font: inherit;
+{'}'}
+
+p, h1, h2, h3, h4, h5, h6 {'{'}
+  overflow-wrap: break-word;
+{'}'}</code></pre>
+      </div>
+      <p class="text-zinc-500 text-sm mt-3">Quelle: Josh Comeau</p>
+    </section>
+
+    <!-- Pattern 2: Container Query -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        2. Container Queries
+        <span class="text-sm font-normal text-zinc-500 ml-2">Responsive ohne Media Queries</span>
+      </h2>
+      
+      <div class="bg-zinc-900 rounded-lg p-6 border border-zinc-800">
+        <pre class="text-sm overflow-x-auto"><code class="text-zinc-300">.card-container {'{'}
+  container-type: inline-size;
+  container-name: card;
+{'}'}
+
+.card {'{'}
+  display: grid;
+  gap: 1rem;
+{'}'}
+
+/* Wenn Container > 400px */
+@container card (min-width: 400px) {'{'}
+  .card {'{'}
+    grid-template-columns: 150px 1fr;
+  {'}'}
+{'}'}</code></pre>
+      </div>
+      <p class="text-zinc-500 text-sm mt-3">Komponente reagiert auf ihren Container, nicht auf Viewport</p>
+    </section>
+
+    <!-- Pattern 3: CSS Logical Properties -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        3. Logical Properties
+        <span class="text-sm font-normal text-zinc-500 ml-2">RTL-ready</span>
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+          <h3 class="text-red-400 font-mono text-sm mb-2">❌ Physisch</h3>
+          <pre class="text-sm"><code class="text-zinc-300">margin-left: 1rem;
+padding-right: 2rem;
+border-top: 1px solid;</code></pre>
+        </div>
+        <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+          <h3 class="text-green-400 font-mono text-sm mb-2">✅ Logisch</h3>
+          <pre class="text-sm"><code class="text-zinc-300">margin-inline-start: 1rem;
+padding-inline-end: 2rem;
+border-block-start: 1px solid;</code></pre>
+        </div>
+      </div>
+      <p class="text-zinc-500 text-sm mt-3">Funktioniert automatisch in RTL-Sprachen (Arabisch, Hebräisch)</p>
+    </section>
+
+    <!-- Pattern 4: CSS :has() -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        4. Parent Selector mit :has()
+        <span class="text-sm font-normal text-zinc-500 ml-2">Game Changer</span>
+      </h2>
+      
+      <div class="bg-zinc-900 rounded-lg p-6 border border-zinc-800">
+        <pre class="text-sm overflow-x-auto"><code class="text-zinc-300">/* Form-Group rot wenn Input invalid */
+.form-group:has(input:invalid) {'{'}
+  border-color: red;
+{'}'}
+
+/* Card anders stylen wenn sie ein Bild hat */
+.card:has(img) {'{'}
+  grid-template-rows: 200px 1fr;
+{'}'}
+
+/* Body Style basierend auf Modal */
+body:has(.modal[open]) {'{'}
+  overflow: hidden;
+{'}'}</code></pre>
+      </div>
+    </section>
+
+    <!-- Pattern 5: Fluid Typography -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        5. Fluid Typography
+        <span class="text-sm font-normal text-zinc-500 ml-2">clamp() Magic</span>
+      </h2>
+      
+      <div class="bg-zinc-900 rounded-lg p-6 border border-zinc-800">
+        <pre class="text-sm overflow-x-auto"><code class="text-zinc-300">:root {'{'}
+  /* Min 16px, Max 20px, Fluid dazwischen */
+  --text-base: clamp(1rem, 0.5rem + 1vw, 1.25rem);
+  
+  /* Min 24px, Max 48px */
+  --text-heading: clamp(1.5rem, 1rem + 3vw, 3rem);
+{'}'}
+
+body {'{'}
+  font-size: var(--text-base);
+{'}'}
+
+h1 {'{'}
+  font-size: var(--text-heading);
+{'}'}</code></pre>
+      </div>
+      <p class="text-zinc-500 text-sm mt-3">Kein Breakpoint nötig — skaliert smooth</p>
+    </section>
+
+    <!-- Pattern 6: Aspect Ratio -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        6. Aspect Ratio
+        <span class="text-sm font-normal text-zinc-500 ml-2">Bye bye Padding Hack</span>
+      </h2>
+      
+      <div class="grid md:grid-cols-3 gap-4 mb-6">
+        <div class="aspect-square bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+          <span class="text-white font-mono">1:1</span>
+        </div>
+        <div class="aspect-video bg-gradient-to-br from-green-500 to-teal-500 rounded-lg flex items-center justify-center">
+          <span class="text-white font-mono">16:9</span>
+        </div>
+        <div class="aspect-[4/3] bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+          <span class="text-white font-mono">4:3</span>
+        </div>
+      </div>
+      
+      <div class="bg-zinc-900 rounded-lg p-6 border border-zinc-800">
+        <pre class="text-sm overflow-x-auto"><code class="text-zinc-300">.square {'{'} aspect-ratio: 1; {'}'}
+.video {'{'} aspect-ratio: 16 / 9; {'}'}
+.photo {'{'} aspect-ratio: 4 / 3; {'}'}</code></pre>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="flex gap-4 pt-8 border-t border-zinc-800">
+      <a href="/demos" class="text-blue-400 hover:text-blue-300">
+        ← Demos
+      </a>
+      <a href="/" class="text-blue-400 hover:text-blue-300 ml-auto">
+        Home →
+      </a>
+    </nav>
+
+    <footer class="text-center text-zinc-500 text-sm pt-8">
+      <p>🤙 Brudi — Patterns gesammelt am 20.02.2026</p>
+    </footer>
+
+  </main>
+</Layout>

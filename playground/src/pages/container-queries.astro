@@ -1,0 +1,353 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="brudi.dev — CSS Container Queries Deep Dive">
+  <main class="max-w-5xl mx-auto px-6 py-16">
+    
+    <header class="mb-12">
+      <a href="/" class="text-zinc-500 hover:text-zinc-300 text-sm mb-4 inline-block">← Zurück</a>
+      <h1 class="text-4xl font-bold mb-2 page-title">
+        CSS <span class="text-cyan-500">Container Queries</span>
+      </h1>
+      <p class="text-zinc-400">
+        Responsive Design basierend auf CONTAINER, nicht Viewport.
+      </p>
+    </header>
+
+    <!-- The Problem -->
+    <section class="mb-16 p-6 bg-red-500/10 border border-red-500/30 rounded-xl">
+      <h2 class="text-red-400 font-medium mb-3">❌ Das Problem mit Media Queries</h2>
+      <p class="text-zinc-300 mb-4">
+        Media Queries fragen die <strong>VIEWPORT</strong>-Größe — aber Komponenten wissen nicht, wo sie im Layout sind.
+      </p>
+      <div class="bg-zinc-900 rounded p-4 text-sm">
+        <p class="text-zinc-400">Eine Card in der Sidebar vs. im Hauptbereich:</p>
+        <p class="text-zinc-500 mt-2">→ Gleiche Viewport-Größe</p>
+        <p class="text-zinc-500">→ Unterschiedlicher verfügbarer Platz</p>
+        <p class="text-red-400 mt-2">→ Media Queries können das nicht unterscheiden!</p>
+      </div>
+    </section>
+
+    <!-- The Solution -->
+    <section class="mb-16 p-6 bg-green-500/10 border border-green-500/30 rounded-xl">
+      <h2 class="text-green-400 font-medium mb-3">✅ Die Lösung: Container Queries</h2>
+      <p class="text-zinc-300 mb-4">
+        Container Queries fragen die <strong>CONTAINER</strong>-Größe — Komponenten passen sich ihrem verfügbaren Platz an.
+      </p>
+      <div class="bg-zinc-900 rounded p-4 font-mono text-sm">
+        <pre class="text-zinc-300">{`.card-wrapper {
+  container-type: inline-size;
+}
+
+@container (min-width: 400px) {
+  .card {
+    flex-direction: row;
+  }
+}`}</pre>
+      </div>
+    </section>
+
+    <!-- The Golden Rule -->
+    <section class="mb-16 p-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+      <h2 class="text-yellow-400 font-medium mb-3">⚠️ Die Goldene Regel</h2>
+      <p class="text-xl text-zinc-200 font-medium mb-4">
+        "You cannot change what you measure."
+      </p>
+      <p class="text-zinc-400 text-sm">
+        Wenn du die Container-<strong>Breite</strong> abfragst, kannst du nicht die Breite des Containers ändern.
+        Nur die Styles der <strong>KINDER</strong> können geändert werden.
+      </p>
+      <div class="mt-4 bg-zinc-900 rounded p-4 text-sm">
+        <p class="text-red-400">❌ FALSCH: Container-Styles in @container ändern</p>
+        <p class="text-green-400 mt-2">✅ RICHTIG: Kinder-Styles in @container ändern</p>
+      </div>
+    </section>
+
+    <!-- Why It Was "Impossible" -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Warum es 20 Jahre "unmöglich" war
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <p class="text-zinc-300 mb-4">Das Endlosschleifen-Problem:</p>
+        
+        <div class="space-y-2 text-sm">
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-blue-500/30 flex items-center justify-center text-xs">1</span>
+            <span class="text-zinc-300">Container ist 100px breit</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-blue-500/30 flex items-center justify-center text-xs">2</span>
+            <span class="text-zinc-300">@container (max-width: 150px) matched → font-size erhöht</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-red-500/30 flex items-center justify-center text-xs">3</span>
+            <span class="text-zinc-300">Größerer Text → Container wächst auf 200px</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-red-500/30 flex items-center justify-center text-xs">4</span>
+            <span class="text-zinc-300">Bedingung nicht mehr erfüllt → font-size zurück</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-red-500/30 flex items-center justify-center text-xs">5</span>
+            <span class="text-zinc-300">Container schrumpft → Bedingung wieder erfüllt...</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-red-500/30 flex items-center justify-center text-xs">∞</span>
+            <span class="text-red-400 font-medium">ENDLOSSCHLEIFE!</span>
+          </div>
+        </div>
+        
+        <div class="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+          <p class="text-green-400 text-sm">
+            <strong>Lösung: Containment API</strong> — Container reagiert NICHT auf seinen Inhalt.
+            Die Größe ist "eingesperrt" (contained).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- container-type -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        container-type verstehen
+      </h2>
+      
+      <div class="space-y-4">
+        <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
+          <code class="text-green-400 text-lg">inline-size</code>
+          <p class="text-zinc-300 text-sm mt-2">
+            Container-<strong>Breite</strong> kann abgefragt werden.
+            Höhe wächst normal mit Inhalt.
+          </p>
+          <p class="text-green-400 text-xs mt-2">✅ Das ist der Sweet Spot für 90% der Fälle!</p>
+        </div>
+        
+        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6">
+          <code class="text-yellow-400 text-lg">size</code>
+          <p class="text-zinc-300 text-sm mt-2">
+            Breite UND Höhe können abgefragt werden.
+            Aber: Höhe muss explizit gesetzt sein!
+          </p>
+          <p class="text-yellow-400 text-xs mt-2">⚠️ Seltener gebraucht, da Höhe meist dynamisch sein soll</p>
+        </div>
+        
+        <div class="bg-zinc-500/10 border border-zinc-500/30 rounded-xl p-6">
+          <code class="text-zinc-400 text-lg">normal</code>
+          <p class="text-zinc-300 text-sm mt-2">
+            Default. Nur Style Queries möglich, keine Size Queries.
+          </p>
+          <p class="text-zinc-500 text-xs mt-2">Alle Elemente sind automatisch Style Container</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic Syntax -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Basic Syntax
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <pre class="text-sm font-mono text-zinc-300 overflow-x-auto">{`/* 1. Container definieren */
+.card-wrapper {
+  container-type: inline-size;
+  container-name: card;  /* optional, für spezifisches Targeting */
+}
+
+/* Shorthand */
+.card-wrapper {
+  container: card / inline-size;
+}
+
+/* 2. Container Query schreiben */
+@container card (min-width: 400px) {
+  .card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+/* Ohne Namen — matched JEDEN Container */
+@container (min-width: 400px) {
+  .card {
+    flex-direction: row;
+  }
+}`}</pre>
+      </div>
+    </section>
+
+    <!-- Container Query Units -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Container Query Units
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-cyan-400">cqw</code>
+          <p class="text-zinc-400 text-sm mt-1">1% der Container-Breite</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-cyan-400">cqh</code>
+          <p class="text-zinc-400 text-sm mt-1">1% der Container-Höhe</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-cyan-400">cqi</code>
+          <p class="text-zinc-400 text-sm mt-1">1% der inline-size (= Breite)</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-cyan-400">cqb</code>
+          <p class="text-zinc-400 text-sm mt-1">1% der block-size (= Höhe)</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-cyan-400">cqmin</code>
+          <p class="text-zinc-400 text-sm mt-1">Kleinerer von cqi/cqb</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-cyan-400">cqmax</code>
+          <p class="text-zinc-400 text-sm mt-1">Größerer von cqi/cqb</p>
+        </div>
+      </div>
+      
+      <div class="mt-6 bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <p class="text-zinc-400 text-sm mb-3">Beispiel: Fluid Typography basierend auf Container</p>
+        <pre class="text-sm font-mono text-zinc-300">{`.card-title {
+  font-size: clamp(1rem, 5cqi, 2rem);
+}`}</pre>
+        <p class="text-cyan-400 text-xs mt-2">
+          Schriftgröße skaliert mit Container-Breite, nicht Viewport!
+        </p>
+      </div>
+    </section>
+
+    <!-- Range Syntax -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Range Syntax (Modern)
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-zinc-300">width > 400px</code>
+          <p class="text-zinc-500 text-xs mt-1">Breiter als 400px</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-zinc-300">width >= 400px</code>
+          <p class="text-zinc-500 text-xs mt-1">400px oder breiter</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-zinc-300">width < 400px</code>
+          <p class="text-zinc-500 text-xs mt-1">Schmaler als 400px</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+          <code class="text-zinc-300">300px < width < 600px</code>
+          <p class="text-zinc-500 text-xs mt-1">Zwischen 300px und 600px</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Wann Container Queries verwenden?
+      </h2>
+      
+      <div class="space-y-4">
+        <div class="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4 flex items-start gap-4">
+          <span class="text-green-400">✅</span>
+          <div>
+            <p class="text-zinc-300 font-medium">Wiederverwendbare Komponenten</p>
+            <p class="text-zinc-400 text-sm">Cards, Buttons, Navigation — überall nutzbar</p>
+          </div>
+        </div>
+        <div class="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4 flex items-start gap-4">
+          <span class="text-green-400">✅</span>
+          <div>
+            <p class="text-zinc-300 font-medium">Sidebar vs. Hauptinhalt</p>
+            <p class="text-zinc-400 text-sm">Gleiche Komponente, unterschiedlicher Platz</p>
+          </div>
+        </div>
+        <div class="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4 flex items-start gap-4">
+          <span class="text-green-400">✅</span>
+          <div>
+            <p class="text-zinc-300 font-medium">Grid Layouts</p>
+            <p class="text-zinc-400 text-sm">Komponenten die in verschiedenen Grid-Zellen leben</p>
+          </div>
+        </div>
+        <div class="bg-zinc-500/10 border border-zinc-500/30 rounded-xl p-4 flex items-start gap-4">
+          <span class="text-zinc-400">→</span>
+          <div>
+            <p class="text-zinc-300 font-medium">Media Queries weiterhin für...</p>
+            <p class="text-zinc-400 text-sm">Globale Layouts, Navigation, Viewport-bezogene Änderungen</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Style Queries (Experimental) -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Style Queries <span class="text-xs text-yellow-400">(Experimentell)</span>
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <p class="text-zinc-400 text-sm mb-4">
+          Fragen CSS-Werte statt Größe ab — aktuell nur Custom Properties:
+        </p>
+        <pre class="text-sm font-mono text-zinc-300 overflow-x-auto">{`/* Kein container-type nötig! Alle Elemente sind Style Container */
+
+.card {
+  --theme: dark;
+}
+
+@container style(--theme: dark) {
+  .card-content {
+    background: #000;
+    color: #fff;
+  }
+}`}</pre>
+        <p class="text-yellow-400 text-xs mt-4">
+          ⚠️ Browser Support noch begrenzt — nur mit Feature Flag
+        </p>
+      </div>
+    </section>
+
+    <!-- Browser Support -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Browser Support
+      </h2>
+      
+      <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
+        <p class="text-green-400 font-medium mb-2">Size Queries: ~93% ✅</p>
+        <ul class="space-y-1 text-sm text-zinc-300">
+          <li>Chrome 105+ (August 2022)</li>
+          <li>Safari 16+ (September 2022)</li>
+          <li>Firefox 110+ (February 2023)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- What I learned -->
+    <section class="mb-16 p-6 bg-green-500/10 border border-green-500/30 rounded-xl">
+      <h2 class="text-green-400 font-medium mb-3">✅ Was ich WIRKLICH verstanden habe</h2>
+      <ul class="space-y-2 text-zinc-300 text-sm">
+        <li>• <strong>Media Queries = Viewport</strong>, <strong>Container Queries = Container</strong></li>
+        <li>• <strong>Goldene Regel:</strong> "You cannot change what you measure"</li>
+        <li>• <strong>inline-size</strong> ist der Sweet Spot — Breite querybar, Höhe dynamisch</li>
+        <li>• <strong>Container Query Units (cqw, cqi)</strong> — relativ zum Container, nicht Viewport</li>
+        <li>• <strong>Endlosschleifen-Problem</strong> gelöst durch Containment API</li>
+        <li>• <strong>Style Queries</strong> fragen CSS-Werte statt Größe (experimentell)</li>
+      </ul>
+    </section>
+
+    <nav class="flex gap-4 pt-8 border-t border-zinc-800">
+      <a href="/lenis" class="text-cyan-400 hover:text-cyan-300">← Lenis</a>
+      <a href="/" class="text-cyan-400 hover:text-cyan-300 ml-auto">Home →</a>
+    </nav>
+
+  </main>
+</Layout>

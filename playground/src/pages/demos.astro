@@ -1,0 +1,232 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="brudi.dev — Demos">
+  <main class="max-w-4xl mx-auto px-6 py-16">
+    
+    <header class="mb-16">
+      <a href="/" class="text-zinc-500 hover:text-zinc-300 text-sm mb-4 inline-block">← Zurück</a>
+      <h1 class="text-4xl font-bold mb-2">
+        Live <span class="text-blue-500">Demos</span>
+      </h1>
+      <p class="text-zinc-400">
+        Was ich lerne, direkt ausprobiert.
+      </p>
+    </header>
+
+    <!-- Demo 1: Scroll Progress Bar -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        1. Scroll Progress Bar
+        <span class="text-sm font-normal text-zinc-500 ml-2">CSS Scroll-Driven</span>
+      </h2>
+      <p class="text-zinc-400 mb-6">
+        Die blaue Leiste oben zeigt den Scroll-Fortschritt — <strong>ohne JavaScript</strong>.
+      </p>
+      
+      <div class="bg-zinc-900 rounded-lg p-6 border border-zinc-800">
+        <pre class="text-sm overflow-x-auto"><code class="text-zinc-300">.progress-bar {'{'}
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #3b82f6;
+  transform-origin: left;
+  animation: grow-progress linear;
+  animation-timeline: scroll();
+{'}'}
+
+@keyframes grow-progress {'{'}
+  from {'{'} transform: scaleX(0); {'}'}
+  to {'{'} transform: scaleX(1); {'}'}
+{'}'}</code></pre>
+      </div>
+    </section>
+
+    <!-- Demo 2: Fade In on Scroll -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        2. Fade-In beim Scrollen
+        <span class="text-sm font-normal text-zinc-500 ml-2">animation-timeline: view()</span>
+      </h2>
+      <p class="text-zinc-400 mb-6">
+        Elemente erscheinen sanft wenn sie in den Viewport kommen.
+      </p>
+      
+      <div class="space-y-8 mt-8">
+        <div class="scroll-reveal bg-gradient-to-r from-blue-500/20 to-purple-500/20 p-8 rounded-xl border border-blue-500/30">
+          <h3 class="text-xl font-medium mb-2">Erstes Element</h3>
+          <p class="text-zinc-400">Scroll runter um mehr zu sehen...</p>
+        </div>
+        
+        <div class="scroll-reveal bg-gradient-to-r from-green-500/20 to-teal-500/20 p-8 rounded-xl border border-green-500/30">
+          <h3 class="text-xl font-medium mb-2">Zweites Element</h3>
+          <p class="text-zinc-400">Jedes Element hat seine eigene Timeline.</p>
+        </div>
+        
+        <div class="scroll-reveal bg-gradient-to-r from-orange-500/20 to-red-500/20 p-8 rounded-xl border border-orange-500/30">
+          <h3 class="text-xl font-medium mb-2">Drittes Element</h3>
+          <p class="text-zinc-400">Pure CSS, kein IntersectionObserver nötig.</p>
+        </div>
+      </div>
+
+      <div class="bg-zinc-900 rounded-lg p-6 border border-zinc-800 mt-8">
+        <pre class="text-sm overflow-x-auto"><code class="text-zinc-300">.scroll-reveal {'{'}
+  animation: fade-in-up linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+{'}'}
+
+@keyframes fade-in-up {'{'}
+  from {'{'}
+    opacity: 0;
+    transform: translateY(50px);
+  {'}'}
+  to {'{'}
+    opacity: 1;
+    transform: translateY(0);
+  {'}'}
+{'}'}</code></pre>
+      </div>
+    </section>
+
+    <!-- Demo 3: Parallax -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        3. Parallax Effekt
+        <span class="text-sm font-normal text-zinc-500 ml-2">Verschiedene Scroll-Speeds</span>
+      </h2>
+      
+      <div class="relative h-64 rounded-xl overflow-hidden border border-zinc-800">
+        <div class="parallax-slow absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900">
+          <span class="text-6xl">🌙</span>
+        </div>
+        <div class="parallax-fast absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span class="text-4xl">⭐</span>
+        </div>
+        <div class="absolute bottom-4 left-4 text-zinc-400 text-sm">
+          Scroll um den Parallax zu sehen
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo 4: Scale on Scroll -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-semibold mb-4 text-zinc-200">
+        4. Scale beim Viewport-Entry
+      </h2>
+      
+      <div class="flex gap-4 justify-center flex-wrap">
+        <div class="scale-on-scroll w-24 h-24 bg-blue-500 rounded-2xl flex items-center justify-center text-2xl">
+          🚀
+        </div>
+        <div class="scale-on-scroll w-24 h-24 bg-green-500 rounded-2xl flex items-center justify-center text-2xl">
+          💡
+        </div>
+        <div class="scale-on-scroll w-24 h-24 bg-purple-500 rounded-2xl flex items-center justify-center text-2xl">
+          🎨
+        </div>
+        <div class="scale-on-scroll w-24 h-24 bg-orange-500 rounded-2xl flex items-center justify-center text-2xl">
+          ⚡
+        </div>
+      </div>
+    </section>
+
+    <!-- Browser Support Note -->
+    <section class="mb-16 p-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+      <h3 class="text-yellow-400 font-medium mb-2">⚠️ Browser Support</h3>
+      <p class="text-zinc-400 text-sm">
+        CSS Scroll-Driven Animations sind Teil von <strong>Interop 2026</strong>. 
+        Chrome & Edge unterstützen sie bereits, Firefox & Safari folgen dieses Jahr.
+        Falls Animationen nicht funktionieren, nutze Chrome/Edge.
+      </p>
+    </section>
+
+    <footer class="text-center text-zinc-500 text-sm pt-8 border-t border-zinc-800">
+      <p>🤙 Brudi — Gelernt am 20.02.2026</p>
+    </footer>
+
+  </main>
+</Layout>
+
+<style>
+  /* Progress Bar - Fixed at top */
+  :global(.progress-bar) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    transform-origin: left;
+    animation: grow-progress linear;
+    animation-timeline: scroll();
+    z-index: 100;
+  }
+
+  @keyframes grow-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* Scroll Reveal */
+  .scroll-reveal {
+    animation: fade-in-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Parallax */
+  .parallax-slow {
+    animation: parallax-slow linear;
+    animation-timeline: scroll();
+  }
+
+  .parallax-fast {
+    animation: parallax-fast linear;
+    animation-timeline: scroll();
+  }
+
+  @keyframes parallax-slow {
+    from { transform: translateY(-20px); }
+    to { transform: translateY(20px); }
+  }
+
+  @keyframes parallax-fast {
+    from { transform: translateY(-50px) scale(0.8); }
+    to { transform: translateY(50px) scale(1.2); }
+  }
+
+  /* Scale on Scroll */
+  .scale-on-scroll {
+    animation: scale-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>
+
+<!-- Add progress bar to body -->
+<div class="progress-bar"></div>

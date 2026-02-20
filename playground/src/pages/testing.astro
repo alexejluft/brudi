@@ -1,0 +1,351 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="brudi.dev — Testing Deep Dive">
+  <main class="max-w-5xl mx-auto px-6 py-16">
+    
+    <header class="mb-12">
+      <a href="/" class="text-zinc-500 hover:text-zinc-300 text-sm mb-4 inline-block">← Zurück</a>
+      <h1 class="text-4xl font-bold mb-2 page-title">
+        React <span class="text-green-500">Testing</span>
+      </h1>
+      <p class="text-zinc-400">
+        Nicht darüber lesen — MACHEN.
+      </p>
+    </header>
+
+    <!-- The Big Principle -->
+    <section class="mb-16 p-6 bg-green-500/10 border border-green-500/30 rounded-xl">
+      <h2 class="text-green-400 font-medium mb-3">🎯 Das Grundprinzip</h2>
+      <p class="text-zinc-300 mb-4">
+        <strong>"Test wie ein USER, nicht wie ein Developer."</strong>
+      </p>
+      <p class="text-zinc-400">
+        Dein Test sollte nicht wissen, wie dein Code funktioniert. 
+        Er sollte wissen, was der USER sieht und tut.
+      </p>
+    </section>
+
+    <!-- Stack -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Der Stack
+      </h2>
+      
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <h3 class="text-yellow-400 font-medium mb-2">Vitest</h3>
+          <p class="text-zinc-400 text-sm">Test Runner — führt Tests aus, zeigt Ergebnisse</p>
+          <p class="text-zinc-500 text-xs mt-2">Schneller als Jest, native ESM</p>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <h3 class="text-blue-400 font-medium mb-2">Testing Library</h3>
+          <p class="text-zinc-400 text-sm">DOM Queries — findet Elemente wie ein User</p>
+          <p class="text-zinc-500 text-xs mt-2">getByRole, getByText, etc.</p>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <h3 class="text-purple-400 font-medium mb-2">jest-dom</h3>
+          <p class="text-zinc-400 text-sm">Matchers — bessere Assertions für DOM</p>
+          <p class="text-zinc-500 text-xs mt-2">toBeInTheDocument, toHaveTextContent</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Setup -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Setup (5 Minuten)
+      </h2>
+      
+      <div class="space-y-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <p class="text-zinc-400 text-sm mb-3">1. Dependencies installieren:</p>
+          <pre class="text-sm font-mono text-green-300 overflow-x-auto">{`npm install -D vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom`}</pre>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <p class="text-zinc-400 text-sm mb-3">2. vite.config.ts erweitern:</p>
+          <pre class="text-sm font-mono text-blue-300 overflow-x-auto">{`export default defineConfig({
+  plugins: [react()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+  },
+})`}</pre>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <p class="text-zinc-400 text-sm mb-3">3. Setup-Datei erstellen (src/test/setup.ts):</p>
+          <pre class="text-sm font-mono text-purple-300">{`import '@testing-library/jest-dom'`}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Query Priority -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Query Priority — Was zuerst verwenden?
+      </h2>
+      
+      <div class="space-y-3">
+        <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-4 flex items-start gap-4">
+          <span class="text-green-400 font-mono text-lg">1.</span>
+          <div>
+            <code class="text-green-400">getByRole</code>
+            <p class="text-zinc-400 text-sm mt-1">Accessibility-first. Wie Screen Reader navigiert.</p>
+            <pre class="text-xs font-mono text-zinc-500 mt-2">{`getByRole('button', { name: /submit/i })`}</pre>
+          </div>
+        </div>
+        
+        <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-4 flex items-start gap-4">
+          <span class="text-green-400 font-mono text-lg">2.</span>
+          <div>
+            <code class="text-green-400">getByLabelText</code>
+            <p class="text-zinc-400 text-sm mt-1">Für Form-Inputs. Wie User Labels lesen.</p>
+            <pre class="text-xs font-mono text-zinc-500 mt-2">{`getByLabelText(/email/i)`}</pre>
+          </div>
+        </div>
+        
+        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 flex items-start gap-4">
+          <span class="text-yellow-400 font-mono text-lg">3.</span>
+          <div>
+            <code class="text-yellow-400">getByText</code>
+            <p class="text-zinc-400 text-sm mt-1">Für sichtbaren Text-Content.</p>
+            <pre class="text-xs font-mono text-zinc-500 mt-2">{`getByText(/welcome/i)`}</pre>
+          </div>
+        </div>
+        
+        <div class="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 flex items-start gap-4">
+          <span class="text-orange-400 font-mono text-lg">4.</span>
+          <div>
+            <code class="text-orange-400">getByTestId</code>
+            <p class="text-zinc-400 text-sm mt-1">Letzter Ausweg. Wenn nichts anderes funktioniert.</p>
+            <pre class="text-xs font-mono text-zinc-500 mt-2">{`getByTestId('custom-element')`}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Query Variants -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        getBy vs findBy vs queryBy
+      </h2>
+      
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <code class="text-blue-400 text-lg">getBy*</code>
+          <p class="text-zinc-400 text-sm mt-2">Element MUSS sofort existieren.</p>
+          <p class="text-red-400 text-xs mt-2">Wirft Error wenn nicht gefunden.</p>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <code class="text-green-400 text-lg">findBy*</code>
+          <p class="text-zinc-400 text-sm mt-2">Wartet auf Element (async).</p>
+          <p class="text-green-400 text-xs mt-2">Für Loading-States, API-Calls.</p>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <code class="text-yellow-400 text-lg">queryBy*</code>
+          <p class="text-zinc-400 text-sm mt-2">Element kann fehlen.</p>
+          <p class="text-yellow-400 text-xs mt-2">Gibt null zurück, kein Error.</p>
+        </div>
+      </div>
+      
+      <div class="mt-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+        <p class="text-blue-400 text-sm">
+          <strong>Merkregel:</strong> 
+          <code>getBy</code> = "muss da sein" | 
+          <code>findBy</code> = "wird gleich da sein" | 
+          <code>queryBy</code> = "ist vielleicht nicht da"
+        </p>
+      </div>
+    </section>
+
+    <!-- Real Example -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Echtes Beispiel: Button mit Counter
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <p class="text-zinc-400 text-sm mb-3">Component (Counter.tsx):</p>
+          <pre class="text-sm font-mono text-zinc-300 overflow-x-auto">{`function Counter() {
+  const [count, setCount] = useState(0)
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(c => c + 1)}>
+        Increment
+      </button>
+    </div>
+  )
+}`}</pre>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <p class="text-zinc-400 text-sm mb-3">Test (Counter.test.tsx):</p>
+          <pre class="text-sm font-mono text-green-300 overflow-x-auto">{`import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
+test('increments count on click', async () => {
+  render(<Counter />)
+  
+  // Initial state
+  expect(screen.getByText('Count: 0')).toBeInTheDocument()
+  
+  // User interaction
+  await userEvent.click(
+    screen.getByRole('button', { name: /increment/i })
+  )
+  
+  // Result
+  expect(screen.getByText('Count: 1')).toBeInTheDocument()
+})`}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testing Form -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Form Validation testen
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <pre class="text-sm font-mono text-zinc-300 overflow-x-auto">{`test('shows error when email is invalid', async () => {
+  const user = userEvent.setup()
+  render(<LoginForm />)
+  
+  // Fill invalid email
+  await user.type(
+    screen.getByLabelText(/email/i), 
+    'invalid-email'
+  )
+  
+  // Submit
+  await user.click(
+    screen.getByRole('button', { name: /submit/i })
+  )
+  
+  // Error should appear
+  expect(
+    screen.getByText(/please enter a valid email/i)
+  ).toBeInTheDocument()
+})
+
+test('submits form with valid data', async () => {
+  const onSubmit = vi.fn()
+  const user = userEvent.setup()
+  render(<LoginForm onSubmit={onSubmit} />)
+  
+  await user.type(screen.getByLabelText(/email/i), 'test@example.com')
+  await user.type(screen.getByLabelText(/password/i), 'password123')
+  await user.click(screen.getByRole('button', { name: /submit/i }))
+  
+  expect(onSubmit).toHaveBeenCalledWith({
+    email: 'test@example.com',
+    password: 'password123'
+  })
+})`}</pre>
+      </div>
+    </section>
+
+    <!-- Async Testing -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Async Components (API Calls)
+      </h2>
+      
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <pre class="text-sm font-mono text-zinc-300 overflow-x-auto">{`test('loads and displays user data', async () => {
+  // Mock the API
+  vi.spyOn(api, 'fetchUser').mockResolvedValue({
+    name: 'John Doe',
+    email: 'john@example.com'
+  })
+  
+  render(<UserProfile userId="123" />)
+  
+  // Loading state
+  expect(screen.getByText(/loading/i)).toBeInTheDocument()
+  
+  // Wait for data - findBy wartet automatisch!
+  expect(
+    await screen.findByText('John Doe')
+  ).toBeInTheDocument()
+  
+  // Loading sollte weg sein
+  expect(
+    screen.queryByText(/loading/i)
+  ).not.toBeInTheDocument()
+})`}</pre>
+      </div>
+      
+      <div class="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+        <p class="text-yellow-400 text-sm">
+          <strong>Tipp:</strong> <code>findBy*</code> returned ein Promise und wartet bis zu 1000ms.
+          Perfekt für async Operations!
+        </p>
+      </div>
+    </section>
+
+    <!-- Common Mistakes -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Häufige Fehler
+      </h2>
+      
+      <div class="space-y-4">
+        <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6">
+          <h3 class="text-red-400 font-medium mb-2">❌ Implementation testen</h3>
+          <pre class="text-sm font-mono text-zinc-400">{`// SCHLECHT: Testet State direkt
+expect(component.state.isOpen).toBe(true)`}</pre>
+          <pre class="text-sm font-mono text-green-400 mt-2">{`// GUT: Testet was User sieht
+expect(screen.getByRole('dialog')).toBeVisible()`}</pre>
+        </div>
+        
+        <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6">
+          <h3 class="text-red-400 font-medium mb-2">❌ getBy für nicht existierende Elemente</h3>
+          <pre class="text-sm font-mono text-zinc-400">{`// SCHLECHT: Wirft Error wenn Element nicht da
+expect(screen.getByText('Error')).not.toBeInTheDocument()`}</pre>
+          <pre class="text-sm font-mono text-green-400 mt-2">{`// GUT: queryBy für "sollte nicht existieren"
+expect(screen.queryByText('Error')).not.toBeInTheDocument()`}</pre>
+        </div>
+        
+        <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6">
+          <h3 class="text-red-400 font-medium mb-2">❌ Sync Test für Async Code</h3>
+          <pre class="text-sm font-mono text-zinc-400">{`// SCHLECHT: Wartet nicht auf async
+screen.getByText('Loaded Data')`}</pre>
+          <pre class="text-sm font-mono text-green-400 mt-2">{`// GUT: findBy wartet automatisch
+await screen.findByText('Loaded Data')`}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- What I learned -->
+    <section class="mb-16 p-6 bg-green-500/10 border border-green-500/30 rounded-xl">
+      <h2 class="text-green-400 font-medium mb-3">✅ Was ich WIRKLICH verstanden habe</h2>
+      <ul class="space-y-2 text-zinc-300 text-sm">
+        <li>• <strong>Teste wie USER</strong> — nicht wie Code funktioniert</li>
+        <li>• <strong>getByRole first</strong> — Accessibility-driven Testing</li>
+        <li>• <strong>getBy/findBy/queryBy</strong> — je nachdem ob Element da sein MUSS/WIRD/KANN</li>
+        <li>• <strong>userEvent</strong> — simuliert echte User-Interaktionen</li>
+        <li>• <strong>vi.fn()</strong> — mockt Funktionen um Calls zu verifizieren</li>
+        <li>• <strong>vi.spyOn()</strong> — mockt API-Calls für async Tests</li>
+      </ul>
+    </section>
+
+    <nav class="flex gap-4 pt-8 border-t border-zinc-800">
+      <a href="/rsc" class="text-green-400 hover:text-green-300">← RSC</a>
+      <a href="/" class="text-green-400 hover:text-green-300 ml-auto">Home →</a>
+    </nav>
+
+  </main>
+</Layout>

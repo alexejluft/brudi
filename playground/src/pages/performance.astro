@@ -1,0 +1,225 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="brudi.dev — Performance">
+  <main class="max-w-4xl mx-auto px-6 py-16">
+    
+    <header class="mb-16">
+      <a href="/" class="text-zinc-500 hover:text-zinc-300 text-sm mb-4 inline-block">← Zurück</a>
+      <h1 class="text-4xl font-bold mb-2 page-title">
+        Web <span class="text-blue-500">Performance</span>
+      </h1>
+      <p class="text-zinc-400">
+        Core Web Vitals & Optimierungen die wirklich zählen.
+      </p>
+    </header>
+
+    <!-- Core Web Vitals -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Core Web Vitals
+        <span class="text-sm font-normal text-zinc-500 ml-2">Was Google misst</span>
+      </h2>
+
+      <div class="grid md:grid-cols-3 gap-4 mb-8">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <div class="text-3xl mb-2">⚡</div>
+          <h3 class="font-medium text-lg mb-1">LCP</h3>
+          <p class="text-zinc-400 text-sm mb-2">Largest Contentful Paint</p>
+          <p class="text-green-400 text-sm">Ziel: &lt; 2.5s</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <div class="text-3xl mb-2">👆</div>
+          <h3 class="font-medium text-lg mb-1">INP</h3>
+          <p class="text-zinc-400 text-sm mb-2">Interaction to Next Paint</p>
+          <p class="text-green-400 text-sm">Ziel: &lt; 200ms</p>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <div class="text-3xl mb-2">📐</div>
+          <h3 class="font-medium text-lg mb-1">CLS</h3>
+          <p class="text-zinc-400 text-sm mb-2">Cumulative Layout Shift</p>
+          <p class="text-green-400 text-sm">Ziel: &lt; 0.1</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Wins -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Quick Wins
+        <span class="text-sm font-normal text-zinc-500 ml-2">80/20 Optimierungen</span>
+      </h2>
+
+      <!-- Images -->
+      <article class="mb-8 bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <h3 class="text-lg font-medium mb-4 flex items-center gap-2">
+          <span class="text-2xl">🖼️</span> Images
+        </h3>
+        
+        <div class="space-y-3 text-sm">
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <div>
+              <span class="text-zinc-200">WebP/AVIF statt PNG/JPEG</span>
+              <span class="text-zinc-500 ml-2">— 30-50% kleiner</span>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <div>
+              <span class="text-zinc-200">loading="lazy"</span>
+              <span class="text-zinc-500 ml-2">— für Below-the-fold</span>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <div>
+              <span class="text-zinc-200">width & height Attribute</span>
+              <span class="text-zinc-500 ml-2">— verhindert CLS</span>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <div>
+              <span class="text-zinc-200">fetchpriority="high"</span>
+              <span class="text-zinc-500 ml-2">— für LCP Image</span>
+            </div>
+          </div>
+        </div>
+
+        <pre class="mt-4 text-sm overflow-x-auto"><code class="text-zinc-300">&lt;img 
+  src="hero.webp"
+  width="1200" height="600"
+  fetchpriority="high"
+  alt="Hero"
+/&gt;</code></pre>
+      </article>
+
+      <!-- Fonts -->
+      <article class="mb-8 bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <h3 class="text-lg font-medium mb-4 flex items-center gap-2">
+          <span class="text-2xl">🔤</span> Fonts
+        </h3>
+        
+        <div class="space-y-3 text-sm">
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <span class="text-zinc-200">font-display: swap</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <span class="text-zinc-200">Preload kritische Fonts</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <span class="text-zinc-200">Nur nötige Weights laden</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <span class="text-zinc-200">Self-host statt Google Fonts</span>
+          </div>
+        </div>
+
+        <pre class="mt-4 text-sm overflow-x-auto"><code class="text-zinc-300">&lt;link 
+  rel="preload" 
+  href="/fonts/inter.woff2" 
+  as="font" 
+  type="font/woff2" 
+  crossorigin
+/&gt;</code></pre>
+      </article>
+
+      <!-- JavaScript -->
+      <article class="mb-8 bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+        <h3 class="text-lg font-medium mb-4 flex items-center gap-2">
+          <span class="text-2xl">📜</span> JavaScript
+        </h3>
+        
+        <div class="space-y-3 text-sm">
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <span class="text-zinc-200">Code Splitting — nur laden was gebraucht wird</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <span class="text-zinc-200">defer/async für non-critical Scripts</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-green-400">✅</span>
+            <span class="text-zinc-200">Tree Shaking — tote Code entfernen</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-red-400">❌</span>
+            <span class="text-zinc-200">Keine 500KB Libraries für einen Button</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Framework Tips -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Framework-Spezifisch
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <h3 class="font-medium mb-3 text-orange-400">Next.js / React</h3>
+          <ul class="space-y-2 text-sm text-zinc-300">
+            <li>• next/image für automatische Optimierung</li>
+            <li>• Server Components wo möglich</li>
+            <li>• Suspense für Streaming</li>
+            <li>• Dynamic imports für große Komponenten</li>
+          </ul>
+        </div>
+        <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+          <h3 class="font-medium mb-3 text-purple-400">Astro</h3>
+          <ul class="space-y-2 text-sm text-zinc-300">
+            <li>• Zero JS by default 🚀</li>
+            <li>• client:visible für lazy hydration</li>
+            <li>• Image component für srcset</li>
+            <li>• View Transitions für smooth UX</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-semibold mb-6 text-zinc-200">
+        Mess-Tools
+      </h2>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <a href="https://pagespeed.web.dev/" target="_blank" class="block bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors">
+          <h3 class="font-medium mb-1">PageSpeed Insights</h3>
+          <p class="text-zinc-400 text-sm">Google's Official Tool</p>
+        </a>
+        <a href="https://www.webpagetest.org/" target="_blank" class="block bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors">
+          <h3 class="font-medium mb-1">WebPageTest</h3>
+          <p class="text-zinc-400 text-sm">Deep Dive Analysis</p>
+        </a>
+        <a href="https://bundlephobia.com/" target="_blank" class="block bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors">
+          <h3 class="font-medium mb-1">Bundlephobia</h3>
+          <p class="text-zinc-400 text-sm">NPM Package Size</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Key Insight -->
+    <section class="mb-16 p-6 bg-blue-500/10 border border-blue-500/30 rounded-xl">
+      <h3 class="text-blue-400 font-medium mb-2">💡 Key Insight</h3>
+      <p class="text-zinc-300">
+        <strong>Performance ist UX.</strong> Eine Seite die 100ms schneller lädt 
+        fühlt sich qualitativ hochwertiger an — auch wenn der User nicht weiß warum.
+      </p>
+    </section>
+
+    <nav class="flex gap-4 pt-8 border-t border-zinc-800">
+      <a href="/typescript" class="text-blue-400 hover:text-blue-300">← TypeScript</a>
+      <a href="/" class="text-blue-400 hover:text-blue-300 ml-auto">Home →</a>
+    </nav>
+
+  </main>
+</Layout>
