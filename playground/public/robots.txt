@@ -1,5 +1,0 @@
-# robots.txt for brudi.dev
-User-agent: *
-Allow: /
-
-Sitemap: https://brudi-dev.pages.dev/sitemap.xml
