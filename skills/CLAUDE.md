@@ -105,6 +105,7 @@ before working on that domain.**
 - `architecting-saas` — Route groups, getUser vs getSession, multi-tenancy schema, service layer
 - `integrating-supabase` — Server vs browser client, realtime cleanup, Storage RLS, typed queries
 - `handling-data-sync` — Optimistic updates, cache invalidation, infinite scroll, useMutation forms
+- `designing-saas-ux` — Onboarding flow, pricing tiers, empty states, settings architecture
 
 ### Alex's Workflow
 - `starting-a-project` — PRD → stack → structure → first screen

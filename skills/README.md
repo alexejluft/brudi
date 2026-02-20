@@ -71,7 +71,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Skills (26 total)
+## Skills (27 total)
 
 ### Foundation
 
@@ -127,6 +127,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 | `architecting-saas` | Route groups, auth middleware, multi-tenancy, service layer |
 | `integrating-supabase` | Server vs browser client, realtime, Storage uploads, typed queries |
 | `handling-data-sync` | Optimistic updates, cache invalidation, infinite scroll, useMutation forms |
+| `designing-saas-ux` | Onboarding, pricing page, empty states, settings architecture |
 
 ### Alex's Workflow
 
@@ -150,7 +151,7 @@ See [docs/philosophy.md](docs/philosophy.md)
 
 ## Status
 
-**v0.13.0** — 26 skills across 8 categories, all evidence-based with pressure tests.
+**v0.14.0** — 27 skills across 8 categories, all evidence-based with pressure tests.
 
 ## License
 
