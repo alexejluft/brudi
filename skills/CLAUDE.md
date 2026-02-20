@@ -83,6 +83,9 @@ before working on that domain.**
 - `fetching-data-correctly` — Race conditions, TanStack Query, AbortController, optimistic updates
 - `building-with-nextjs` — App Router, Server vs Client Components, caching, metadata
 
+### Code Quality
+- `maintaining-quality` — Zod for JSON.parse, typed tryCatch, T3 env validation, unused imports
+
 ### Award-Level Craft
 - `designing-with-perception` — Human perception, fluid type, contrast
 - `designing-for-mobile` — Touch targets, thumb zones, safe areas

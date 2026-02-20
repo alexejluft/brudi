@@ -71,7 +71,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Skills (21 total)
+## Skills (22 total)
 
 ### Foundation
 
@@ -92,6 +92,12 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 |-------|----------|
 | `fetching-data-correctly` | Race conditions, TanStack Query, optimistic updates |
 | `building-with-nextjs` | App Router, Server vs Client Components, caching, metadata |
+
+### Code Quality
+
+| Skill | Use When |
+|-------|----------|
+| `maintaining-quality` | Zod validation, typed tryCatch, T3 env, unused imports |
 
 ### Award-Level Craft
 
@@ -135,7 +141,7 @@ See [docs/philosophy.md](docs/philosophy.md)
 
 ## Status
 
-**v0.8.0** — 21 skills across 6 categories, all evidence-based with pressure tests.
+**v0.9.0** — 22 skills across 7 categories, all evidence-based with pressure tests.
 
 ## License
 
