@@ -1,0 +1,33 @@
+#!/bin/bash
+# Brudi Post-Commit Hook
+# Automatically syncs skills AND assets to ~/.brudi/ after every commit.
+
+REPO_SKILLS="/Users/alexejluft/AI/Brudi Workspace/projects/brudi/skills/skills"
+REPO_ASSETS="/Users/alexejluft/AI/Brudi Workspace/projects/brudi/skills/assets"
+INSTALLED_SKILLS="$HOME/.brudi/skills"
+INSTALLED_ASSETS="$HOME/.brudi/assets"
+
+# ── Skills sync ──
+if [ ! -d "$INSTALLED_SKILLS" ]; then
+  echo "⚠️  Brudi: ~/.brudi/skills/ not found — skipping skills sync."
+else
+  cp -r "$REPO_SKILLS"/. "$INSTALLED_SKILLS/"
+  if [ $? -eq 0 ]; then
+    SKILL_COUNT=$(ls "$INSTALLED_SKILLS" | wc -l | tr -d ' ')
+    echo "✅ Brudi skills synced → ~/.brudi/skills/ ($SKILL_COUNT skills)"
+  else
+    echo "❌ Brudi skills sync FAILED!"
+  fi
+fi
+
+# ── Assets sync ──
+if [ ! -d "$INSTALLED_ASSETS" ]; then
+  echo "⚠️  Brudi: ~/.brudi/assets/ not found — skipping assets sync."
+else
+  cp -r "$REPO_ASSETS"/. "$INSTALLED_ASSETS/"
+  if [ $? -eq 0 ]; then
+    echo "✅ Brudi assets synced → ~/.brudi/assets/"
+  else
+    echo "❌ Brudi assets sync FAILED!"
+  fi
+fi
