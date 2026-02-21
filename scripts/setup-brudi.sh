@@ -19,8 +19,10 @@ set -e
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REPO_SKILLS="$REPO_ROOT/skills/skills"
 REPO_ASSETS="$REPO_ROOT/skills/assets"
+REPO_TEMPLATES="$REPO_ROOT/skills/templates"
 INSTALLED_SKILLS="$HOME/.brudi/skills"
 INSTALLED_ASSETS="$HOME/.brudi/assets"
+INSTALLED_TEMPLATES="$HOME/.brudi/templates"
 HOOKS_DIR="$REPO_ROOT/.git/hooks"
 PLIST_SRC="$REPO_ROOT/scripts/com.brudi.autosync.plist"
 PLIST_DST="$HOME/Library/LaunchAgents/com.brudi.autosync.plist"
@@ -33,7 +35,8 @@ echo "────────────────────────�
 echo "📁 Creating ~/.brudi directories..."
 mkdir -p "$INSTALLED_SKILLS"
 mkdir -p "$INSTALLED_ASSETS"
-echo "   ✅ ~/.brudi/skills/ und ~/.brudi/assets/ bereit"
+mkdir -p "$INSTALLED_TEMPLATES"
+echo "   ✅ ~/.brudi/skills/, ~/.brudi/assets/ und ~/.brudi/templates/ bereit"
 
 # ── 2. Git Hooks ────────────────────────────────────────
 echo "🔗 Installing git hooks..."
@@ -83,9 +86,11 @@ echo "   → Log: /tmp/brudi-autosync.log"
 echo "📦 Initialer Sync..."
 cp -r "$REPO_SKILLS"/. "$INSTALLED_SKILLS/"
 cp -r "$REPO_ASSETS"/. "$INSTALLED_ASSETS/"
+cp -r "$REPO_TEMPLATES"/. "$INSTALLED_TEMPLATES/"
 SKILL_COUNT=$(ls "$INSTALLED_SKILLS" | wc -l | tr -d ' ')
 echo "   ✅ $SKILL_COUNT Skills synced → ~/.brudi/skills/"
 echo "   ✅ Assets synced → ~/.brudi/assets/"
+echo "   ✅ Templates synced → ~/.brudi/templates/"
 
 # ── Done ────────────────────────────────────────────────
 echo ""

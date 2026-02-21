@@ -1,133 +1,91 @@
-# BRUDI — Mein Entwicklungsprojekt
+# Brudi — Dein KI-Baukasten für hochwertige Websites
 
-**Pfad:** `/Users/alexejluft/AI/Brudi Workspace/projects/brudi/`
-
----
-
-## Zwei Teile, ein Ziel
-
-```
-brudi/
-├── skills/           # 🔧 WERKSTATT — Das Produkt
-│                     #    Installierbares Skill-System
-│                     #    Das was andere nutzen werden
-│
-└── playground/       # 🎮 SPIELWIESE — Wo ich übe
-                      #    Astro Website zum Lernen
-                      #    Hier teste ich mein Wissen
-```
+Brudi ist ein Skill-Paket, das deinen KI-Agenten (wie Claude) beibringt, professionelle und preisgekrönte Websites zu bauen. Statt dass die KI rät, hat sie klare Regeln und fertige Bausteine — das Ergebnis sind bessere Websites, schneller und günstiger.
 
 ---
 
-## 🔧 SKILLS (Werkstatt)
+## Was ist Brudi?
 
-**Zweck:** Das installierbare Skill-System für AI Agents
-**Ziel:** Andere können das installieren und sofort bessere Websites bauen
-
-```
-skills/
-├── BOOTSTRAP.md              ← Einstieg
-├── README.md                 ← Öffentliche Beschreibung
-├── docs/
-│   ├── philosophy.md
-│   ├── contributing.md
-│   ├── testing/              ← Pressure Tests
-│   └── internal/             ← Meine Pläne
-└── skills/
-    ├── building-layouts/
-    ├── designing-for-awards/
-    ├── animating-interfaces/
-    └── ...
-```
-
-**Regeln:**
-- Jeder Skill < 120 Zeilen
-- TDD-getestet mit Pressure Scenarios
-- "Use when..." Descriptions
-- Verb-first Naming
+Brudi ist wie ein Lehrbuch für deinen KI-Agenten. Statt dass der Agent rät wie eine Website gebaut wird, hat er mit Brudi klare Regeln, Best Practices und fertige Bausteine. Das Ergebnis: professionelle, award-würdige Websites — schneller und günstiger. Du brauchst nur drei Schritte, um Brudi zu nutzen.
 
 ---
 
-## 🎮 PLAYGROUND (Spielwiese)
+## Installation
 
-**Zweck:** Hier lerne ich, experimentiere, teste mein Wissen
-**Ziel:** Praktische Anwendung bevor es in Skills fließt
+### Schritt 1 — Brudi herunterladen
 
-```
-playground/
-├── src/pages/
-│   ├── index.astro           ← Homepage
-│   ├── knowledge.astro       ← Knowledge Index
-│   ├── duo/                  ← Alex & Brudi Website
-│   │   ├── index.astro
-│   │   ├── about.astro
-│   │   └── ...
-│   └── [learning-pages]/     ← Grid, RSC, Testing, etc.
-└── src/layouts/
+Öffne dein Terminal (das schwarze Fenster mit der Textzeile) und kopiere diesen Befehl hinein. Er lädt Brudi auf deinen Computer herunter.
+
+```bash
+git clone https://github.com/alexejluft/brudi.git
+cd brudi
 ```
 
-**Workflow:**
-1. Ich lerne etwas Neues (z.B. Container Queries)
-2. Ich baue eine Seite in playground/ (container-queries.astro)
-3. Wenn ich es WIRKLICH verstehe → Skill in skills/ erstellen
-4. /duo wendet die Skills praktisch an
+### Schritt 2 — Brudi installieren
+
+Jetzt installieren wir Brudi mit einem einzigen Befehl. Das Script richtet alles automatisch ein — du musst das nur einmal machen.
+
+```bash
+bash scripts/setup-brudi.sh
+```
+
+Das Script installiert Brudi unter `~/.brudi/`. Ab jetzt findet dein KI-Agent alles automatisch. ✅ Brudi ist bereit!
 
 ---
 
-## Der Workflow
+## Neues Projekt starten
 
-```
-Neues Thema
-    │
-    ▼
-┌─────────────────────────┐
-│  PLAYGROUND             │
-│  - Learning Page bauen  │
-│  - Experimentieren      │
-│  - Verstehen            │
-└─────────────────────────┘
-    │
-    │ Wenn verstanden
-    ▼
-┌─────────────────────────┐
-│  SKILLS                 │
-│  - Pressure Test        │
-│  - Skill schreiben      │
-│  - TDD verifizieren     │
-└─────────────────────────┘
-    │
-    │ Skill fertig
-    ▼
-┌─────────────────────────┐
-│  /DUO anwenden          │
-│  - Echtes Projekt       │
-│  - Beweis des Könnens   │
-└─────────────────────────┘
+### Schritt 1 — Projektordner vorbereiten
+
+Erstelle einen neuen Ordner für dein Projekt und kopiere die beiden Startdateien hinein — das sind die einzigen Dateien, die du brauchst.
+
+```bash
+mkdir ~/Projects/mein-projekt
+cp ~/.brudi/templates/CLAUDE.md ~/Projects/mein-projekt/
+cp ~/.brudi/templates/TASK.md ~/Projects/mein-projekt/
 ```
 
----
+### Schritt 2 — Projektdetails ausfüllen
 
-## NIEMALS VERGESSEN
+Öffne die Datei `CLAUDE.md` in deinem Projektordner. Dort findest du Platzhalter, die du mit deinen Projektdetails ausfüllst — Projektname, Farben, Zielgruppe und so weiter.
 
-| Teil | Zweck | Löschen? |
-|------|-------|----------|
-| skills/ | Das Produkt | ❌ NIE ohne Backup |
-| playground/ | Übungsplatz | ❌ NIE ohne Backup |
-| /duo | Beweis | ❌ Das ist unser Showcase |
+Keine Sorge — du musst nicht alles verstehen! Schau dir die Beispiel-Datei an (`CLAUDE.example.md` im selben `templates/` Ordner), dort siehst du wie eine ausgefüllte Version aussieht. Du kannst auch ChatGPT oder einen anderen KI-Assistenten bitten, dir beim Ausfüllen zu helfen.
 
-**Vor jeder großen Änderung:** `git tag backup-DATUM`
+### Schritt 3 — KI-Agent starten
 
----
+Navigiere deinen KI-Agenten (z.B. Claude Code) zu deinem Projektordner und starte ihn.
 
-## Wenn ich mein Gedächtnis verliere
+```bash
+cd ~/Projects/mein-projekt
+claude
+```
 
-Alex sagt: "Lies `projects/brudi/README.md`"
+Dann sagst du dem Agenten einfach, was du bauen willst:
 
-Dann weiß ich:
-1. skills/ = Das Produkt (Skill-System)
-2. playground/ = Wo ich lerne (Website)
-3. /duo = Beweis unseres Könnens
+> Baue die Forma Studio Website
+
+Der Agent liest automatisch deine `CLAUDE.md`, findet Brudi und fängt an zu arbeiten. Du kannst dich zurücklehnen und zusehen.
 
 ---
 
-*Ein Ort. Klare Trennung. Kein Chaos.*
+## Was steckt in Brudi?
+
+📚 **60+ Skills** — Regeln und Best Practices für alles von Animationen bis SEO
+
+🎨 **Professionelle Schriftarten** — Typografische Best Practices, sofort einsatzbereit
+
+🌍 **Mehrsprachig** — Vorgefertigte Übersetzungen und lokalisierte Inhalte
+
+⚖️ **Rechtstexte** — Impressum & Datenschutz Vorlagen für verschiedene Länder
+
+🎬 **Animations-Bausteine** — GSAP, Framer Motion und Web Animations Techniken
+
+⚙️ **Konfigurationen** — Tailwind Setup, Design Tokens, CSS und JavaScript Grundlagen
+
+---
+
+## Fragen?
+
+Wenn du Fragen hast, schau dir die Dokumentation in der `docs/` Ordner an oder öffne ein Issue auf GitHub. Das Brudi-Team hilft gerne weiter.
+
+Viel Erfolg beim Bauen! 🚀

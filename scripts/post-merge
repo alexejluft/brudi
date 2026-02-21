@@ -5,8 +5,10 @@
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 REPO_SKILLS="$REPO_ROOT/skills/skills"
 REPO_ASSETS="$REPO_ROOT/skills/assets"
+REPO_TEMPLATES="$REPO_ROOT/skills/templates"
 INSTALLED_SKILLS="$HOME/.brudi/skills"
 INSTALLED_ASSETS="$HOME/.brudi/assets"
+INSTALLED_TEMPLATES="$HOME/.brudi/templates"
 
 echo "🔄 Brudi: Syncing after pull..."
 
@@ -25,6 +27,14 @@ if [ -d "$INSTALLED_ASSETS" ]; then
   echo "✅ Assets synced"
 else
   echo "⚠️  ~/.brudi/assets/ not found — skipping"
+fi
+
+# ── Templates ──
+if [ -d "$INSTALLED_TEMPLATES" ]; then
+  cp -r "$REPO_TEMPLATES"/. "$INSTALLED_TEMPLATES/"
+  echo "✅ Templates synced"
+else
+  echo "⚠️  ~/.brudi/templates/ not found — skipping"
 fi
 
 echo "✅ Brudi up to date."
