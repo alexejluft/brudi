@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.brudi.autosync</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>cd "/Users/alexejluft/AI/Brudi Workspace/projects/brudi" &amp;&amp; git pull origin main --quiet 2&gt;&gt;/tmp/brudi-autosync.log</string>
+    </array>
+
+    <!-- Run every 15 minutes -->
+    <key>StartInterval</key>
+    <integer>900</integer>
+
+    <!-- Also run once immediately when loaded -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/brudi-autosync.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/brudi-autosync-error.log</string>
+</dict>
+</plist>
