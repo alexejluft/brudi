@@ -95,6 +95,7 @@ before working on that domain.**
 - `crafting-typography` — Fluid type scale, variable fonts, hierarchy
 - `creating-visual-depth` — Layered shadows, glassmorphism limits, grainy gradients, z-index system
 - `building-interactions` — Hover states, :active feedback, transition:all bug, prefers-reduced-motion, :focus-visible
+- `building-components` — FAQ accordion (GSAP height:auto, Framer Motion AnimatePresence, numbered row variant, ARIA)
 
 ### Stack Orchestration (Critical)
 - `orchestrating-gsap-lenis` — GSAP + Lenis: autoRaf, ticker, cleanup
