@@ -1,45 +1,58 @@
-/* Brudi Reference: Design Tokens Template
-   Copy to your globals.css and adapt colors/values */
+/* BRUDI DESIGN TOKENS REFERENCE — Tailwind v4
+   Reference documentation only. Tokens are defined in globals.css @theme block.
 
+   Token Namespace Conventions:
+   - --color-*     : Brand colors, backgrounds, surfaces
+   - --text-*      : Typography values (fluid sizes, line heights)
+   - --spacing-*   : Layout spacing (8px grid)
+   - --radius-*    : Border radius scale
+   - --z-index-*   : Semantic layering
+   - --ease-*      : Animation timing functions
+   - --breakpoint-*: Responsive breakpoints
+
+   All tokens are defined in globals.css within @theme {} and @theme inline {} blocks.
+   DO NOT modify this file — edit globals.css to change design tokens. */
+
+/* === COLOR TOKENS (defined in globals.css) === */
 :root {
-  /* === Colors — Light Mode === */
+  /* Light Mode */
   --color-background: #F5F5F0;
   --color-foreground: #111111;
+  --color-accent: #8AB200;
   --color-muted: #666666;
-  --color-accent: #0052CC;          /* Adjust per brand — check contrast on light bg! */
   --color-surface: #FFFFFF;
   --color-border: #E5E5E5;
-
-  /* === Contextual === */
-  --color-success: #2E7D32;
-  --color-warning: #F57C00;
-  --color-error: #C62828;
-
-  /* === Typography === */
-  --font-display: var(--font-display);  /* Set by next/font */
-  --font-body: var(--font-body);
-
-  /* === Spacing (8px grid) === */
-  --space-1: 0.25rem;   /* 4px */
-  --space-2: 0.5rem;    /* 8px */
-  --space-3: 0.75rem;   /* 12px */
-  --space-4: 1rem;      /* 16px */
-  --space-6: 1.5rem;    /* 24px */
-  --space-8: 2rem;      /* 32px */
-  --space-12: 3rem;     /* 48px */
-  --space-16: 4rem;     /* 64px */
-
-  /* === Transitions === */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-fast: 150ms;
-  --duration-normal: 300ms;
 }
 
 .dark {
+  /* Dark Mode */
   --color-background: #0A0A0A;
   --color-foreground: #EDEDED;
+  --color-accent: #C8FF00;
   --color-muted: #999999;
-  --color-surface: #1A1A1A;
+  --color-surface: #141414;
   --color-border: #2A2A2A;
-  /* Accent stays same or adjust for dark mode readability */
 }
+
+/* === TYPOGRAPHY TOKENS (defined in @theme block) ===
+   --text-fluid-sm, --text-fluid-base, --text-fluid-lg
+   --text-fluid-xl, --text-fluid-2xl, --text-fluid-3xl, --text-fluid-display */
+
+/* === SPACING TOKENS (8px grid, use with padding/margin utilities)
+   0.25rem (4px), 0.5rem (8px), 0.75rem (12px), 1rem (16px)
+   1.5rem (24px), 2rem (32px), 3rem (48px), 4rem (64px) */
+
+/* === Z-INDEX TOKENS (semantic stacking context)
+   --z-index-behind (-1), --z-index-base (0), --z-index-above (10)
+   --z-index-nav (100), --z-index-overlay (200), --z-index-modal (300), --z-index-toast (400) */
+
+/* === EASING TOKENS (GSAP-compatible curves)
+   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1)
+   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1)
+   --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1) */
+
+/* === BORDER RADIUS TOKENS
+   --radius-xs (0.125rem), --radius-4xl (2rem), --radius-5xl (2.5rem) */
+
+/* === BREAKPOINTS (award-site granularity)
+   --breakpoint-xs (30rem / 480px), --breakpoint-3xl (120rem / 1920px), --breakpoint-4xl (160rem / 2560px) */

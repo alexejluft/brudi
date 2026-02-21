@@ -1,103 +1,105 @@
 ---
 name: implementing-design-tokens
-description: Use when setting up a design token system with CSS custom properties and Tailwind CSS. Prevents hardcoded values, inconsistent styling, and unmaintainable themes.
+description: Use when setting up a design token system with CSS custom properties and Tailwind CSS v4. Prevents hardcoded values, inconsistent styling, and unmaintainable themes.
 ---
-
 # Implementing Design Tokens
-
-## The Rule
-
-**Define tokens as CSS custom properties. Extend Tailwind theme with `var()`. Name by purpose, not value. Always use rem.**
-
+**Define tokens as CSS custom properties with Tailwind v4 namespaces (`--color-*`, `--spacing-*`). Use `@theme` in CSS. Name by purpose. Always use rem.**
 ---
 
 ## Token Definition (globals.css)
 
 ```css
-/* ✅ Correct: Semantic naming, rem units, organized by category */
+/* ✅ Correct: Semantic naming, rem units, Tailwind v4 namespace */
 :root {
   /* Colors — named by purpose */
   --color-accent: #2563eb;
-  --color-surface: #ffffff;
-  --color-surface-elevated: #f9fafb;
+  --color-background: #ffffff;
   --color-foreground: #1f2937;
+  --color-surface: #f9fafb;
   --color-muted: #6b7280;
   --color-border: #e5e7eb;
   --color-error: #dc2626;
   --color-success: #16a34a;
 
   /* Spacing (8px grid) */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-4: 1rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-12: 3rem;
-
-  /* Typography */
-  --font-body: var(--font-body);
-  --font-size-sm: 0.875rem;  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;  --font-size-xl: 1.25rem;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-
-  /* Border Radius */
-  --radius-sm: 0.25rem;  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;  --radius-full: 9999px;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
 }
-
-/* See ~/.brudi/assets/configs/design-tokens.css for the canonical token set */
 
 /* ❌ WRONG: Non-semantic names */
-/* --blue-500: #2563eb;  --gray-100: #f3f4f6; */
-/* ❌ WRONG: Mixed units */
-/* --space-sm: 8px;  --space-md: 1rem; */
+/* --blue-500: #2563eb; --gray-100: #f3f4f6; */
+/* ❌ WRONG: Mixed units or old namespace */
+/* --space-sm: 8px; --padding-md: 1rem; */
 ```
 
 ---
 
-## Tailwind Integration
-
-```tsx
-// ✅ tailwind.config.ts — extend theme with token variables
-export default {
-  theme: {
-    extend: {
-      colors: {
-        accent: 'var(--color-accent)',
-        surface: { DEFAULT: 'var(--color-surface)', elevated: 'var(--color-surface-elevated)' },
-        foreground: 'var(--color-foreground)',
-        muted: 'var(--color-muted)',
-        border: 'var(--color-border)',
-        error: 'var(--color-error)',
-        success: 'var(--color-success)',
-      },
-      spacing: { 1: 'var(--space-1)', 2: 'var(--space-2)', 4: 'var(--space-4)', 6: 'var(--space-6)', 8: 'var(--space-8)' },
-      borderRadius: { sm: 'var(--radius-sm)', md: 'var(--radius-md)', lg: 'var(--radius-lg)', full: 'var(--radius-full)' },
-      boxShadow: { sm: 'var(--shadow-sm)', md: 'var(--shadow-md)', lg: 'var(--shadow-lg)' },
-    },
-  },
-}
-```
-
----
-
-## Usage + Dark Mode
-
-```tsx
-// ✅ Token-backed classes — consistent + themeable
-<button className="bg-accent text-surface px-6 py-4 rounded-md shadow-md">Save</button>
-// ❌ WRONG: <button className="bg-[#2563eb] px-6 py-2"> or style={{ ... }}
-```
+## Tailwind v4 Integration (@theme in CSS)
 
 ```css
-/* ✅ Override tokens in .dark — components auto-adapt, zero code changes */
-.dark {
-  --color-accent: #3b82f6;   --color-surface: #0f172a;
-  --color-foreground: #f1f5f9;  --color-border: #334155;
+/* ✅ Correct: globals.css — @theme block exposes tokens as utilities */
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #2563eb;
+  --color-background: #ffffff;
+  --color-foreground: #1f2937;
+  --color-surface: #f9fafb;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-error: #dc2626;
+  --color-success: #16a34a;
+
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
 }
+
+/* ❌ WRONG: tailwind.config.ts file — no config files in v4 */
+/* ❌ WRONG: Writing extend.colors in config → use @theme in CSS */
+```
+
+---
+
+## Runtime-Switchable Tokens (Dark Mode)
+
+```css
+/* ✅ Correct: Define in :root and .dark, reference in @theme inline */
+:root {
+  --brand-accent: #2563eb;
+  --brand-bg: #ffffff;
+}
+
+.dark {
+  --brand-accent: #3b82f6;
+  --brand-bg: #0f172a;
+}
+
+@theme inline {
+  --color-accent: var(--brand-accent);
+  --color-background: var(--brand-bg);
+}
+
+/* ❌ WRONG: Hardcoding colors in both :root and .dark separately */
+/* ❌ WRONG: Mixing static @theme and runtime var() without @theme inline */
+```
+
+---
+
+## Usage
+
+```tsx
+/* ✅ Token-backed classes generated from @theme */
+<button className="bg-accent text-foreground px-6 py-4">Save</button>
+<div className="space-y-4 border-b border-border">Content</div>
+
+/* ❌ WRONG: Arbitrary values or old v3 config approach */
+/* <button className="bg-[#2563eb]"> or relying on tailwind.config.ts */
 ```
 
 ---
@@ -106,9 +108,9 @@ export default {
 
 | Mistake | Fix |
 |---------|-----|
-| Hardcoded colors/spacing | Always use token variables via Tailwind |
-| Non-semantic naming (`--blue-500`) | Name by purpose: `--color-accent`, `--space-4` |
-| Mixed px/rem units | Use rem for all spacing/typography |
-| Tokens not in Tailwind config | `extend` theme with `var()` references |
-| No dark mode tokens | Override custom properties in `.dark` class |
-| Arbitrary values (`bg-[#2563eb]`) | Map to token: `bg-accent` |
+| Writing `tailwind.config.ts` | Use `@theme` in your CSS file instead |
+| Using `--bg` / `--text` namespaces | Use Tailwind v4 namespaces: `--color-*`, `--spacing-*` |
+| Extending theme in config | Define tokens in CSS `@theme` block |
+| Hardcoded colors/spacing | Map all values to token variables |
+| Arbitrary values (`bg-[#hex]`) | Define color in `@theme`, use `bg-accent` |
+| No dark mode integration | Use `:root` / `.dark` with `@theme inline` for runtime tokens |

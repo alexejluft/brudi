@@ -1,136 +1,120 @@
 ---
 name: building-with-nextjs
-description: Use when building with Next.js App Router — data fetching, Server vs Client Components, caching, metadata. AI consistently generates outdated Pages Router patterns (getServerSideProps) that don't work in app/.
+description: Use when building with Next.js App Router — data fetching, Server vs Client Components, caching, metadata. Updated for Next.js 15/16 with async params/searchParams. AI generates outdated Pages Router patterns (getServerSideProps) that don't work in app/.
 ---
 
 # Building with Next.js
 
 ## The Rule
 
-AI generates Pages Router code (`getServerSideProps`, `getStaticProps`) even in
-`app/` projects. These throw errors. The App Router is fundamentally different:
-**data fetching happens in async Server Components, not in special functions.**
+AI generates Pages Router code (`getServerSideProps`, `getStaticProps`) even in `app/` projects. These throw errors. The App Router is fundamentally different: **data fetching happens in async Server Components, not in special functions.** In Next.js 15+, `params` and `searchParams` are Promises—always await them.
 
----
+## Dynamic Routes & Params (Next.js 15+)
+
+```tsx
+// ❌ Old (Next.js 14) — params is synchronous
+export default function Page({ params }: { params: { slug: string } }) {
+  const { slug } = params  // ❌ undefined in 15+
+}
+
+// ✅ Current — params is a Promise, must await
+type Props = { params: Promise<{ slug: string }> }
+export default async function Page({ params }: Props) {
+  const { slug } = await params  // ✅ correct
+  return <h1>{slug}</h1>
+}
+
+// ✅ generateMetadata also receives Promise params
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params
+  return { title: slug }
+}
+```
 
 ## Data Fetching — App Router Patterns
 
 ```tsx
-// ✅ SSR — fresh on every request (replaces getServerSideProps)
+// ✅ SSR — fresh on every request
 export default async function Page() {
   const data = await fetch('/api/items', { cache: 'no-store' }).then(r => r.json())
   return <div>{data.name}</div>
 }
 
-// ✅ SSG — cached forever (replaces getStaticProps)
+// ✅ SSG — cached forever
 const data = await fetch('/api/config', { cache: 'force-cache' }).then(r => r.json())
 
-// ✅ ISR — revalidate every N seconds (replaces getStaticProps + revalidate)
+// ✅ ISR — revalidate every N seconds
 const data = await fetch('/api/items', { next: { revalidate: 60 } }).then(r => r.json())
 
-// ✅ On-demand revalidation (in Server Action or Route Handler)
+// ✅ On-demand revalidation
 import { revalidateTag } from 'next/cache'
-await fetch('/api/items', { next: { tags: ['items'] } }).then(r => r.json())
-revalidateTag('items') // invalidates all fetches tagged 'items'
+await fetch('/api/items', { next: { tags: ['items'] } })
+revalidateTag('items')
 ```
 
-**Never mix `cache: 'no-store'` with `next: { revalidate }` — conflicting options are silently ignored.**
+## searchParams is also a Promise
 
----
+```tsx
+type PageProps = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
 
-## Migration Map (Pages → App Router)
-
-| Old (Pages Router) | New (App Router) |
-|---|---|
-| `getServerSideProps` | `fetch(..., { cache: 'no-store' })` in async Server Component |
-| `getStaticProps` | `fetch(..., { cache: 'force-cache' })` in async Server Component |
-| `getStaticProps + revalidate` | `fetch(..., { next: { revalidate: N } })` |
-| `getStaticPaths` | `generateStaticParams()` |
-| `pages/_app.js` | `app/layout.tsx` |
-| `pages/api/route.ts` | `app/api/route/route.ts` (Route Handler) |
-
----
+export default async function Page({ searchParams }: PageProps) {
+  const { page, sort } = await searchParams
+  return <div>Page {page}, sort by {sort}</div>
+}
+```
 
 ## Server vs Client Components
 
-**Decision rule — use `'use client'` only when you need:**
-- `useState`, `useEffect`, or any hook
-- Browser events (`onClick`, `onChange`)
-- Browser-only APIs (`window`, `localStorage`)
+**Use `'use client'` only when you need:** `useState`, `useEffect`, browser events, or `window`/`localStorage`.
 
 ```tsx
-// ✅ Correct — interactivity isolated at leaf level
-// page.tsx (Server Component — no 'use client')
-import { LikeButton } from './like-button'
-
-export default async function ProductPage({ params }) {
+// ✅ Correct — Server Component, interactivity isolated at leaf
+export default async function ProductPage({ params }: Props) {
   const { id } = await params
-  const product = await getProduct(id)   // server-side, no bundle cost
+  const product = await getProduct(id)
   return (
     <div>
-      <ProductImage src={product.image} />    {/* Server Component */}
-      <ProductDescription text={product.desc} /> {/* Server Component */}
-      <LikeButton productId={id} />            {/* Only this is 'use client' */}
+      <ProductImage src={product.image} />
+      <LikeButton productId={id} />  {/* 'use client' only here */}
     </div>
   )
 }
-```
 
-**Context Providers pattern:**
-```tsx
-// providers.tsx — extract to own file
+// like-button.tsx
 'use client'
-export function Providers({ children }: { children: React.ReactNode }) {
-  return <ThemeProvider>{children}</ThemeProvider>
-}
-
-// layout.tsx — Server Component, children stay Server Components
-import { Providers } from './providers'
-export default function RootLayout({ children }) {
-  return <html><body><Providers>{children}</Providers></body></html>
+export function LikeButton({ productId }: { productId: string }) {
+  const [liked, setLiked] = useState(false)
+  return <button onClick={() => setLiked(!liked)}>♥</button>
 }
 ```
-
----
 
 ## Metadata (SEO)
 
 ```tsx
-// ✅ Static metadata
 export const metadata = {
   title: { template: '%s | My Site', default: 'My Site' },
   description: 'Default description',
 }
 
-// ✅ Dynamic metadata — for routes with params
-export async function generateMetadata({ params }) {
-  const { id } = await params                    // await params — Next.js 15+
-  const post = await getPost(id)                 // fetch() auto-deduplicated
-  return {
-    title: post.title,
-    description: post.excerpt,
-    openGraph: { title: post.title, images: [{ url: post.ogImage }] },
-  }
-}
-
-export default async function BlogPost({ params }) {
+// ✅ Dynamic metadata
+type MetadataProps = { params: Promise<{ id: string }> }
+export async function generateMetadata({ params }: MetadataProps) {
   const { id } = await params
-  const post = await getPost(id)                 // no duplicate DB call
-  return <article>{post.content}</article>
+  const post = await getPost(id)  // fetch() auto-deduplicated
+  return { title: post.title, description: post.excerpt }
 }
 ```
 
-**`metadata` only works in Server Components.** Adding it to a `'use client'` file does nothing.
-
----
-
 ## Common Mistakes
 
-| Mistake | Error / Result | Fix |
-|---------|---------------|-----|
-| `getServerSideProps` in `app/` | Build error: not supported | Async Server Component + `cache: 'no-store'` |
-| `'use client'` on entire page | Full page in JS bundle, no SEO | Isolate to leaf components only |
-| `cache: 'no-store'` + `revalidate` | Silently ignored — unpredictable | Use one or the other, never both |
-| `metadata` in Client Component | Does nothing, no SEO | Move to Server Component |
-| Forgot `await params` (Next.js 15+) | `params.id` is undefined | `const { id } = await params` |
-| `generateMetadata` calls API twice | Double cost | fetch() is auto-deduplicated, or use `cache()` from React |
+| Mistake | Error | Fix |
+|---------|-------|-----|
+| `getServerSideProps` in `app/` | Build error | Use async Server Component + `cache: 'no-store'` |
+| Forgot `await params` | `params.slug` is undefined Promise | `const { slug } = await params` |
+| Forgot `await searchParams` | Doesn't work | `const { page } = await searchParams` |
+| `'use client'` on entire page | Full JS bundle, no SEO | Isolate to leaf components only |
+| `cache: 'no-store'` + `revalidate` | Silently ignored | Use one or the other, never both |
+| `metadata` in Client Component | Does nothing | Move to Server Component |
+| Cookies/headers not awaited | Error or undefined | `const cookieStore = await cookies()` |

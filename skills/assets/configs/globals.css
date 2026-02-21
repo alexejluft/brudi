@@ -1,57 +1,118 @@
-/* BRUDI GLOBALS.CSS
-   Technical foundation — agent adds project-specific styles on top
-   Copy to: src/styles/globals.css */
+/* BRUDI GLOBALS.CSS — Tailwind v4
+   Production-ready foundation for award-level sites
+   Copy to: src/styles/globals.css
+
+   AGENT CUSTOMIZATION CHECKLIST:
+   ✓ Line 23-29: Update --font-* variables to match your next/font/local imports
+   ✓ Line 36-42: Update :root colors to match your brand palette (check WCAG contrast!)
+   ✓ Line 43-48: Update .dark colors for dark mode
+   ✓ Keep all @import, @theme, @custom-variant, and reset sections unchanged
+
+   PostCSS Requirement: Ensure postcss.config.mjs has @tailwindcss/postcss plugin */
+
+@import "tailwindcss";
+
+/* ── Dark Mode (class-based for next-themes) ── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Theme: Static Design Tokens ── */
+@theme {
+  /* Typography Scale — fluid with clamp() */
+  --text-fluid-sm: clamp(0.875rem, 0.8rem + 0.25vw, 1rem);
+  --text-fluid-base: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+  --text-fluid-lg: clamp(1.25rem, 1rem + 1vw, 2rem);
+  --text-fluid-xl: clamp(1.5rem, 1rem + 2vw, 3rem);
+  --text-fluid-2xl: clamp(2rem, 1rem + 3vw, 4.5rem);
+  --text-fluid-3xl: clamp(2.5rem, 1rem + 4vw, 6rem);
+  --text-fluid-display: clamp(3rem, 1rem + 5vw, 8rem);
+
+  /* Line heights for fluid sizes */
+  --text-fluid-display--line-height: 0.95;
+  --text-fluid-display--letter-spacing: -0.03em;
+  --text-fluid-3xl--line-height: 0.95;
+  --text-fluid-3xl--letter-spacing: -0.02em;
+  --text-fluid-2xl--line-height: 1;
+  --text-fluid-xl--line-height: 1.1;
+
+  /* Breakpoints — award-site granularity */
+  --breakpoint-xs: 30rem;    /* 480px */
+  --breakpoint-3xl: 120rem;  /* 1920px Full HD */
+  --breakpoint-4xl: 160rem;  /* 2560px Ultra-wide */
+
+  /* Z-Index — semantic layers */
+  --z-index-behind: -1;
+  --z-index-base: 0;
+  --z-index-above: 10;
+  --z-index-nav: 100;
+  --z-index-overlay: 200;
+  --z-index-modal: 300;
+  --z-index-toast: 400;
+
+  /* Easings — GSAP-friendly curves */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+
+  /* Border Radius */
+  --radius-xs: 0.125rem;
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+}
+
+/* ── Theme: Dynamic Values (use var() with inline) ── */
+@theme inline {
+  /* Font families — agent sets these via next/font/local CSS variables */
+  --font-display: var(--font-clash-display);
+  --font-body: var(--font-satoshi);
+}
+
+/* ── Brand Colors (runtime-switchable via :root/.dark) ── */
+:root {
+  --color-background: #F5F5F0;
+  --color-foreground: #111111;
+  --color-accent: #8AB200;       /* darkened for light mode WCAG AA */
+  --color-muted: #666666;
+  --color-surface: #FFFFFF;
+  --color-border: #E5E5E5;
+}
+.dark {
+  --color-background: #0A0A0A;
+  --color-foreground: #EDEDED;
+  --color-accent: #C8FF00;
+  --color-muted: #999999;
+  --color-surface: #141414;
+  --color-border: #2A2A2A;
+}
 
 /* ── Reset ── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+img, video, svg { display: block; max-width: 100%; height: auto; }
 
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* ── Smooth Scroll (respects reduced motion) ── */
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
-/* ── Selection Styling ── */
-::selection {
-  background: var(--color-accent);
-  color: var(--color-background);
-}
-
-/* ── Focus Visible (accessible) ── */
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* ── Image defaults ── */
-img, video, svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/* ── Body defaults ── */
 body {
   min-height: 100dvh;
   background: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-body);
 }
 
-/* ── GSAP Animation States ── */
-[data-gsap] {
-  opacity: 0;
+/* ── Selection ── */
+::selection { background: var(--color-accent); color: var(--color-background); }
+
+/* ── Focus ── */
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* ── Smooth Scroll ── */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
+
+/* ── GSAP States ── */
+[data-gsap] { opacity: 0; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
 
 /* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
@@ -60,8 +121,5 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-
-  [data-gsap] {
-    opacity: 1;
-  }
+  [data-gsap] { opacity: 1; }
 }

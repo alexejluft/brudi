@@ -1,120 +1,117 @@
 ---
 name: crafting-typography
-description: Use when styling text, headings, or setting up fonts. Prevents fixed px sizes, FOIT/CLS from font loading, flat heading hierarchy, and incorrect spacing — the fastest visual difference between AI-generated and professional design.
+description: Use when styling text, headings, or setting up fonts with Tailwind v4. Prevents fixed px sizes, FOIT/CLS, flat hierarchy, and incorrect spacing.
 ---
 
-# Crafting Typography
+# Crafting Typography (Tailwind v4)
 
 ## The Rule
 
 Fixed `px` font sizes, missing `font-display`, and uniform letter-spacing are the
-three fastest ways to make a design look AI-generated. All three are invisible to
-untrained eyes — but immediately obvious to anyone who's seen good typography.
+three fastest ways to make a design look AI-generated. Tailwind v4 fluid types with
+`@theme` sub-properties solve this.
 
 ---
 
-## Fluid Type Scale
+## Fluid Type Scale with Tailwind v4
 
 ```css
-/* ❌ AI default — breaks on mobile, ignores user preferences */
+/* ❌ AI default — breaks on mobile, ignores zoom */
 h1 { font-size: 48px; }
-body { font-size: 16px; }
 
-/* ✅ Fluid — scales between min and max without media queries */
-h1    { font-size: clamp(2.5rem, 2rem + 3vw, 4rem);       } /* 40–64px */
-h2    { font-size: clamp(1.75rem, 1.5rem + 1.5vw, 2.5rem);} /* 28–40px */
-h3    { font-size: clamp(1.25rem, 1.125rem + 0.75vw, 1.75rem); } /* 20–28px */
-body  { font-size: clamp(1rem, 0.875rem + 0.5vw, 1.125rem); } /* 16–18px */
+/* ✅ Fluid in globals.css via @theme */
+@theme {
+  --text-fluid-display: clamp(3rem, 1rem + 5vw, 8rem);
+  --text-fluid-display--line-height: 0.95;
+  --text-fluid-display--letter-spacing: -0.03em;
+
+  --text-fluid-lg: clamp(1.75rem, 1.5rem + 1.5vw, 2.5rem);
+  --text-fluid-lg--line-height: 1.2;
+  --text-fluid-lg--letter-spacing: -0.01em;
+
+  --text-fluid-base: clamp(1rem, 0.875rem + 0.5vw, 1.125rem);
+  --text-fluid-base--line-height: 1.6;
+}
+
+/* Use: className="text-fluid-display" or "text-fluid-lg" */
 ```
 
-**Always `rem` for min/max** (not `px`) — respects user's browser font size settings.
-**Rule:** H1 should be 2.5–4× body size. Less = flat hierarchy.
+See `~/.brudi/assets/configs/globals.css` for the complete fluid scale.
 
 ---
 
-## Variable Font Loading + Animations
+## Variable Font Loading
 
-**Always use Variable Fonts** (`-Variable.woff2`) — one file covers all weights, and GSAP can animate weight/slant axes in real-time.
+**Always use Variable Fonts** (`-Variable.woff2`) — one file covers all weights.
 
 ```css
-/* ✅ Variable font — font-display: swap prevents FOIT */
-@font-face {
-  font-family: 'Clash Display';
-  src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2');
-  font-weight: 200 700;
-  font-display: swap;
-}
-/* ❌ WRONG: static font files per weight — no animation possible */
+/* ✅ next/font automatically prevents FOIT with font-display: swap */
+/* In lib/fonts.ts with next/font/local */
+
+/* ❌ WRONG: static font files per weight — cannot animate */
 ```
+
+**Brudi ships 5 variable fonts** (`~/.brudi/assets/fonts/woff2/`): Clash Display, Satoshi, etc.
+
+---
+
+## Font Variation Animations with GSAP
 
 ```tsx
-// ✅ GSAP animates font-variation-settings — award-level technique
-// Weight animation on hover (thin → bold)
+// ✅ Animate font-variation-settings on variable fonts
 gsap.to('.headline', {
   fontVariationSettings: '"wght" 700',
   duration: 0.4,
   ease: 'power2.out'
 })
 
-// ✅ Scroll-driven weight: text "grows" as user scrolls in
+// ✅ Scroll-driven: text weight increases as user scrolls
 gsap.to('.hero-title', {
   fontVariationSettings: '"wght" 800',
   scrollTrigger: { trigger: '.hero', start: 'top center', scrub: true }
 })
 
-// ❌ WRONG: static font files → fontVariationSettings has no effect
-// ❌ WRONG: animating font-weight (integer steps only) → use fontVariationSettings
+// ❌ WRONG: animating font-weight (steps only)
+// ❌ WRONG: fontVariationSettings on static fonts
 ```
-
-**Brudi ships 5 variable fonts** (`~/.brudi/assets/fonts/woff2/`). Always prefer these over static alternatives.
-
-> 💡 Asset: `~/.brudi/assets/fonts/FONTS.md` for pairings + setup
 
 ---
 
-## Optical Corrections
+## Optical Corrections with @theme
 
 ```css
-/* Large headlines — always negative letter-spacing */
-h1 {
-  letter-spacing: -0.02em; /* Tighten — default is too loose at large sizes */
-  line-height: 1.1;         /* Tighter line-height for large text */
-  font-weight: 700;
-  font-kerning: auto;
+/* ✅ Sub-properties control line-height & letter-spacing per size */
+@theme {
+  --text-2xl: clamp(1.5rem, 1.375rem + 0.75vw, 2rem);
+  --text-2xl--line-height: 1.3;
+  --text-2xl--letter-spacing: -0.01em;
+
+  --text-sm: clamp(0.875rem, 0.8rem + 0.25vw, 1rem);
+  --text-sm--line-height: 1.5;
+  /* body text: omit letter-spacing adjustment */
 }
 
-h2 { letter-spacing: -0.01em; line-height: 1.2; }
-h3 { letter-spacing: 0;       line-height: 1.3; }
-
-/* All-caps — always positive letter-spacing */
+/* ✅ All-caps always positive tracking */
 .label-caps {
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;   /* Loosen — uppercase is too tight by default */
-  font-weight: 500;          /* Slightly lighter — uppercase reads heavier */
+  font-weight: 500;
 }
 
-/* Body text — never touch letter-spacing */
-body { line-height: 1.6; }  /* 1.5 minimum (WCAG), 1.6–1.7 for comfort */
-p    { max-width: 65ch; }   /* Optimal line length — beyond 75ch = fatigue */
+/* ❌ WRONG: same letter-spacing for all sizes */
+/* ❌ WRONG: positive tracking on body text */
 ```
-
-**Rule:** Negative spacing for headlines. Positive spacing for all-caps.
-**Never adjust letter-spacing on body text** — fonts are already optimized.
-
----
-
-**Line-height:** Always unitless — `h1/h2: 1.1`, `h3/h4: 1.3`, `body: 1.6`, `button: 1.0`.
 
 ---
 
 ## Common Mistakes
 
-| Mistake | Visual Result | Fix |
-|---------|--------------|-----|
-| Fixed `px` font sizes | Breaks on mobile, ignores zoom | `clamp(rem, rem + vw, rem)` |
-| No `font-display: swap` | Text invisible 2–3s on slow connections | Add `font-display: swap` |
-| No `preload` for fonts | Late font discovery, layout shift | `<link rel="preload">` in `<head>` |
-| Flat heading scale (H1=48, H2=36, H3=24) | All levels look the same | Min 1.5× ratio between levels |
-| No letter-spacing on headlines | "Gestaucht", template look | `-0.01em` to `-0.03em` on H1/H2 |
-| Uppercase without tracking | Cramped, hard to read | `+0.06em` to `+0.1em` for all-caps |
-| `line-height` same everywhere | Headlines feel disconnected | 1.1 for H1, 1.6 for body |
+| Mistake | Fix |
+|---------|-----|
+| Fixed `px` font sizes | Use `clamp()` in `@theme` with `--text-*` |
+| No `font-display: swap` | `next/font` handles this automatically |
+| Flat heading scale | Sub-properties: `--text-2xl--line-height: 1.3` |
+| No letter-spacing on headlines | `-0.01em` to `-0.03em` via `--text-*--letter-spacing` |
+| Same spacing everywhere | H1: 0.95, H2: 1.2, body: 1.6 line-height |
+| Uppercase too tight | `+0.06em` to `+0.1em` for all-caps only |
+| Static fonts | Use `-Variable.woff2` for GSAP animations |

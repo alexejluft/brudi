@@ -80,7 +80,7 @@ Der Agent liest automatisch deine `CLAUDE.md`, findet Brudi und fängt an zu arb
 
 🎬 **Animations-Bausteine** — GSAP, Framer Motion und Web Animations Techniken
 
-⚙️ **Konfigurationen** — Tailwind Setup, Design Tokens, CSS und JavaScript Grundlagen
+⚙️ **Konfigurationen** — Tailwind v4 globals.css template, Design Tokens, CSS und JavaScript Grundlagen
 
 ---
 

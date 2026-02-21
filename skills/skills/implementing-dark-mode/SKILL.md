@@ -1,27 +1,22 @@
 ---
 name: implementing-dark-mode
-description: Use when adding dark mode to Next.js applications with next-themes and Tailwind CSS. Prevents flash of wrong theme, hydration mismatches, and inconsistent theming.
+description: Use when adding dark mode to Next.js with next-themes and Tailwind CSS v4. Prevents flash of wrong theme, hydration mismatches, and inconsistent theming.
 ---
-
 # Implementing Dark Mode
-
-## The Rule
-
-**next-themes with `attribute="class"`. `suppressHydrationWarning` on `<html>`. Guard `useTheme` with mounted check. Use Tailwind `dark:` variant.**
-
+**next-themes with `attribute="class"`. `suppressHydrationWarning` on `<html>`. `@custom-variant dark` in CSS v4. Guard `useTheme` with mounted check.**
 ---
 
-## ThemeProvider Setup
+## ThemeProvider Setup (Next.js v4)
 
 ```tsx
-// ✅ Correct: app/layout.tsx
+// ✅ Correct: app/layout.tsx with Tailwind v4
 import { ThemeProvider } from 'next-themes'
 
 export default function RootLayout({ children }) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" className={`${fonts}`} suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {children}
         </ThemeProvider>
       </body>
@@ -30,16 +25,24 @@ export default function RootLayout({ children }) {
 }
 
 // ❌ WRONG: No suppressHydrationWarning → hydration mismatch warnings
-// ❌ WRONG: No enableSystem → ignores user's OS preference
+// ❌ WRONG: Using darkMode config in tailwind.config.ts (doesn't exist in v4)
 ```
 
 ---
 
-## CSS Custom Properties (globals.css)
+## Dark Mode Variant (@custom-variant in CSS)
 
 ```css
-/* ✅ Correct: Tokens for both themes */
-:root {
+/* ✅ Correct: globals.css with Tailwind v4 */
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *)) {
+  @media (prefers-color-scheme: dark) {
+    @slot;
+  }
+}
+
+@theme {
   --color-background: #ffffff;
   --color-foreground: #1f2937;
   --color-surface: #f9fafb;
@@ -53,17 +56,26 @@ export default function RootLayout({ children }) {
   --color-border: #334155;
 }
 
-/* ❌ WRONG: Hardcoded bg-white/bg-black everywhere instead of tokens */
+/* ❌ WRONG: darkMode: 'class' in tailwind.config.ts (v3 syntax) */
+/* ❌ WRONG: Hardcoded bg-white/bg-black instead of tokens */
 ```
 
 ---
 
-## Tailwind dark: Variant
+## Usage with Dark Mode
 
 ```tsx
-// ✅ Use dark: prefix — Tailwind handles everything
-<div className="bg-white dark:bg-slate-950 text-gray-900 dark:text-gray-100">Content</div>
-// ❌ WRONG: Manual className={theme === 'dark' ? 'bg-black' : 'bg-white'}
+/* ✅ Use dark: prefix with token-backed classes */
+<div className="bg-background text-foreground dark:bg-background dark:text-foreground">
+  Content auto-adapts when .dark class is added
+</div>
+
+/* Or with component tokens */
+<button className="bg-accent dark:bg-accent text-surface dark:text-foreground">
+  Theme switching works automatically
+</button>
+
+/* ❌ WRONG: Manual className={theme === 'dark' ? 'bg-black' : 'bg-white'} */
 ```
 
 ---
@@ -95,23 +107,13 @@ export function ThemeToggle() {
 
 ---
 
-## Image Handling
-
-```tsx
-// ✅ CSS filter for icons, or <picture> for logos
-<img src="/icon.svg" className="dark:invert" alt="Icon" />
-// ❌ WRONG: Single light-only image → invisible in dark mode
-```
-
----
-
 ## Common Mistakes
 
 | Mistake | Fix |
 |---------|-----|
-| No `suppressHydrationWarning` | Add to `<html>` element |
-| Flash of wrong theme (FOUC) | next-themes injects script before render |
-| No system preference detection | `enableSystem={true}` in ThemeProvider |
-| Hardcoded colors in components | Use Tailwind `dark:` variant or CSS tokens |
+| Setting `darkMode` in tailwind.config.ts | Use `@custom-variant dark` in CSS v4 |
+| No `suppressHydrationWarning` on `<html>` | Add to prevent mismatch warnings |
+| Flash of unstyled content (FOUC) | next-themes injects script before render |
+| Hardcoded colors instead of tokens | Define in `:root`/`.dark`, use via `@theme` |
 | `useTheme` without mounted check | Guard with `useState` + `useEffect` |
-| Theme in Server Components | Mark theme-dependent components `'use client'` |
+| Using Tailwind `dark:` without variant defined | Define `@custom-variant dark` first |

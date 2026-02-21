@@ -9,8 +9,7 @@
 
 ## Configs (`./configs/`)
 - **design-tokens.css** — CSS custom properties (colors, spacing, transitions)
-- **tailwind-preset.ts** — Fluid typography, breakpoints, z-index, easings
-- **globals.css** — CSS reset, [data-gsap] states, reduced-motion, focus styles
+- **globals.css** — Tailwind v4 template with @theme blocks, CSS reset, [data-gsap] states, reduced-motion, focus styles
 - **next-intl-v4.ts** — next-intl v4 config template (routing, middleware, layout)
 - **gsap-snippets.ts** — 10 GSAP animation techniques (scroll, parallax, split-text, magnetic...)
 - **framer-motion-snippets.ts** — 10 Framer Motion techniques (layout, gestures, AnimatePresence...)
@@ -30,13 +29,18 @@
 - GDPR/DSGVO compliant
 - 📌 Load when: Building legal pages (Phase 2-3)
 
+## Templates (`./templates/`)
+- **CLAUDE.md** — Project context template
+- **CLAUDE.example.md** — Example with Forma Studio
+- **settings.json** — Bash permissions template for ~/.claude/settings.json (use if Bash commands are blocked)
+
 ## Quick Decision Table
 
 | Project Type | Load at Start | Load Later |
 |---|---|---|
-| Landing Page | fonts, design-tokens, globals, tailwind-preset | gsap-snippets, i18n, legal |
-| SaaS App | fonts, design-tokens, globals, tailwind-preset | framer-motion-snippets, i18n |
-| Multi-lang Site | fonts, design-tokens, globals, tailwind-preset, i18n | gsap-snippets, legal |
+| Landing Page | fonts, design-tokens, globals | gsap-snippets, i18n, legal |
+| SaaS App | fonts, design-tokens, globals | framer-motion-snippets, i18n |
+| Multi-lang Site | fonts, design-tokens, globals, i18n | gsap-snippets, legal |
 
 ## Usage Pattern
 1. Copy asset to project: `cp ./configs/design-tokens.css src/styles/`

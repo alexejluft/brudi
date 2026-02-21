@@ -13,7 +13,7 @@ The agent reads INDEX.md once at project start (~50 lines), then loads specific 
 
 ## Asset Directories
 - `/fonts/` — Variable font pairings with next/font setup
-- `/configs/` — Design tokens, Tailwind presets, animation snippets
+- `/configs/` — Design tokens, Tailwind v4 globals.css template, animation snippets
 - `/i18n/` — Pre-translated UI strings (6 languages)
 - `/legal/` — GDPR-compliant legal templates (6 languages)
 

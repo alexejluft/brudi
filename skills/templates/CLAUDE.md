@@ -60,7 +60,7 @@ Lies `~/.brudi/assets/INDEX.md` für verfügbare Assets, dann die Skills die zur
   Ändere nur etwas wenn du weißt was du tust.
 -->
 
-- **Framework:** Next.js 14+ App Router
+- **Framework:** Next.js (App Router)
 - **Sprache:** TypeScript (strict mode)
 - **Styling:** Tailwind CSS
 - **Animationen:** GSAP + Lenis (Smooth Scroll)

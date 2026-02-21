@@ -41,7 +41,7 @@ Luxury Brands, innovative Startups und Tech-Unternehmen die nach Premium Creativ
 
 ## Tech Stack
 
-- **Framework:** Next.js 14+ App Router
+- **Framework:** Next.js (App Router)
 - **Sprache:** TypeScript (strict mode)
 - **Styling:** Tailwind CSS
 - **Animationen:** GSAP + Lenis (Smooth Scroll)
