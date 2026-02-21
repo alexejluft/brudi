@@ -88,6 +88,7 @@ before working on that domain.**
 - `making-tech-decisions` — State management, rendering strategy, abstractions, bundle size
 
 ### Award-Level Craft
+- `designing-award-layouts` — 8pt spacing system, dark theme layering, mobile-first composition, visual hierarchy, motion timing, Unsplash placeholders
 - `designing-with-perception` — Human perception, fluid type, contrast
 - `designing-for-mobile` — Touch targets, thumb zones, safe areas
 - `handling-ui-states` — All 4 states, skeleton, form states
@@ -108,7 +109,7 @@ before working on that domain.**
 - `designing-saas-ux` — Onboarding flow, pricing tiers, empty states, settings architecture
 
 ### Alex's Workflow
-- `starting-a-project` — PRD → stack → structure → first screen
+- `starting-a-project` — PRD → stack → structure → first screen, Unsplash placeholder rule
 
 ---
 

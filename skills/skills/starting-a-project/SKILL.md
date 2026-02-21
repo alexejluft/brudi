@@ -126,6 +126,31 @@ This validates the architecture with real UI before it's too late to change.
 
 ---
 
+## Step 6: Placeholder Images — Never Empty, Never Grey
+
+When no real images are provided, the site must still be evaluable from the first build. Grey rectangles and `<div>` placeholders block design judgment.
+
+**Use specific Unsplash photo URLs — not random:**
+
+```html
+<!-- CORRECT — specific photo ID, consistent across reloads -->
+<img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1920&h=1080&fit=crop&q=80" />
+
+<!-- WRONG — deprecated API, changes on reload, can't evaluate design -->
+<img src="https://source.unsplash.com/random/1920x1080?architecture" />
+```
+
+**URL pattern:**
+```
+https://images.unsplash.com/photo-[PHOTO_ID]?w=[WIDTH]&h=[HEIGHT]&fit=crop&q=80
+```
+
+**Process:** Search unsplash.com → find a thematic photo → copy its ID from the URL → construct the direct image URL.
+
+Hotlinking Unsplash is permitted for demos and non-commercial projects.
+
+---
+
 ## Alex's Non-Negotiables
 
 Every project starts with these in place:
@@ -136,6 +161,7 @@ Every project starts with these in place:
 - [ ] `.env.local` template committed (without values)
 - [ ] Supabase project created if needed
 - [ ] Mobile-first mindset confirmed — first breakpoint is phone
+- [ ] Placeholder images: specific Unsplash photo URLs, not grey boxes
 
 ---
 

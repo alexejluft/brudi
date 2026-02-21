@@ -71,7 +71,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Skills (27 total)
+## Skills (28 total)
 
 ### Foundation
 
@@ -104,6 +104,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 | Skill | Use When |
 |-------|----------|
+| `designing-award-layouts` | 8pt spacing, dark theme layers, mobile-first, visual hierarchy, motion system |
 | `designing-with-perception` | Human perception, fluid typography, contrast |
 | `designing-for-mobile` | Touch targets, thumb zones, safe areas |
 | `handling-ui-states` | Loading/Error/Empty/Content — all 4 states |
@@ -151,7 +152,7 @@ See [docs/philosophy.md](docs/philosophy.md)
 
 ## Status
 
-**v0.14.0** — 27 skills across 8 categories, all evidence-based with pressure tests.
+**v0.15.0** — 28 skills across 8 categories, all evidence-based with pressure tests.
 
 ## License
 
