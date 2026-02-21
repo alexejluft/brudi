@@ -5,6 +5,23 @@ description: Use at the very beginning of any new project — website, app, or S
 
 # Starting a Project
 
+## STOP — Ask First, Build Second
+
+**If the user has not answered all four questions below, do not write a single line of code. Ask them first.**
+
+```
+1. What is this product / website? (topic, name, purpose)
+2. Who is the target audience? (and what device do they use?)
+3. What pages / screens are needed?
+4. What is the design direction? (style, color, references, animations)
+```
+
+A one-sentence command like "build the Luma Studio website" is NOT enough information to start. Stop and ask.
+
+**Only proceed when you have answers to all four questions.**
+
+---
+
 ## The Order of Operations
 
 **Wrong order = expensive corrections later. Always follow this sequence.**

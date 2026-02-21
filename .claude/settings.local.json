@@ -1,10 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git commit -m \"$(cat <<''EOF''\nv0.14.0 — designing-saas-ux skill\n\nNeuer Skill: designing-saas-ux\n- Onboarding: Value vor Friction — CC-Gate entfernen, Demo-Daten sofort, Magic Link\n- Pricing: 3 Tiers statt 5, von teuer nach günstig, ein visuell hervorgehobener Tier\n- Empty States: Illustration + Beschreibung + CTA — nie blanke \"Keine Daten\" Screens\n- Settings: Account (User) vs Workspace (Org) klar trennen, RBAC, Billing unter Workspace\n\nPressure Test: 4 Szenarien (Samuel Hulick UserOnboard, Patrick Campbell ProfitWell,\nShopify Polaris, Material Design, Linear Docs, Stripe Docs, Nielsen Norman Group)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(curl:*)",
-      "Bash(sh)",
-      "Bash(sh:*)"
+      "Bash(git commit -m \"$(cat <<''EOF''\nfix: starting-a-project — hard STOP rule before building\n\nAgent darf NICHT bauen bevor 4 Fragen beantwortet sind:\n1. Was ist das Produkt?\n2. Wer ist die Zielgruppe?\n3. Welche Seiten werden gebraucht?\n4. Design-Richtung, Referenzen, Animationen?\n\nKurze Befehle wie \"baue X\" reichen nicht aus — Agent muss stoppen und fragen.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []
