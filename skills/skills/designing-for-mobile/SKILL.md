@@ -68,15 +68,38 @@ input, textarea, select { font-size: 1rem; } /* iOS zooms if < 16px */
 .fixed-top    { padding-top: max(16px, env(safe-area-inset-top)); }
 ```
 
-## Checklist
+## Mobile Navigation (Hamburger Menu)
 
-- [ ] All tap targets ≥ 48×48px
-- [ ] Primary actions in bottom thumb zone
-- [ ] Visible `:active` feedback on every interactive element
-- [ ] Inputs `font-size: 1rem` minimum (prevents iOS zoom)
-- [ ] Safe area insets on all fixed elements
-- [ ] Parallax and cursor effects disabled on touch devices
-- [ ] No horizontal scroll
+**Every multi-page site needs mobile nav. Desktop nav hidden, hamburger shown below `md`.**
+
+```tsx
+// ✅ Hamburger pattern — 48px tap target, ARIA labels, body scroll lock
+const [open, setOpen] = useState(false)
+useEffect(() => {
+  document.body.style.overflow = open ? 'hidden' : ''
+  return () => { document.body.style.overflow = '' }
+}, [open])
+
+<button onClick={() => setOpen(!open)} className="md:hidden w-12 h-12 flex items-center
+  justify-center" aria-label={open ? 'Close menu' : 'Open menu'}>
+  {open ? <X size={24} /> : <Menu size={24} />}
+</button>
+
+{open && (
+  <nav className="fixed inset-0 z-40 bg-background flex flex-col items-center
+    justify-center gap-8 text-2xl">
+    {links.map(link => (
+      <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
+        {link.label}
+      </Link>
+    ))}
+  </nav>
+)}
+// ❌ WRONG: no mobile nav → links inaccessible on phones
+// ❌ WRONG: hamburger < 48px → fails tap target rule
+```
+
+Close menu on: route change, escape key, outside click. Animate with GSAP clipPath or opacity.
 
 ## Common Mistakes
 
@@ -87,3 +110,5 @@ input, textarea, select { font-size: 1rem; } /* iOS zooms if < 16px */
 | Parallax everywhere | Janky on mobile | `(hover: none)` guard |
 | `font-size: 14px` on inputs | iOS zooms in | `font-size: 1rem` |
 | No safe area padding | Content behind notch | `env(safe-area-inset-*)` |
+| No mobile hamburger menu | Nav links inaccessible | Hamburger below `md` breakpoint |
+| Menu stays open after nav | Stuck on overlay | Close on route change + escape |

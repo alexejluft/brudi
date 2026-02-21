@@ -1,104 +1,109 @@
 ---
 name: implementing-i18n
-description: Use when building multilingual Next.js applications with next-intl. Prevents hardcoded strings, broken locale routing, and missing SEO for international audiences.
+description: Use when building multilingual Next.js applications with next-intl v4+. Prevents hardcoded strings, broken locale routing, and missing SEO for international audiences.
 ---
 
 # Implementing i18n
 
 ## The Rule
 
-**next-intl for App Router. Middleware detects locale. `useTranslations` in Client, `getTranslations` in Server Components. Same keys in every locale file.**
+**next-intl v4+ for App Router. `i18n/request.ts` provides config. Middleware detects locale. `params` is always awaited. `useTranslations` Client, `getTranslations` Server.**
 
 ---
 
-## Middleware: Locale Detection
+## 1 — Setup: Three Required Files
 
 ```tsx
-// ✅ Correct: middleware.ts
-import createMiddleware from 'next-intl/middleware'
-export default createMiddleware({
-  locales: ['en', 'de', 'fr'],
-  defaultLocale: 'en',
-  localePrefix: 'always'
+// ✅ src/i18n/config.ts
+export const locales = ['en', 'de', 'fr'] as const
+export type Locale = (typeof locales)[number]
+export const defaultLocale: Locale = 'en'
+// ✅ src/i18n/request.ts — v4 REQUIRED
+import { getRequestConfig } from 'next-intl/server'
+import { locales, defaultLocale } from './config'
+export default getRequestConfig(async ({ requestLocale }) => {
+  let locale = await requestLocale
+  if (!locale || !locales.includes(locale as any)) locale = defaultLocale
+  return { locale, messages: (await import(`../../messages/${locale}.json`)).default }
 })
-export const config = { matcher: ['/((?!_next|api).*)'] }
 
-// ❌ WRONG: No middleware → locale detection fails, all users see defaultLocale
+// ✅ next.config.mjs — plugin points to request.ts
+import createNextIntlPlugin from 'next-intl/plugin'
+export default createNextIntlPlugin('./src/i18n/request.ts')({ /* config */ })
+// ❌ v3 BROKEN: no request.ts, no plugin — translations silently empty
 ```
 
 ---
 
-## Message Files
-
-```json
-// ✅ messages/en.json — identical keys across all locales
-{ "homepage": { "title": "Welcome", "cta": "Get started" },
-  "common": { "nav": { "home": "Home", "about": "About" } } }
-
-// ✅ messages/de.json
-{ "homepage": { "title": "Willkommen", "cta": "Loslegen" },
-  "common": { "nav": { "home": "Start", "about": "Über uns" } } }
-
-// ❌ WRONG: en.json has "title" but de.json has "heading" → runtime error
-```
-
----
-
-## Translations: Client vs Server
+## 2 — Middleware (v4 Syntax)
 
 ```tsx
-// ✅ Client Component: useTranslations hook
-'use client'
-import { useTranslations } from 'next-intl'
-export default function Hero() {
-  const t = useTranslations('homepage')
-  return <h1>{t('title')}</h1>
-}
-
-// ✅ Server Component: getTranslations (async)
-import { getTranslations } from 'next-intl/server'
-export default async function About() {
-  const t = await getTranslations('about')
-  return <h1>{t('title')}</h1>
-}
-// ❌ WRONG: useTranslations in Server Components, or hardcoded strings
+// ✅ middleware.ts — localePrefix is OBJECT in v4, not string
+import createMiddleware from 'next-intl/middleware'
+import { locales, defaultLocale } from '@/i18n/config'
+export default createMiddleware({
+  locales, defaultLocale,
+  localePrefix: { mode: 'always' }   // ← v4: object, NOT string 'always'
+})
+export const config = { matcher: ['/((?!_next|api|favicon.ico).*)'] }
+// ❌ v3 BROKEN: localePrefix: 'always' → TypeError in v4
 ```
-
 ---
-
-## Dynamic Locale Layout
+## 3 — Layout: Params is Promise in v4
 
 ```tsx
 // ✅ app/[locale]/layout.tsx
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-const locales = ['en', 'de', 'fr']
-const rtlLocales = ['ar', 'he']
-
-export default function LocaleLayout({ children, params: { locale } }) {
-  if (!locales.includes(locale)) notFound()
-  const dir = rtlLocales.includes(locale) ? 'rtl' : 'ltr'
-  return <html lang={locale} dir={dir}><body>{children}</body></html>
+import { locales } from '@/i18n/config'
+type Props = { children: React.ReactNode; params: Promise<{ locale: string }> }
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params            // ← v4: MUST await
+  if (!locales.includes(locale as any)) notFound()
+  setRequestLocale(locale)
+  const messages = await getMessages()
+  return (
+    <html lang={locale}><body>
+      <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+    </body></html>
+  )
 }
-
-// ❌ WRONG: No notFound() check → invalid locales render without error
+export function generateStaticParams() { return locales.map((l) => ({ locale: l })) }
+// ❌ v3 BROKEN: params: { locale } without await → build error
+// ❌ v3 BROKEN: no NextIntlClientProvider → client translations undefined
 ```
-
 ---
-
-## Formatting + SEO
+## 4 — Translations + Messages
 
 ```tsx
-// ✅ Use Intl API — never manual formatting
-new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(29.99) // "29,99 €"
-new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(new Date())
-// ❌ WRONG: `${amount.toFixed(2)}€` — ignores locale rules
+// ✅ Client: useTranslations       ✅ Server: getTranslations (async)
+'use client'
+import { useTranslations } from 'next-intl'
+function Hero() { const t = useTranslations('home'); return <h1>{t('title')}</h1> }
 
-// ✅ hreflang in generateMetadata
-export async function generateMetadata({ params: { locale } }) {
-  const t = await getTranslations('homepage')
-  return { title: t('title'), alternates: { languages: { en: '/en', de: '/de', 'x-default': '/en' } } }
+import { getTranslations } from 'next-intl/server'
+async function About() { const t = await getTranslations('about'); return <h1>{t('title')}</h1> }
+// ❌ useTranslations in Server Component → hook error
+```
+
+```json
+// ✅ messages/en.json — identical keys in ALL locale files
+{ "common": { "nav": { "home": "Home", "about": "About" } },
+  "home": { "title": "Welcome", "cta": "Get started" } }
+```
+ASCII quotes `"` only (typographic `""` → JSON parse error). Identical keys across all locales.
+---
+## 5 — SEO: hreflang
+
+```tsx
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations('home')
+  return { title: t('title'), alternates: { languages: Object.fromEntries(
+    locales.map(l => [l, `/${l}`])
+  )}}
 }
-// ❌ WRONG: No hreflang → duplicate content penalty
 ```
 
 ---
@@ -107,10 +112,9 @@ export async function generateMetadata({ params: { locale } }) {
 
 | Mistake | Fix |
 |---------|-----|
-| Hardcoded strings | `useTranslations()` / `getTranslations()` for all text |
-| No middleware | `createMiddleware()` with locales + matcher |
-| `useTranslations` in Server Component | Use `getTranslations()` (async) server-side |
-| Inconsistent keys across locales | Maintain identical structure in all JSON files |
-| No hreflang tags | `alternates.languages` in `generateMetadata` |
-| Manual date/currency formatting | Use `Intl.NumberFormat` / `Intl.DateTimeFormat` |
-| No RTL support | Set `dir="rtl"` on `<html>` for RTL locales |
+| No `i18n/request.ts` | v4 required — `getRequestConfig` with `requestLocale` |
+| `localePrefix: 'always'` (string) | v4: object `{ mode: 'always' }` |
+| `params: { locale }` without await | v4: Promise — always `await params` |
+| No `NextIntlClientProvider` | Wrap layout children — client needs it |
+| Typographic quotes `""` in JSON | ASCII `"` only — breaks JSON.parse |
+| No `setRequestLocale()` | Required for static rendering |

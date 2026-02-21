@@ -14,14 +14,17 @@ description: Use when implementing a cohesive brand identity system in code. Ens
 ## Typography System
 
 ```tsx
-// ✅ Correct: next/font with CSS variables — zero FOUT
+// ✅ next/font with CSS variables — zero FOUT
+// Google Fonts:
 import { Inter, Playfair_Display } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
+// Fontshare / local fonts (Clash Display, Satoshi, etc.):
+import localFont from 'next/font/local'
+const display = localFont({ src: './fonts/ClashDisplay-Variable.woff2', variable: '--font-display' })
 
 export default function Layout({ children }) {
   return (
-    <html className={`${inter.variable} ${playfair.variable}`}>
+    <html className={`${inter.variable} ${display.variable}`}>
       <body className="font-sans">{children}</body>
     </html>
   )
@@ -58,11 +61,12 @@ body { font: 400 1rem/1.6 var(--font-inter); }
   /* State — derived from brand */
   --color-hover: rgba(0, 82, 204, 0.08);
   --color-focus-ring: 0 0 0 3px rgba(0, 82, 204, 0.2);
-  --color-disabled: #9CA3AF;
 }
 
-/* ❌ WRONG: Hardcoded hex in components, different formats everywhere */
-/* button { background: #0052CC; } card { background: rgb(0,82,204); } */
+/* ✅ Accent contrast: if accent is neon/bright, provide dark variant for light backgrounds */
+.dark  { --color-accent: #C8FF00; }           /* neon on dark = fine */
+:root  { --color-accent: #8AB200; }           /* darkened on light = readable */
+/* ❌ WRONG: same neon accent on white background → illegible text (fails WCAG AA) */
 ```
 
 ---
@@ -107,8 +111,8 @@ button:focus-visible { outline: 2px solid var(--color-brand-primary); outline-of
 | Mistake | Fix |
 |---------|-----|
 | Font FOUT / layout shift | `next/font` with `variable`, preload critical |
-| No type hierarchy | Define scale with consistent ratios (1.2x/1.25x) |
 | Scattered color values | Single source: CSS custom properties |
+| Neon accent on light background | Provide darkened `--color-accent` for light mode |
 | Random spacing values | 8px grid, token-based spacing only |
 | Brand missing from errors/empty | Apply brand colors to ALL UI states |
 | No hover/focus states | Define transition + ring for every interactive |

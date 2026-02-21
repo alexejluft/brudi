@@ -1,223 +1,110 @@
 ---
 name: starting-a-project
-description: Use at the very beginning of any new project — website, app, or SaaS. Defines the correct order of decisions before writing a single line of code. Skipping this order creates technical debt from day one.
+description: Use at the very beginning of any new project. Defines questions to ask, stack decisions, folder structure, and phase communication rules. Skipping this creates technical debt from day one.
 ---
 
 # Starting a Project
 
 ## STOP — Ask First, Build Second
 
-**If the user has not answered all four required questions below, do not write a single line of code. Ask them first.**
+**If the user has not answered all four required questions, do not write a single line of code.**
 
 ```
-Required — cannot build without these:
+Required — cannot build without:
 1. What is this product / website? (topic, name, purpose)
-2. Who is the target audience? (and what device do they use?)
+2. Who is the target audience? (and what device?)
 3. What pages / screens are needed?
 4. What is the design direction? (style, color, references, animations)
 ```
 
 A one-sentence command like "build the Luma Studio website" is NOT enough. Stop and ask all four.
 
-**Once required questions are answered, ask these optional questions before writing code:**
+**Optional — propose defaults, let user decide:**
 
 ```
-Optional — propose defaults, let user decide:
 5. Hero style: large background image or typographic headline?
-   Default: ask, because it defines the entire above-the-fold experience.
-
-6. Preloader: should the site have a loading screen before content appears?
-   Default: No. Only if the user confirms.
-
-7. Dark/Light mode:
-   - SaaS / App → always offer both. Users spend hours in the product.
-   - Portfolio / Agency / Brand site → ask. Dark may be the brand, not a mode.
-   - Content / Blog → follow system preference (prefers-color-scheme), no toggle needed.
-
-8. Legal pages (for German/EU sites — mandatory):
-   - Impressum (required for every commercial website in Germany)
-   - Datenschutzerklärung / Privacy Policy (required under GDPR)
-   - Cookie banner (required if using Analytics, Fonts, embeds, tracking)
-   Default: Always generate placeholder Impressum + Privacy pages.
-   Load the `building-legal-pages` skill for correct implementation.
-
-9. Page transitions: how should pages transition?
-   - Option A: Astro View Transitions (native, no extra library)
-   - Option B: GSAP-based custom transition (more control, premium feel)
-   Default: Ask. Load `building-page-transitions` skill for implementation.
-```
-
-**Only proceed when you have answers to all required questions.**
-
----
-
-## The Order of Operations
-
-**Wrong order = expensive corrections later. Always follow this sequence.**
-
-```
-1. Understand the goal       (what problem does this solve?)
-2. Define the user           (who uses this, on what device?)
-3. Choose the stack          (based on requirements, not habit)
-4. Plan the structure        (folders, data model, routes)
-5. Set up quality gates      (linting, formatting, types)
-6. Build the first screen    (not the most complex — the most used)
+6. Preloader: loading screen before content? Default: No.
+7. Dark/Light mode: SaaS → both. Portfolio → ask. Blog → system preference.
+8. Legal pages (DE/EU): Always generate. Load `building-legal-pages` skill.
+9. Page transitions: GSAP-based or CSS. Load `building-page-transitions` skill.
 ```
 
 ---
 
-## Step 1: Understand Before Building
+## Phase Communication — Never Leave Users in the Dark
 
-Before any code, answer these:
+When working in phases, the user does not know your roadmap. Unfinished pages look like bugs.
 
+**Rule 1: After each phase → brief status report:**
 ```
-- What is the ONE thing this product does?
-- Who is the primary user? What device do they use?
-- What does success look like? (metric, feeling, behavior)
-- What is the MVP? What is NOT the MVP?
+✅ Built: Homepage, Header, Footer, Dark Mode, Design Tokens
+⏳ Placeholder: Legal pages (structure ready, client data needed)
+🔜 Next phase: Case study pages, animations, contact form
 ```
 
-A PRD (Product Requirements Document) answers these. If there is no PRD, write one first — even one page.
+**Rule 2: Unfinished pages get a visible Dev Banner:**
+```tsx
+// ✅ components/ui/dev-banner.tsx — shows in development only
+export function DevBanner({ phase, note }: { phase: number; note: string }) {
+  if (process.env.NODE_ENV === 'production') return null
+  return (
+    <div className="fixed bottom-4 right-4 z-50 bg-yellow-200 dark:bg-yellow-900
+      text-yellow-900 dark:text-yellow-200 px-4 py-2 rounded-lg text-sm shadow-lg">
+      Phase {phase} — {note}
+    </div>
+  )
+}
+// ❌ WRONG: empty pages with no explanation → user thinks it's broken
+```
 
-**Red flag:** Starting to code before these are answered = building the wrong thing correctly.
+**Rule 3: Missing content uses `<Placeholder>` component (see `building-legal-pages`).**
 
 ---
 
-## Step 2: Stack Decision
+## Stack + Structure
 
-```
-Is it content-heavy with little interactivity?
-  → Astro (fastest, best SEO, ships zero JS by default)
-
-Is it a full app with auth, data, user state?
-  → Next.js App Router (RSC, API routes, Supabase integration)
-
-Is it a highly interactive single-page experience?
-  → Vite + React (no SSR overhead)
-```
-
-**Styling:** Tailwind CSS always. No CSS-in-JS, no styled-components.
-**Animation:** GSAP for complex scroll/sequences. Framer Motion for component transitions.
-**Database/Auth:** Supabase. No custom auth.
-**Deployment:** Vercel (frontend). Supabase handles backend.
-
----
-
-## Step 3: Project Structure
+**Stack:** Next.js App Router (content + apps), Tailwind CSS, GSAP, Supabase, Vercel. Vite + React only for pure SPAs.
 
 ```
 src/
 ├── app/              ← Next.js App Router pages
-│   ├── (auth)/       ← Route groups (no URL segment)
-│   └── (dashboard)/
+│   └── [locale]/     ← i18n locale routing
 ├── components/
-│   ├── ui/           ← Primitive components (Button, Input, Card)
-│   └── features/     ← Feature-specific (DashboardHeader, InvoiceList)
-├── lib/
-│   ├── supabase/     ← Supabase client + queries
-│   └── utils/        ← Pure utility functions
-├── hooks/            ← Custom React hooks
-├── types/            ← TypeScript types and interfaces
-└── styles/           ← Global CSS, Tailwind config
+│   ├── ui/           ← Reusable (Button, Input, Placeholder, DevBanner)
+│   └── features/     ← Page-specific (HeroSection, ServiceGrid)
+├── lib/              ← Utilities, constants, Supabase client
+├── hooks/            ← Custom React hooks (useGSAP, useMediaQuery)
+├── i18n/             ← config.ts + request.ts (see implementing-i18n)
+├── types/            ← TypeScript interfaces
+└── styles/           ← globals.css with design tokens
 ```
 
-**Rules:**
-- `components/ui/` = reusable, no business logic
-- `components/features/` = business-aware, not reusable
-- Business logic never in UI components — belongs in `hooks/` or `lib/`
+`ui/` = reusable, no business logic. `features/` = page-aware, not reusable.
+**Day one:** TypeScript `"strict": true`, Tailwind configured, `.env.example` committed.
 
 ---
 
-## Step 4: Quality Gates (Set Up Day One)
+## Placeholder Images
 
-```json
-// package.json — non-negotiable setup
-{
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "type-check": "tsc --noEmit",
-    "lint": "eslint . --ext .ts,.tsx"
-  }
-}
-```
-
-```json
-// tsconfig.json — strict mode always
-{
-  "compilerOptions": {
-    "strict": true,
-    "noUncheckedIndexedAccess": true
-  }
-}
-```
-
-**Rule:** TypeScript strict mode from day one. Turning it on later is painful.
-
----
-
-## Step 5: First Screen — Not First Feature
-
-Build the most-used screen first, not the most complex.
+Never grey boxes. Use specific Unsplash photo URLs:
 
 ```
-❌ Wrong: Start with admin dashboard (complex, rarely used)
-✅ Right: Start with the main user flow (what they do every day)
-
-❌ Wrong: Build auth before the core feature
-✅ Right: Build core feature with mock data, add auth after
+✅ https://images.unsplash.com/photo-[ID]?w=1920&h=1080&fit=crop&q=80
+❌ https://source.unsplash.com/random/1920x1080 (deprecated, inconsistent)
 ```
 
-This validates the architecture with real UI before it's too late to change.
-
----
-
-## Step 6: Placeholder Images — Never Empty, Never Grey
-
-When no real images are provided, the site must still be evaluable from the first build. Grey rectangles and `<div>` placeholders block design judgment.
-
-**Use specific Unsplash photo URLs — not random:**
-
-```html
-<!-- CORRECT — specific photo ID, consistent across reloads -->
-<img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1920&h=1080&fit=crop&q=80" />
-
-<!-- WRONG — deprecated API, changes on reload, can't evaluate design -->
-<img src="https://source.unsplash.com/random/1920x1080?architecture" />
-```
-
-**URL pattern:**
-```
-https://images.unsplash.com/photo-[PHOTO_ID]?w=[WIDTH]&h=[HEIGHT]&fit=crop&q=80
-```
-
-**Process:** Search unsplash.com → find a thematic photo → copy its ID from the URL → construct the direct image URL.
-
-Hotlinking Unsplash is permitted for demos and non-commercial projects.
-
----
-
-## Alex's Non-Negotiables
-
-Every project starts with these in place:
-
-- [ ] TypeScript strict mode enabled
-- [ ] Tailwind CSS configured
-- [ ] Folder structure from Step 3 created (even if empty)
-- [ ] `.env.local` template committed (without values)
-- [ ] Supabase project created if needed
-- [ ] Mobile-first mindset confirmed — first breakpoint is phone
-- [ ] Placeholder images: specific Unsplash photo URLs, not grey boxes
+Search unsplash.com → find thematic photo → copy ID → construct URL. If image 404s, pick a different photo — Unsplash IDs can expire.
 
 ---
 
 ## Common Mistakes
 
-| Mistake | Cost | Fix |
-|---------|------|-----|
-| No PRD before coding | Build the wrong thing | One-page PRD first, always |
-| Copy-paste folder structure from last project | Wrong architecture for this product | Design structure for THIS project |
-| Skip TypeScript strict mode | Pain at scale | `"strict": true` day one |
-| Build features before core flow | Wrong priorities, wasted work | Core user journey first |
-| Auth before core feature | No validation of core idea | Mock data first, auth later |
-| No `.env` template | Broken setup for collaborators | Commit `.env.example` immediately |
+| Mistake | Fix |
+|---------|-----|
+| Build before asking 4 required questions | STOP. Ask first, build second |
+| Empty pages without explanation | `<Placeholder>` + `<DevBanner>` components |
+| No phase status report | Brief ✅/⏳/🔜 summary after each phase |
+| Skip TypeScript strict | `"strict": true` day one |
+| Auth before core feature | Build core with mock data, add auth later |
+| Grey placeholder boxes | Specific Unsplash URLs with real photos |
+| No `.env` template | Commit `.env.example` immediately |

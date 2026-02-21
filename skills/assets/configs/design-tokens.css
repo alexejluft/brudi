@@ -1,0 +1,45 @@
+/* Brudi Reference: Design Tokens Template
+   Copy to your globals.css and adapt colors/values */
+
+:root {
+  /* === Colors — Light Mode === */
+  --color-background: #F5F5F0;
+  --color-foreground: #111111;
+  --color-muted: #666666;
+  --color-accent: #0052CC;          /* Adjust per brand — check contrast on light bg! */
+  --color-surface: #FFFFFF;
+  --color-border: #E5E5E5;
+
+  /* === Contextual === */
+  --color-success: #2E7D32;
+  --color-warning: #F57C00;
+  --color-error: #C62828;
+
+  /* === Typography === */
+  --font-display: var(--font-display);  /* Set by next/font */
+  --font-body: var(--font-body);
+
+  /* === Spacing (8px grid) === */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+
+  /* === Transitions === */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+}
+
+.dark {
+  --color-background: #0A0A0A;
+  --color-foreground: #EDEDED;
+  --color-muted: #999999;
+  --color-surface: #1A1A1A;
+  --color-border: #2A2A2A;
+  /* Accent stays same or adjust for dark mode readability */
+}
