@@ -1,29 +1,54 @@
 # Brudi Font Pairings
 
-## Included Fonts (ready to use)
+## Included Fonts (ready to use — no download needed)
 
-The following woff2 files are included in `/assets/fonts/woff2/`:
-
-| File | Family | Weights |
-|------|--------|---------|
-| `ClashDisplay-Variable.woff2` | Clash Display | 200–700 |
-| `Satoshi-Variable.woff2` | Satoshi | 300–900 |
-
-**License:** ITF Free Font License (FFL) — free for personal and commercial use in end projects. Not for resale or redistribution as standalone font files.
-
----
-
-## How to Use in a Project
-
-**Step 1:** Copy woff2 files into the project:
+All woff2 files are in `/assets/fonts/woff2/`. Copy into project with:
 ```bash
 cp ~/.brudi/assets/fonts/woff2/*.woff2 ./public/fonts/
 ```
 
-**Step 2:** Load with `next/font/local` in your layout:
+**License:** ITF Free Font License (FFL) — free for personal and commercial use in end projects.
+
+| File | Family | Weights | Best for |
+|------|--------|---------|----------|
+| `ClashDisplay-Variable.woff2` | Clash Display | 200–700 | Display/Headlines |
+| `Satoshi-Variable.woff2` | Satoshi | 300–900 | Body text |
+| `GeneralSans-Variable.woff2` | General Sans | 300–700 | Display + Body |
+| `CabinetGrotesk-Variable.woff2` | Cabinet Grotesk | 100–800 | Display/Headlines |
+| `Switzer-Variable.woff2` | Switzer | 100–900 | Display + Body |
+
+---
+
+## Pairings by Project Type
+
+### A — Agency / Portfolio / Award-level
+**Clash Display** (headlines) + **Satoshi** (body)
+- Bold, geometric, premium feel
+- Tight tracking, strong personality
+
+### B — SaaS / Startup / Product
+**General Sans** (headlines + body — use one font only)
+- Clean, versatile, highly readable
+- Works at any size — UI labels to hero text
+
+### C — Corporate / B2B / Professional
+**Switzer** (headlines + body — use one font only)
+- Neutral, serious, trust-building
+- Ideal for finance, legal, consulting
+
+### D — Luxury / Fashion / Editorial
+**Cabinet Grotesk** (headlines) + **General Sans** (body)
+- Geometric with personality, slightly playful
+- High-end without being aggressive
+
+---
+
+## How to Load with next/font/local
+
 ```tsx
 import localFont from 'next/font/local'
 
+// Pairing A — Agency
 const clashDisplay = localFont({
   src: [{ path: '../fonts/ClashDisplay-Variable.woff2', weight: '200 700' }],
   variable: '--font-display',
@@ -35,18 +60,19 @@ const satoshi = localFont({
   display: 'swap',
 })
 
-export default function RootLayout({ children }) {
-  return (
-    <html className={`${clashDisplay.variable} ${satoshi.variable}`}>
-      <body>{children}</body>
-    </html>
-  )
-}
+// Pairing B or C — single font
+const generalSans = localFont({
+  src: [{ path: '../fonts/GeneralSans-Variable.woff2', weight: '300 700' }],
+  variable: '--font-sans',
+  display: 'swap',
+})
 ```
 
-**Step 3:** Use via CSS variables in Tailwind config:
-```js
-// tailwind.config.ts
+```tsx
+// In layout.tsx:
+<html className={`${clashDisplay.variable} ${satoshi.variable}`}>
+
+// In tailwind.config.ts:
 fontFamily: {
   display: ['var(--font-display)', 'system-ui', 'sans-serif'],
   body:    ['var(--font-body)',    'system-ui', 'sans-serif'],
@@ -55,23 +81,8 @@ fontFamily: {
 
 ---
 
-## Recommended Pairings
-
-### Pairing A: Agency / Portfolio (included ✅)
-- **Display:** Clash Display — bold, geometric, award-level
-- **Body:** Satoshi — clean, versatile, 300–900 range
-
-### Pairing B: Tech / SaaS (Google Fonts — no download needed)
-- **Display:** Space Grotesk + **Body:** DM Sans
-- Use `next/font/google` directly
-
-### Pairing C: Editorial / Content (Google Fonts — no download needed)
-- **Display:** Playfair Display + **Body:** Inter
-- Use `next/font/google` directly
-
----
-
 ## Rules
 - Always `display: 'swap'` — prevents invisible text during load
-- Always use CSS `variable` — never hardcode font-family in components
-- Neon/bright accents on light backgrounds need a darkened variant (see `crafting-brand-systems`)
+- Always CSS `variable` — never hardcode font-family in components
+- Neon accents on light backgrounds need darkened variant (see `crafting-brand-systems`)
+- If unsure → Pairing A for portfolio/agency, B for SaaS, C for corporate, D for luxury
