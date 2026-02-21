@@ -5,21 +5,31 @@ description: Use when adding animations, scroll effects, or smooth scrolling. St
 
 # Animating Interfaces
 
-## Critical: Reduced Motion First
+## The Rule
 
-```css
-@media (prefers-reduced-motion: reduce) {
+**Only animate `transform` and `opacity`. Respect reduced motion. Micro ≤200ms, standard ≤400ms, dramatic ≤800ms. Use `will-change` sparingly. Clean up every animation.**
+
+---
+
+## Reduced Motion First
+
+```tsx
+// ✅ Correct: CSS global kill-switch
+'@media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-}
+}'
+
+// ✅ Correct: JS check before any GSAP setup
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+if (prefersReduced) return  // Skip animation setup entirely
+
+// ❌ WRONG: No reduced-motion check — accessibility failure
 ```
 
-```javascript
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-if (reducedMotion) return // Skip animation setup
-```
+---
 
 ## Timing Hierarchy
 
@@ -27,52 +37,83 @@ if (reducedMotion) return // Skip animation setup
 |------|----------|------|
 | Micro | 100–200ms | Button hover, toggles, icon swap |
 | Standard | 200–400ms | Card reveal, dropdown, panel |
-| Dramatic | 400–800ms | Hero, page transition, modal |
+| Dramatic | 400–800ms | Hero entrance, page transition, modal |
 
 **Easing:**
 - Entering: `ease-out` — responsive, impactful
 - Leaving: `ease-in` — graceful exit
-- Never `linear` for movement — robotic, unnatural
+- Movement: `cubic-bezier(0.16, 1, 0.3, 1)` — smooth deceleration
+- Never `linear` for UI movement — feels robotic
 
-## Performance Rule
+---
 
-**Only animate:**
-- ✅ `transform` (translate, scale, rotate)
-- ✅ `opacity`
+## Performance: Transform & Opacity Only
 
-**Never animate** (causes layout thrashing):
-- ❌ `width`, `height`, `top`, `left`, `margin`, `padding`
+```tsx
+// ✅ Correct: GPU-accelerated properties only
+gsap.to('.card', { x: 200, opacity: 1, scale: 1.05 })
 
-```javascript
-gsap.to('.sidebar', { x: 300 })    // ✅ GPU
-gsap.to('.sidebar', { width: 300 }) // ❌ CPU
+// ❌ WRONG: Layout-triggering properties — causes jank
+// gsap.to('.card', { width: 200, height: 300, top: 50 })
+// ❌ WRONG: margin, padding, left, right — all cause reflow
 ```
 
-## Stagger
+### `will-change` — Apply Before, Remove After
 
-```javascript
-gsap.from('.card', { y: 40, opacity: 0, stagger: 0.08 })
-// Max 150ms between items — more feels draggy
+```tsx
+// ✅ Correct: Set will-change only during animation, release after
+gsap.set('.card', { willChange: 'transform, opacity' })
+gsap.to('.card', { y: 0, opacity: 1, onComplete: () => {
+  gsap.set('.card', { willChange: 'auto' })  // Release GPU layer
+}})
+// ❌ WRONG: * { will-change: transform; } — wastes GPU memory permanently
 ```
 
-## View Transitions (Astro)
+---
 
-```javascript
-// ✅ Re-initializes after EVERY navigation
-document.addEventListener('astro:page-load', () => {
-  gsap.from('.hero', { y: 50, opacity: 0 })
+## Stagger Patterns
+
+```tsx
+// ✅ Correct: Max 150ms between items — more feels draggy
+gsap.from('.card', { y: 40, opacity: 0, stagger: 0.08, ease: 'power2.out' })
+
+// ✅ Grid stagger for 2D layouts
+gsap.from('.grid-item', {
+  scale: 0.8, opacity: 0, stagger: { each: 0.06, grid: 'auto', from: 'start' },
 })
-
-// ✅ Cleanup before DOM swap
-document.addEventListener('astro:before-swap', () => {
-  ScrollTrigger.getAll().forEach(t => t.kill())
-  window.lenis?.destroy()
-})
+// ❌ WRONG: stagger: 0.3 — feels sluggish, user waits too long
 ```
 
-**Common mistake:** Initializing GSAP outside `astro:page-load` = breaks after navigation.
+---
 
-## Related Skills
+## useGSAP Hook (React)
 
-- **orchestrating-gsap-lenis** — Full GSAP + Lenis setup, autoRaf, ticker, cleanup
-- **orchestrating-react-animations** — GSAP/Framer Motion lifecycle in React
+```tsx
+// ✅ Correct: useGSAP handles cleanup + StrictMode automatically
+import { useGSAP } from '@gsap/react'
+
+function HeroSection() {
+  const container = useRef<HTMLDivElement>(null)
+  useGSAP(() => {
+    gsap.from('.hero-title', { y: 60, opacity: 0, duration: 0.8 })
+    gsap.from('.hero-subtitle', { y: 40, opacity: 0, delay: 0.2 })
+  }, { scope: container })  // Scoped — only targets children
+  return <div ref={container}>...</div>
+}
+
+// ❌ WRONG: useEffect + manual cleanup — breaks in StrictMode
+// useEffect(() => { gsap.from('.hero', { y: 50 }) }, [])
+```
+
+---
+
+## Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| Animating width/height/top/left | Only `transform` + `opacity` |
+| No reduced-motion check | CSS media query + JS matchMedia |
+| `will-change` on everything | Apply before, remove after animation |
+| `linear` easing on UI elements | `ease-out` for enter, `ease-in` for exit |
+| Stagger > 150ms between items | Keep `stagger: 0.06–0.1` max |
+| `useEffect` for GSAP in React | `useGSAP` hook with `scope` |

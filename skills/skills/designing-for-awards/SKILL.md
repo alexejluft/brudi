@@ -1,102 +1,120 @@
 ---
 name: designing-for-awards
-description: Use when making visual design decisions, choosing typography or colors, or when design feels generic. Helps avoid AI-slop and create distinctive, award-worthy aesthetics.
+description: Use when making visual design decisions, choosing layouts, or when design feels generic. Prevents AI-slop and creates distinctive, award-worthy aesthetics through whitespace, hierarchy, and art direction.
 ---
 
 # Designing for Awards
 
-## Before Designing: Questions First
+## The Rule
 
-1. What's the ONE thing someone will remember?
-2. What makes this different from competitors?
-3. Can I defend every design decision?
-4. Would this win on Awwwards?
+**One memorable element per view. Defend every pixel. Whitespace is structure, not emptiness. Break the grid with intention. If it looks like a template, start over.**
+
+---
 
 ## Anti-AI-Slop Checklist
 
-**Avoid these clichés:**
-- ❌ Purple-to-blue gradient backgrounds
-- ❌ Inter, Roboto, Open Sans as defaults
-- ❌ Generic SaaS illustrations
-- ❌ "Clean and modern" without character
-- ❌ Rounded corners everywhere, no variation
+```tsx
+// ✅ Distinctive: Intentional constraints create identity
+<section className="grid grid-cols-12 gap-0">
+  <h1 className="col-span-8 col-start-3 text-[clamp(2.5rem,8vw,7rem)]
+    font-bold leading-[0.9] tracking-[-0.04em]">
+    Design<br/>is the<br/>silence
+  </h1>
+  <p className="col-span-3 col-start-9 self-end text-sm text-muted">
+    Between elements.
+  </p>
+</section>
 
-**Instead:**
-- ✅ One bold, intentional color
-- ✅ Distinctive typography
-- ✅ Asymmetry with purpose
-- ✅ Every element earns its place
-
-## Typography
-
-### Never Default To
-- Inter (overused)
-- Roboto (Android default)
-- Open Sans (generic)
-
-### Consider Instead
-**Display:** Clash Display, Cabinet Grotesk, Playfair Display
-**Body:** Satoshi, General Sans, Plus Jakarta Sans
-
-### Hierarchy
-```css
-h1 { letter-spacing: -0.02em; line-height: 1.1; }
-p  { line-height: 1.6; }
+// ❌ WRONG: Generic centered hero — looks like every SaaS template
+// <section className="flex flex-col items-center text-center py-20">
+//   <h1 className="text-4xl font-bold">Welcome to Our Platform</h1>
+//   <p className="text-lg text-gray-500 mt-4">The best solution for...</p>
+// </section>
 ```
 
-## Color
+---
 
-### Dark Mode Done Right
-```css
-/* ❌ Never */
-background: #000; color: #FFF;
+## Whitespace as Structure
 
-/* ✅ Correct */
-background: #09090B;  /* Near-black */
-color: #FAFAFA;        /* Off-white */
+```tsx
+// ✅ Correct: Generous spacing creates visual breathing room
+<article className="py-32 px-8 md:px-16 lg:px-24">
+  <h2 className="text-5xl mb-16">Our Work</h2>  {/* mb-16 = intentional gap */}
+  <div className="grid grid-cols-2 gap-16">      {/* gap-16 = room to breathe */}
+    {projects.map(p => <ProjectCard key={p.id} {...p} />)}
+  </div>
+</article>
+
+// ❌ WRONG: Cramped — everything touching, no hierarchy
+// <article className="py-8 px-4">
+//   <h2 className="text-2xl mb-4">Our Work</h2>
+//   <div className="grid grid-cols-3 gap-4">{...}</div>
+// </article>
 ```
 
-### One Dominant Color
-Pick ONE accent. Everything else is neutral.
-```css
---primary: #E8A94A;
---bg: #09090B;
---text: #FAFAFA;
---muted: #A1A1AA;
+---
+
+## Visual Weight & Hierarchy
+
+```tsx
+// ✅ Correct: Size contrast creates clear reading order
+<div className="grid grid-cols-12">
+  <div className="col-span-7">
+    <span className="text-xs uppercase tracking-[0.2em] text-muted">Case Study</span>
+    <h2 className="text-6xl font-bold mt-2 leading-[1.0]">Reimagining<br/>Luxury</h2>
+  </div>
+  <div className="col-span-4 col-start-9 flex items-end">
+    <p className="text-base leading-relaxed text-muted">
+      A complete brand evolution for a heritage fashion house.
+    </p>
+  </div>
+</div>
+
+// ❌ WRONG: Everything same size, no contrast, no tension
+// <h2 className="text-2xl font-semibold">Case Study: Reimagining Luxury</h2>
+// <p className="text-base mt-2">A complete brand evolution...</p>
 ```
 
-## Premium Micro-Details
+---
 
-### Button States
-```css
-.button {
-  transition: all 0.15s ease-out;
-}
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.button:active {
-  transform: translateY(0);
-}
+## Intentional Grid Breaking
+
+```tsx
+// ✅ Correct: One element breaks the grid — creates focal point
+<section className="relative grid grid-cols-12 min-h-screen">
+  <div className="col-span-5 col-start-2 self-center z-10">
+    <h2 className="text-7xl font-bold">Break<br/>the mold</h2>
+  </div>
+  <div className="col-span-8 col-start-5 -mt-20">
+    <Image src={hero} alt="" className="w-full h-[80vh] object-cover" />
+  </div>
+</section>
+
+// ❌ WRONG: Image and text in neat equal columns — safe, forgettable
+// <section className="grid grid-cols-2 gap-8 items-center">
+//   <div><h2>...</h2></div><div><Image /></div>
+// </section>
 ```
 
-### Shimmer (Use Sparingly)
+---
+
+## Art Direction Rules
+
 ```css
-.shimmer {
-  background: linear-gradient(110deg, 
-    transparent 25%, 
-    rgba(255,255,255,0.1) 50%, 
-    transparent 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
+/* ✅ Different crops per breakpoint — not just scaling */
+.hero-image { aspect-ratio: 16/9; object-position: 70% center; }
+@media (max-width: 768px) { .hero-image { aspect-ratio: 3/4; object-position: center top; } }
+/* ❌ WRONG: Same crop everywhere — loses impact on mobile */
 ```
 
-## Red Flags in Your Design
+---
 
-If you catch yourself saying:
-- "It's clean and modern" → Too generic, add character
-- "Similar to [competitor]" → Find differentiation
-- "This gradient looks nice" → Probably AI-slop
-- "Inter works fine" → Find a distinctive font
+## Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| Centered hero, generic copy | Asymmetric layout, intentional tension |
+| Equal columns everywhere | Vary spans (7/5, 8/4, full-bleed) |
+| Tight spacing, no breathing room | `py-32`, `gap-16` — generous whitespace |
+| Same text sizes, no contrast | 6:1 ratio between heading and body |
+| Purple-to-blue gradients | One bold accent, rest neutral |
