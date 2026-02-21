@@ -1,0 +1,208 @@
+{
+  "common": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "work": "Work",
+      "services": "Services",
+      "blog": "Blog",
+      "contact": "Contact",
+      "careers": "Careers",
+      "pricing": "Pricing",
+      "faq": "FAQ"
+    },
+    "footer": {
+      "tagline": "Let's build something extraordinary.",
+      "navigation": "Navigation",
+      "getInTouch": "Get in Touch",
+      "location": "Location",
+      "rights": "All rights reserved.",
+      "madeWith": "Made with",
+      "backToTop": "Back to top"
+    },
+    "cta": {
+      "getStarted": "Get Started",
+      "learnMore": "Learn More",
+      "contactUs": "Contact Us",
+      "viewProject": "View Project",
+      "viewAll": "View All",
+      "sendMessage": "Send Message",
+      "subscribe": "Subscribe",
+      "download": "Download",
+      "bookCall": "Book a Call",
+      "startProject": "Start a Project",
+      "seeMore": "See More",
+      "goBack": "Go Back"
+    },
+    "aria": {
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "toggleTheme": "Switch to {mode} mode",
+      "switchLanguage": "Switch language",
+      "scrollToTop": "Scroll to top",
+      "externalLink": "Opens in new tab",
+      "skipToContent": "Skip to content",
+      "loading": "Loading content",
+      "breadcrumb": "Breadcrumb",
+      "pagination": "Pagination",
+      "previousPage": "Previous page",
+      "nextPage": "Next page"
+    },
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "locale": {
+      "en": "English",
+      "de": "Deutsch",
+      "fr": "Francais",
+      "es": "Espanol",
+      "it": "Italiano",
+      "pt": "Portugues"
+    },
+    "loading": {
+      "loading": "Loading...",
+      "pleaseWait": "Please wait...",
+      "almostDone": "Almost done..."
+    },
+    "errors": {
+      "404": {
+        "title": "Page Not Found",
+        "description": "The page you're looking for doesn't exist or has been moved.",
+        "cta": "Back to Home"
+      },
+      "500": {
+        "title": "Something Went Wrong",
+        "description": "An unexpected error occurred. Please try again later.",
+        "cta": "Try Again"
+      },
+      "generic": {
+        "title": "Error",
+        "description": "Something went wrong. Please try again.",
+        "networkError": "Connection error. Check your internet connection.",
+        "timeout": "The request timed out. Please try again."
+      }
+    },
+    "forms": {
+      "labels": {
+        "name": "Name",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "company": "Company",
+        "subject": "Subject",
+        "message": "Message",
+        "budget": "Budget",
+        "website": "Website",
+        "password": "Password",
+        "confirmPassword": "Confirm Password"
+      },
+      "placeholders": {
+        "name": "Your name",
+        "email": "you@example.com",
+        "phone": "+49 123 456 789",
+        "company": "Your company",
+        "subject": "How can we help?",
+        "message": "Tell us about your project...",
+        "website": "https://",
+        "search": "Search..."
+      },
+      "validation": {
+        "required": "This field is required.",
+        "invalidEmail": "Please enter a valid email address.",
+        "invalidPhone": "Please enter a valid phone number.",
+        "minLength": "Must be at least {min} characters.",
+        "maxLength": "Must be at most {max} characters.",
+        "passwordMismatch": "Passwords do not match.",
+        "invalidUrl": "Please enter a valid URL."
+      },
+      "budgetOptions": {
+        "small": "Under 10k",
+        "medium": "10k - 25k",
+        "large": "25k - 50k",
+        "enterprise": "50k - 100k",
+        "custom": "100k+"
+      },
+      "success": {
+        "title": "Message Sent",
+        "description": "Thank you for reaching out. We'll get back to you within 24 hours."
+      },
+      "error": {
+        "title": "Sending Failed",
+        "description": "Something went wrong. Please try again or email us directly."
+      },
+      "consent": "I agree to the privacy policy.",
+      "submit": "Submit",
+      "sending": "Sending...",
+      "reset": "Reset"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know",
+      "stillQuestions": "Still have questions?",
+      "contactPrompt": "We're here to help. Reach out anytime.",
+      "showMore": "Show more",
+      "showLess": "Show less"
+    },
+    "cookies": {
+      "title": "Cookie Settings",
+      "description": "We use cookies to improve your experience. You can accept all or only essential cookies.",
+      "acceptAll": "Accept All",
+      "rejectAll": "Reject All",
+      "customize": "Customize",
+      "essential": "Essential",
+      "analytics": "Analytics",
+      "marketing": "Marketing",
+      "save": "Save Preferences"
+    },
+    "social": {
+      "followUs": "Follow Us",
+      "shareOn": "Share on {platform}",
+      "twitter": "Twitter / X",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "dribbble": "Dribbble",
+      "youtube": "YouTube"
+    }
+  },
+  "legal": {
+    "impressum": {
+      "title": "Impressum",
+      "companyInfo": "Company Information per § 5 DDG",
+      "contact": "Contact",
+      "vatId": "VAT ID",
+      "register": "Trade Register",
+      "representative": "Authorized Representative",
+      "responsibility": "Responsible for Content per § 18 MStV",
+      "dispute": "Dispute Resolution",
+      "disputeText": "We are not willing or obliged to participate in dispute resolution proceedings before a consumer arbitration board.",
+      "liability": "Liability for Content",
+      "copyright": "Copyright"
+    },
+    "datenschutz": {
+      "title": "Privacy Policy",
+      "responsible": "Responsible Party",
+      "overview": "Overview of Data Processing",
+      "hosting": "Hosting",
+      "contactForm": "Contact Form",
+      "fonts": "Fonts",
+      "images": "Images",
+      "cookies": "Cookies",
+      "rights": "Your Rights",
+      "rightsText": "You have the right to access, correction, deletion, restriction, data portability, and objection.",
+      "authority": "Supervisory Authority",
+      "authorityText": "You have the right to lodge a complaint with a supervisory authority.",
+      "changes": "Changes to This Policy",
+      "generatorNote": "Final text should be generated via datenschutz-generator.de or e-recht24.de with your specific services."
+    },
+    "placeholder": {
+      "notice": "Placeholder — this information will be added before launch.",
+      "companyData": "Company data will be inserted here.",
+      "contactData": "Contact details will be inserted here.",
+      "generateText": "Final legal text to be generated with a legal text generator."
+    }
+  }
+}

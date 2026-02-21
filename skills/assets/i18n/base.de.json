@@ -1,0 +1,208 @@
+{
+  "common": {
+    "nav": {
+      "home": "Startseite",
+      "about": "Uber Uns",
+      "work": "Arbeiten",
+      "services": "Dienstleistungen",
+      "blog": "Blog",
+      "contact": "Kontakt",
+      "careers": "Karriere",
+      "pricing": "Preise",
+      "faq": "Haufig Gestellte Fragen"
+    },
+    "footer": {
+      "tagline": "Lassen Sie uns etwas Aussergewoehnliches schaffen.",
+      "navigation": "Navigation",
+      "getInTouch": "Kontaktieren Sie uns",
+      "location": "Standort",
+      "rights": "Alle Rechte vorbehalten.",
+      "madeWith": "Erstellt mit",
+      "backToTop": "Nach oben"
+    },
+    "cta": {
+      "getStarted": "Jetzt starten",
+      "learnMore": "Mehr erfahren",
+      "contactUs": "Kontaktieren Sie uns",
+      "viewProject": "Projekt anschauen",
+      "viewAll": "Alle anschauen",
+      "sendMessage": "Nachricht senden",
+      "subscribe": "Abonnieren",
+      "download": "Herunterladen",
+      "bookCall": "Termin buchen",
+      "startProject": "Projekt starten",
+      "seeMore": "Mehr anschauen",
+      "goBack": "Zuruckgehen"
+    },
+    "aria": {
+      "openMenu": "Menu offnen",
+      "closeMenu": "Menu schliessen",
+      "toggleTheme": "In den {mode}-Modus wechseln",
+      "switchLanguage": "Sprache wechseln",
+      "scrollToTop": "Nach oben scrollen",
+      "externalLink": "Offnet sich in neuem Tab",
+      "skipToContent": "Zum Inhalt springen",
+      "loading": "Inhalt wird geladen",
+      "breadcrumb": "Navigationsleiste",
+      "pagination": "Seitennummerierung",
+      "previousPage": "Vorherige Seite",
+      "nextPage": "Nachste Seite"
+    },
+    "theme": {
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "System"
+    },
+    "locale": {
+      "en": "English",
+      "de": "Deutsch",
+      "fr": "Francais",
+      "es": "Espanol",
+      "it": "Italiano",
+      "pt": "Portugues"
+    },
+    "loading": {
+      "loading": "Wird geladen...",
+      "pleaseWait": "Bitte warten...",
+      "almostDone": "Gleich fertig..."
+    },
+    "errors": {
+      "404": {
+        "title": "Seite nicht gefunden",
+        "description": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+        "cta": "Zur Startseite"
+      },
+      "500": {
+        "title": "Etwas ist schiefgelaufen",
+        "description": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es spater erneut.",
+        "cta": "Erneut versuchen"
+      },
+      "generic": {
+        "title": "Fehler",
+        "description": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+        "networkError": "Verbindungsfehler. Uberpruefen Sie Ihre Internetverbindung.",
+        "timeout": "Die Anfrage hat zeituberschritten. Bitte versuchen Sie es erneut."
+      }
+    },
+    "forms": {
+      "labels": {
+        "name": "Name",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "company": "Unternehmen",
+        "subject": "Betreff",
+        "message": "Nachricht",
+        "budget": "Budget",
+        "website": "Website",
+        "password": "Passwort",
+        "confirmPassword": "Passwort bestatigen"
+      },
+      "placeholders": {
+        "name": "Ihr Name",
+        "email": "sie@beispiel.de",
+        "phone": "+49 123 456 789",
+        "company": "Ihr Unternehmen",
+        "subject": "Wie konnen wir helfen?",
+        "message": "Erzahlen Sie uns von Ihrem Projekt...",
+        "website": "https://",
+        "search": "Suche..."
+      },
+      "validation": {
+        "required": "Dieses Feld ist erforderlich.",
+        "invalidEmail": "Bitte geben Sie eine gultige E-Mail-Adresse ein.",
+        "invalidPhone": "Bitte geben Sie eine gultige Telefonnummer ein.",
+        "minLength": "Mindestens {min} Zeichen erforderlich.",
+        "maxLength": "Maximal {max} Zeichen zulassig.",
+        "passwordMismatch": "Passworter stimmen nicht uberein.",
+        "invalidUrl": "Bitte geben Sie eine gultige URL ein."
+      },
+      "budgetOptions": {
+        "small": "Unter 10.000 Euro",
+        "medium": "10.000 - 25.000 Euro",
+        "large": "25.000 - 50.000 Euro",
+        "enterprise": "50.000 - 100.000 Euro",
+        "custom": "100.000+ Euro"
+      },
+      "success": {
+        "title": "Nachricht gesendet",
+        "description": "Danke, dass Sie sich mit uns in Verbindung setzen. Wir melden uns innerhalb von 24 Stunden bei Ihnen."
+      },
+      "error": {
+        "title": "Versand fehlgeschlagen",
+        "description": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder senden Sie uns eine E-Mail."
+      },
+      "consent": "Ich stimme der Datenschutzerklarung zu.",
+      "submit": "Absenden",
+      "sending": "Wird gesendet...",
+      "reset": "Zurucksetzen"
+    },
+    "faq": {
+      "title": "Haufig gestellte Fragen",
+      "subtitle": "Alles, was Sie wissen mussen",
+      "stillQuestions": "Haben Sie noch Fragen?",
+      "contactPrompt": "Wir helfen Ihnen gerne weiter. Kontaktieren Sie uns jederzeit.",
+      "showMore": "Mehr anzeigen",
+      "showLess": "Weniger anzeigen"
+    },
+    "cookies": {
+      "title": "Cookie-Einstellungen",
+      "description": "Wir verwenden Cookies zur Verbesserung Ihres Nutzungserlebnisses. Sie konnen alle oder nur notwendige Cookies akzeptieren.",
+      "acceptAll": "Alle akzeptieren",
+      "rejectAll": "Alle ablehnen",
+      "customize": "Anpassen",
+      "essential": "Notwendig",
+      "analytics": "Analytik",
+      "marketing": "Marketing",
+      "save": "Einstellungen speichern"
+    },
+    "social": {
+      "followUs": "Folgen Sie uns",
+      "shareOn": "Teilen auf {platform}",
+      "twitter": "Twitter / X",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "dribbble": "Dribbble",
+      "youtube": "YouTube"
+    }
+  },
+  "legal": {
+    "impressum": {
+      "title": "Impressum",
+      "companyInfo": "Unternehmensangaben gemass § 5 DDG",
+      "contact": "Kontakt",
+      "vatId": "Umsatzsteuer-Identifikationsnummer",
+      "register": "Handelsregister",
+      "representative": "Vertreter",
+      "responsibility": "Verantwortlich fur den Inhalt gemass § 18 MStV",
+      "dispute": "Streitbeilegung",
+      "disputeText": "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschiedsinstanz teilzunehmen.",
+      "liability": "Haftung fur Inhalte",
+      "copyright": "Urheberrecht"
+    },
+    "datenschutz": {
+      "title": "Datenschutzerklarung",
+      "responsible": "Verantwortliche Stelle",
+      "overview": "Ubersicht der Datenverarbeitung",
+      "hosting": "Hosting",
+      "contactForm": "Kontaktformular",
+      "fonts": "Schriftarten",
+      "images": "Bilder",
+      "cookies": "Cookies",
+      "rights": "Ihre Rechte",
+      "rightsText": "Sie haben das Recht auf Zugang, Berichtigung, Loschung, Einschrankung, Datenportabilitat und Widerspruch.",
+      "authority": "Aufsichtsbehorde",
+      "authorityText": "Sie haben das Recht, sich bei einer Aufsichtsbehorde zu beschweren.",
+      "changes": "Anderungen dieser Datenschutzerklarung",
+      "generatorNote": "Der abschliessende Text sollte uber datenschutz-generator.de oder e-recht24.de mit Ihren spezifischen Dienstleistungen erstellt werden."
+    },
+    "placeholder": {
+      "notice": "Platzhalter - Diese Informationen werden vor dem Start hinzugefugt.",
+      "companyData": "Unternehmensangaben werden hier eingefugt.",
+      "contactData": "Kontaktdaten werden hier eingefugt.",
+      "generateText": "Abschliessender Rechtstext, der mit einem Rechtstextgenerator erstellt werden soll."
+    }
+  }
+}

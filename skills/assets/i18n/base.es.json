@@ -1,0 +1,208 @@
+{
+  "common": {
+    "nav": {
+      "home": "Inicio",
+      "about": "Acerca de",
+      "work": "Trabajos",
+      "services": "Servicios",
+      "blog": "Blog",
+      "contact": "Contacto",
+      "careers": "Carreras",
+      "pricing": "Precios",
+      "faq": "Preguntas frecuentes"
+    },
+    "footer": {
+      "tagline": "Construyamos algo extraordinario.",
+      "navigation": "Navegación",
+      "getInTouch": "Póngase en contacto",
+      "location": "Ubicación",
+      "rights": "Todos los derechos reservados.",
+      "madeWith": "Hecho con",
+      "backToTop": "Volver al inicio"
+    },
+    "cta": {
+      "getStarted": "Comenzar",
+      "learnMore": "Más información",
+      "contactUs": "Contáctenos",
+      "viewProject": "Ver proyecto",
+      "viewAll": "Ver todo",
+      "sendMessage": "Enviar mensaje",
+      "subscribe": "Suscribirse",
+      "download": "Descargar",
+      "bookCall": "Reservar una llamada",
+      "startProject": "Iniciar un proyecto",
+      "seeMore": "Ver más",
+      "goBack": "Volver"
+    },
+    "aria": {
+      "openMenu": "Abrir menú",
+      "closeMenu": "Cerrar menú",
+      "toggleTheme": "Cambiar a modo {mode}",
+      "switchLanguage": "Cambiar idioma",
+      "scrollToTop": "Volver al inicio",
+      "externalLink": "Se abre en una pestaña nueva",
+      "skipToContent": "Ir al contenido",
+      "loading": "Cargando contenido",
+      "breadcrumb": "Ruta de navegación",
+      "pagination": "Paginación",
+      "previousPage": "Página anterior",
+      "nextPage": "Página siguiente"
+    },
+    "theme": {
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    },
+    "locale": {
+      "en": "English",
+      "de": "Deutsch",
+      "fr": "Français",
+      "es": "Español",
+      "it": "Italiano",
+      "pt": "Português"
+    },
+    "loading": {
+      "loading": "Cargando...",
+      "pleaseWait": "Por favor espere...",
+      "almostDone": "Casi listo..."
+    },
+    "errors": {
+      "404": {
+        "title": "Página no encontrada",
+        "description": "La página que busca no existe o ha sido desplazada.",
+        "cta": "Volver al inicio"
+      },
+      "500": {
+        "title": "Algo salió mal",
+        "description": "Se ha producido un error inesperado. Por favor, inténtelo de nuevo más tarde.",
+        "cta": "Intentar de nuevo"
+      },
+      "generic": {
+        "title": "Error",
+        "description": "Algo salió mal. Por favor, inténtelo de nuevo.",
+        "networkError": "Error de conexión. Verifique su conexión a Internet.",
+        "timeout": "La solicitud agotó el tiempo de espera. Por favor, inténtelo de nuevo."
+      }
+    },
+    "forms": {
+      "labels": {
+        "name": "Nombre",
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "email": "Correo electrónico",
+        "phone": "Teléfono",
+        "company": "Empresa",
+        "subject": "Asunto",
+        "message": "Mensaje",
+        "budget": "Presupuesto",
+        "website": "Sitio web",
+        "password": "Contraseña",
+        "confirmPassword": "Confirmar contraseña"
+      },
+      "placeholders": {
+        "name": "Su nombre",
+        "email": "usted@example.com",
+        "phone": "+34 912 345 678",
+        "company": "Su empresa",
+        "subject": "¿Cómo podemos ayudarle?",
+        "message": "Cuéntenos sobre su proyecto...",
+        "website": "https://",
+        "search": "Buscar..."
+      },
+      "validation": {
+        "required": "Este campo es obligatorio.",
+        "invalidEmail": "Por favor, introduzca una dirección de correo electrónico válida.",
+        "invalidPhone": "Por favor, introduzca un número de teléfono válido.",
+        "minLength": "Debe tener al menos {min} caracteres.",
+        "maxLength": "Debe tener como máximo {max} caracteres.",
+        "passwordMismatch": "Las contraseñas no coinciden.",
+        "invalidUrl": "Por favor, introduzca una URL válida."
+      },
+      "budgetOptions": {
+        "small": "Menos de 10k",
+        "medium": "10k - 25k",
+        "large": "25k - 50k",
+        "enterprise": "50k - 100k",
+        "custom": "100k+"
+      },
+      "success": {
+        "title": "Mensaje enviado",
+        "description": "Gracias por ponerse en contacto. Le responderemos dentro de 24 horas."
+      },
+      "error": {
+        "title": "Error al enviar",
+        "description": "Algo salió mal. Por favor, inténtelo de nuevo o envíenos un correo electrónico directamente."
+      },
+      "consent": "Acepto la política de privacidad.",
+      "submit": "Enviar",
+      "sending": "Enviando...",
+      "reset": "Restablecer"
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "subtitle": "Todo lo que necesita saber",
+      "stillQuestions": "¿Tiene más preguntas?",
+      "contactPrompt": "Estamos aquí para ayudarle. Póngase en contacto en cualquier momento.",
+      "showMore": "Mostrar más",
+      "showLess": "Mostrar menos"
+    },
+    "cookies": {
+      "title": "Configuración de cookies",
+      "description": "Utilizamos cookies para mejorar su experiencia. Puede aceptar todas las cookies o solo las esenciales.",
+      "acceptAll": "Aceptar todas las cookies",
+      "rejectAll": "Rechazar todas las cookies",
+      "customize": "Personalizar",
+      "essential": "Esenciales",
+      "analytics": "Análisis",
+      "marketing": "Marketing",
+      "save": "Guardar preferencias"
+    },
+    "social": {
+      "followUs": "Síganos",
+      "shareOn": "Compartir en {platform}",
+      "twitter": "Twitter / X",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "dribbble": "Dribbble",
+      "youtube": "YouTube"
+    }
+  },
+  "legal": {
+    "impressum": {
+      "title": "Aviso legal",
+      "companyInfo": "Información de la empresa según la Ley 34/1988 de Publicidad",
+      "contact": "Contacto",
+      "vatId": "Número de IVA",
+      "register": "Registro Mercantil",
+      "representative": "Representante autorizado",
+      "responsibility": "Responsable de contenidos",
+      "dispute": "Resolución de conflictos",
+      "disputeText": "No estamos dispuestos a participar en procedimientos de resolución de conflictos ante un órgano arbitral de consumidores.",
+      "liability": "Responsabilidad de contenidos",
+      "copyright": "Derechos de autor"
+    },
+    "datenschutz": {
+      "title": "Política de privacidad",
+      "responsible": "Responsable del tratamiento",
+      "overview": "Descripción general del tratamiento de datos",
+      "hosting": "Alojamiento",
+      "contactForm": "Formulario de contacto",
+      "fonts": "Fuentes",
+      "images": "Imágenes",
+      "cookies": "Cookies",
+      "rights": "Sus derechos",
+      "rightsText": "Tiene derecho al acceso, rectificación, supresión, restricción, portabilidad de datos y objeción.",
+      "authority": "Autoridad de control",
+      "authorityText": "Tiene derecho a presentar una reclamación ante una autoridad de control.",
+      "changes": "Cambios en esta política",
+      "generatorNote": "El texto final debe generarse con un generador de textos legales apropiado para sus servicios específicos."
+    },
+    "placeholder": {
+      "notice": "Texto provisional — esta información se añadirá antes del lanzamiento.",
+      "companyData": "Los datos de la empresa se insertarán aquí.",
+      "contactData": "La información de contacto se insertará aquí.",
+      "generateText": "El texto legal final debe generarse con un generador de textos legales."
+    }
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "common": {
+    "nav": {
+      "home": "Accueil",
+      "about": "À propos",
+      "work": "Nos réalisations",
+      "services": "Services",
+      "blog": "Blog",
+      "contact": "Contact",
+      "careers": "Carrières",
+      "pricing": "Tarification",
+      "faq": "FAQ"
+    },
+    "footer": {
+      "tagline": "Construisons quelque chose d'extraordinaire.",
+      "navigation": "Navigation",
+      "getInTouch": "Nous contacter",
+      "location": "Localisation",
+      "rights": "Tous droits réservés.",
+      "madeWith": "Réalisé avec",
+      "backToTop": "Retour en haut"
+    },
+    "cta": {
+      "getStarted": "Commencer",
+      "learnMore": "En savoir plus",
+      "contactUs": "Nous contacter",
+      "viewProject": "Voir le projet",
+      "viewAll": "Voir tout",
+      "sendMessage": "Envoyer le message",
+      "subscribe": "S'abonner",
+      "download": "Télécharger",
+      "bookCall": "Réserver un appel",
+      "startProject": "Démarrer un projet",
+      "seeMore": "Voir plus",
+      "goBack": "Retour"
+    },
+    "aria": {
+      "openMenu": "Ouvrir le menu",
+      "closeMenu": "Fermer le menu",
+      "toggleTheme": "Basculer en mode {mode}",
+      "switchLanguage": "Changer la langue",
+      "scrollToTop": "Retour en haut",
+      "externalLink": "S'ouvre dans un nouvel onglet",
+      "skipToContent": "Aller au contenu",
+      "loading": "Chargement du contenu",
+      "breadcrumb": "Fil d'Ariane",
+      "pagination": "Pagination",
+      "previousPage": "Page précédente",
+      "nextPage": "Page suivante"
+    },
+    "theme": {
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    },
+    "locale": {
+      "en": "English",
+      "de": "Deutsch",
+      "fr": "Français",
+      "es": "Español",
+      "it": "Italiano",
+      "pt": "Português"
+    },
+    "loading": {
+      "loading": "Chargement...",
+      "pleaseWait": "Veuillez patienter...",
+      "almostDone": "Presque terminé..."
+    },
+    "errors": {
+      "404": {
+        "title": "Page non trouvée",
+        "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
+        "cta": "Retour à l'accueil"
+      },
+      "500": {
+        "title": "Une erreur s'est produite",
+        "description": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
+        "cta": "Réessayer"
+      },
+      "generic": {
+        "title": "Erreur",
+        "description": "Une erreur s'est produite. Veuillez réessayer.",
+        "networkError": "Erreur de connexion. Vérifiez votre connexion Internet.",
+        "timeout": "La demande a dépassé le délai imparti. Veuillez réessayer."
+      }
+    },
+    "forms": {
+      "labels": {
+        "name": "Nom",
+        "firstName": "Prénom",
+        "lastName": "Nom de famille",
+        "email": "E-mail",
+        "phone": "Téléphone",
+        "company": "Entreprise",
+        "subject": "Sujet",
+        "message": "Message",
+        "budget": "Budget",
+        "website": "Site web",
+        "password": "Mot de passe",
+        "confirmPassword": "Confirmer le mot de passe"
+      },
+      "placeholders": {
+        "name": "Votre nom",
+        "email": "vous@example.com",
+        "phone": "+33 1 23 45 67 89",
+        "company": "Votre entreprise",
+        "subject": "Comment pouvons-nous vous aider ?",
+        "message": "Parlez-nous de votre projet...",
+        "website": "https://",
+        "search": "Rechercher..."
+      },
+      "validation": {
+        "required": "Ce champ est obligatoire.",
+        "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
+        "invalidPhone": "Veuillez entrer un numéro de téléphone valide.",
+        "minLength": "Doit contenir au moins {min} caractères.",
+        "maxLength": "Doit contenir au maximum {max} caractères.",
+        "passwordMismatch": "Les mots de passe ne correspondent pas.",
+        "invalidUrl": "Veuillez entrer une URL valide."
+      },
+      "budgetOptions": {
+        "small": "Moins de 10k",
+        "medium": "10k - 25k",
+        "large": "25k - 50k",
+        "enterprise": "50k - 100k",
+        "custom": "100k+"
+      },
+      "success": {
+        "title": "Message envoyé",
+        "description": "Merci de nous avoir contactés. Nous vous répondrons dans les 24 heures."
+      },
+      "error": {
+        "title": "Échec de l'envoi",
+        "description": "Une erreur s'est produite. Veuillez réessayer ou nous envoyer un e-mail directement."
+      },
+      "consent": "J'accepte la politique de confidentialité.",
+      "submit": "Envoyer",
+      "sending": "Envoi en cours...",
+      "reset": "Réinitialiser"
+    },
+    "faq": {
+      "title": "Questions fréquemment posées",
+      "subtitle": "Tout ce que vous devez savoir",
+      "stillQuestions": "Vous avez encore des questions ?",
+      "contactPrompt": "Nous sommes là pour vous aider. Contactez-nous à tout moment.",
+      "showMore": "Afficher plus",
+      "showLess": "Afficher moins"
+    },
+    "cookies": {
+      "title": "Paramètres des cookies",
+      "description": "Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez accepter tous les cookies ou seulement les cookies essentiels.",
+      "acceptAll": "Accepter tous les cookies",
+      "rejectAll": "Refuser tous les cookies",
+      "customize": "Personnaliser",
+      "essential": "Essentiels",
+      "analytics": "Analyse",
+      "marketing": "Marketing",
+      "save": "Enregistrer les préférences"
+    },
+    "social": {
+      "followUs": "Nous suivre",
+      "shareOn": "Partager sur {platform}",
+      "twitter": "Twitter / X",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "dribbble": "Dribbble",
+      "youtube": "YouTube"
+    }
+  },
+  "legal": {
+    "impressum": {
+      "title": "Mentions légales",
+      "companyInfo": "Informations sur l'entreprise conformément à l'article 6 de la LCEN",
+      "contact": "Contact",
+      "vatId": "Numéro de TVA",
+      "register": "Registre du commerce",
+      "representative": "Représentant autorisé",
+      "responsibility": "Responsable du contenu",
+      "dispute": "Résolution des différends",
+      "disputeText": "Nous ne sommes pas disposés à participer à des procédures de résolution des différends devant un collège arbitral pour les consommateurs.",
+      "liability": "Responsabilité du contenu",
+      "copyright": "Droits d'auteur"
+    },
+    "datenschutz": {
+      "title": "Politique de confidentialité",
+      "responsible": "Responsable du traitement",
+      "overview": "Aperçu du traitement des données",
+      "hosting": "Hébergement",
+      "contactForm": "Formulaire de contact",
+      "fonts": "Polices de caractères",
+      "images": "Images",
+      "cookies": "Cookies",
+      "rights": "Vos droits",
+      "rightsText": "Vous avez le droit d'accéder, de corriger, de supprimer, de restreindre, de transférer vos données et de vous opposer.",
+      "authority": "Autorité de contrôle",
+      "authorityText": "Vous avez le droit de déposer une plainte auprès d'une autorité de contrôle.",
+      "changes": "Modifications de cette politique",
+      "generatorNote": "Le texte final doit être généré via datenschutz-generator.de ou e-recht24.de avec vos services spécifiques."
+    },
+    "placeholder": {
+      "notice": "Texte temporaire — ces informations seront ajoutées avant le lancement.",
+      "companyData": "Les données de l'entreprise seront insérées ici.",
+      "contactData": "Les coordonnées de contact seront insérées ici.",
+      "generateText": "Le texte juridique final doit être généré avec un générateur de texte juridique."
+    }
+  }
+}
