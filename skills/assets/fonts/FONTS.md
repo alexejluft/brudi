@@ -1,5 +1,11 @@
 # Brudi Font Pairings
 
+⚠️ **License Note:** Clash Display and Satoshi are under the ITF Free Font License (FFL) — free to use in projects, but NOT redistributable. Download them yourself from Fontshare and add to your project's `/src/fonts/` folder. Do NOT commit .woff2 files to a public repo for redistribution.
+
+OFL-licensed fonts (Space Grotesk, DM Sans, Inter, Playfair Display) can be used directly via `next/font/google` — no download needed.
+
+---
+
 ## Recommended Pairings (use `next/font/local` with .woff2)
 
 ### Pairing A: Modern Agency / Portfolio
