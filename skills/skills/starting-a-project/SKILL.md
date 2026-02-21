@@ -7,18 +7,47 @@ description: Use at the very beginning of any new project — website, app, or S
 
 ## STOP — Ask First, Build Second
 
-**If the user has not answered all four questions below, do not write a single line of code. Ask them first.**
+**If the user has not answered all four required questions below, do not write a single line of code. Ask them first.**
 
 ```
+Required — cannot build without these:
 1. What is this product / website? (topic, name, purpose)
 2. Who is the target audience? (and what device do they use?)
 3. What pages / screens are needed?
 4. What is the design direction? (style, color, references, animations)
 ```
 
-A one-sentence command like "build the Luma Studio website" is NOT enough information to start. Stop and ask.
+A one-sentence command like "build the Luma Studio website" is NOT enough. Stop and ask all four.
 
-**Only proceed when you have answers to all four questions.**
+**Once required questions are answered, ask these optional questions before writing code:**
+
+```
+Optional — propose defaults, let user decide:
+5. Hero style: large background image or typographic headline?
+   Default: ask, because it defines the entire above-the-fold experience.
+
+6. Preloader: should the site have a loading screen before content appears?
+   Default: No. Only if the user confirms.
+
+7. Dark/Light mode:
+   - SaaS / App → always offer both. Users spend hours in the product.
+   - Portfolio / Agency / Brand site → ask. Dark may be the brand, not a mode.
+   - Content / Blog → follow system preference (prefers-color-scheme), no toggle needed.
+
+8. Legal pages (for German/EU sites — mandatory):
+   - Impressum (required for every commercial website in Germany)
+   - Datenschutzerklärung / Privacy Policy (required under GDPR)
+   - Cookie banner (required if using Analytics, Fonts, embeds, tracking)
+   Default: Always generate placeholder Impressum + Privacy pages.
+   Load the `building-legal-pages` skill for correct implementation.
+
+9. Page transitions: how should pages transition?
+   - Option A: Astro View Transitions (native, no extra library)
+   - Option B: GSAP-based custom transition (more control, premium feel)
+   Default: Ask. Load `building-page-transitions` skill for implementation.
+```
+
+**Only proceed when you have answers to all required questions.**
 
 ---
 

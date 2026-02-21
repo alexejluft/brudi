@@ -71,7 +71,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Skills (28 total)
+## Skills (30 total)
 
 ### Foundation
 
@@ -120,6 +120,7 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 | `orchestrating-react-animations` | GSAP or Framer Motion in React |
 | `scrolling-with-purpose` | ScrollTrigger cleanup, Lenis integration, horizontal scroll |
 | `orchestrating-css-js-animations` | CSS vs GSAP ownership, fill-mode conflict, will-change limits |
+| `building-page-transitions` | Page transitions — Astro native vs GSAP curtain |
 
 ### SaaS
 
@@ -134,7 +135,8 @@ Skills load only when needed. Initial context load is small (~150 tokens).
 
 | Skill | Use When |
 |-------|----------|
-| `starting-a-project` | Beginning any new project |
+| `starting-a-project` | Beginning any new project — briefing questions, stack, structure |
+| `building-legal-pages` | Any German/EU website — Impressum, DSGVO, Cookie-Banner |
 
 ---
 
@@ -152,7 +154,7 @@ See [docs/philosophy.md](docs/philosophy.md)
 
 ## Status
 
-**v0.15.0** — 28 skills across 8 categories, all evidence-based with pressure tests.
+**v0.16.0** — 30 skills across 8 categories, all evidence-based with pressure tests.
 
 ## License
 

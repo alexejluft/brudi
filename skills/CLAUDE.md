@@ -88,7 +88,7 @@ before working on that domain.**
 - `making-tech-decisions` — State management, rendering strategy, abstractions, bundle size
 
 ### Award-Level Craft
-- `designing-award-layouts` — 8pt spacing system, dark theme layering, mobile-first composition, visual hierarchy, motion timing, Unsplash placeholders
+- `designing-award-layouts` — 8pt spacing, dark theme layering, mobile-first, scroll indicator, mobile menu close, motion system, Unsplash placeholders
 - `designing-with-perception` — Human perception, fluid type, contrast
 - `designing-for-mobile` — Touch targets, thumb zones, safe areas
 - `handling-ui-states` — All 4 states, skeleton, form states
@@ -101,6 +101,7 @@ before working on that domain.**
 - `orchestrating-react-animations` — GSAP/Framer in React lifecycle
 - `scrolling-with-purpose` — ScrollTrigger cleanup, Lenis integration, horizontal scroll, sequential animations
 - `orchestrating-css-js-animations` — CSS vs GSAP ownership, fill-mode conflict, will-change limits
+- `building-page-transitions` — Astro View Transitions vs GSAP curtain, cleanup order, lifecycle events
 
 ### SaaS
 - `architecting-saas` — Route groups, getUser vs getSession, multi-tenancy schema, service layer
@@ -109,7 +110,8 @@ before working on that domain.**
 - `designing-saas-ux` — Onboarding flow, pricing tiers, empty states, settings architecture
 
 ### Alex's Workflow
-- `starting-a-project` — PRD → stack → structure → first screen, Unsplash placeholder rule
+- `starting-a-project` — PRD → stack → structure, mandatory briefing questions (hero, preloader, dark/light mode, legal, transitions)
+- `building-legal-pages` — Impressum (§5 DDG), DSGVO Privacy Policy, Cookie-Banner rules, copyright footer (DE/EU mandatory)
 
 ---
 
