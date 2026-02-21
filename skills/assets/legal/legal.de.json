@@ -1,0 +1,124 @@
+{
+  "impressum": {
+    "_description": "German Impressum — required by §5 TMG for all commercial websites",
+    "intro": "Angaben gemäß § 5 TMG",
+    "company": "{{COMPANY_NAME}}",
+    "represented_by": "Vertreten durch: {{REPRESENTATIVE_NAME}}",
+    "address": "{{STREET}}\n{{ZIP}} {{CITY}}\n{{COUNTRY}}",
+    "contact": {
+      "heading": "Kontakt",
+      "phone": "Telefon: {{PHONE}}",
+      "email": "E-Mail: {{EMAIL}}",
+      "website": "Web: {{WEBSITE}}"
+    },
+    "registration": {
+      "heading": "Registereintrag",
+      "court": "Registergericht: {{REGISTER_COURT}}",
+      "number": "Registernummer: {{REGISTER_NUMBER}}"
+    },
+    "vat": {
+      "heading": "Umsatzsteuer-ID",
+      "text": "Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: {{VAT_ID}}"
+    },
+    "responsible": {
+      "heading": "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV",
+      "text": "{{RESPONSIBLE_NAME}}\n{{RESPONSIBLE_ADDRESS}}"
+    },
+    "dispute_resolution": {
+      "heading": "EU-Streitschlichtung",
+      "text": "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: https://ec.europa.eu/consumers/odr/. Unsere E-Mail-Adresse finden Sie oben im Impressum.",
+      "note": "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."
+    },
+    "liability_content": {
+      "heading": "Haftung für Inhalte",
+      "text": "Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen."
+    },
+    "liability_links": {
+      "heading": "Haftung für Links",
+      "text": "Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich."
+    },
+    "copyright": {
+      "heading": "Urheberrecht",
+      "text": "Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers."
+    }
+  },
+  "datenschutz": {
+    "_description": "German Privacy Policy — required by DSGVO/GDPR",
+    "title": "Datenschutzerklärung",
+    "intro": {
+      "heading": "1. Datenschutz auf einen Blick",
+      "general": "Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen.",
+      "collection": {
+        "heading": "Wer ist verantwortlich für die Datenerfassung auf dieser Website?",
+        "text": "Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber: {{COMPANY_NAME}}, {{STREET}}, {{ZIP}} {{CITY}}. E-Mail: {{EMAIL}}"
+      },
+      "how": {
+        "heading": "Wie erfassen wir Ihre Daten?",
+        "text": "Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen (z.B. über ein Kontaktformular). Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch der Website durch unsere IT-Systeme erfasst (z.B. technische Daten wie Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs)."
+      },
+      "purpose": {
+        "heading": "Wofür nutzen wir Ihre Daten?",
+        "text": "Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden."
+      },
+      "rights": {
+        "heading": "Welche Rechte haben Sie bezüglich Ihrer Daten?",
+        "text": "Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen."
+      }
+    },
+    "hosting": {
+      "heading": "2. Hosting",
+      "text": "Diese Website wird bei {{HOSTING_PROVIDER}} gehostet. Details entnehmen Sie der Datenschutzerklärung von {{HOSTING_PROVIDER}}: {{HOSTING_PRIVACY_URL}}.",
+      "legal_basis": "Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer zuverlässigen Darstellung unserer Website)."
+    },
+    "general_info": {
+      "heading": "3. Allgemeine Hinweise und Pflichtinformationen",
+      "privacy": {
+        "heading": "Datenschutz",
+        "text": "Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung."
+      },
+      "ssl": {
+        "heading": "SSL- bzw. TLS-Verschlüsselung",
+        "text": "Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von \"http://\" auf \"https://\" wechselt."
+      }
+    },
+    "data_collection": {
+      "heading": "4. Datenerfassung auf dieser Website",
+      "cookies": {
+        "heading": "Cookies",
+        "text": "Unsere Internetseiten verwenden so genannte \"Cookies\". Cookies sind kleine Datenpakete und richten auf Ihrem Endgerät keinen Schaden an.",
+        "types": "Wir verwenden {{COOKIE_TYPES}}.",
+        "legal_basis": "Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (technisch notwendige Cookies) bzw. Art. 6 Abs. 1 lit. a DSGVO (Einwilligung für optionale Cookies)."
+      },
+      "contact_form": {
+        "heading": "Kontaktformular",
+        "text": "Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert.",
+        "legal_basis": "Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung/vorvertragliche Maßnahmen)."
+      },
+      "server_logs": {
+        "heading": "Server-Log-Dateien",
+        "text": "Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt: Browsertyp und -version, verwendetes Betriebssystem, Referrer URL, Hostname des zugreifenden Rechners, Uhrzeit der Serveranfrage, IP-Adresse.",
+        "legal_basis": "Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO."
+      }
+    },
+    "analytics": {
+      "heading": "5. Analyse-Tools und Werbung",
+      "text": "{{ANALYTICS_SECTION}}",
+      "none": "Diese Website verwendet keine Analyse-Tools oder Werbecookies."
+    },
+    "plugins": {
+      "heading": "6. Plugins und Tools",
+      "fonts": {
+        "heading": "Lokal eingebundene Schriftarten",
+        "text": "Diese Seite nutzt lokal eingebundene Schriftarten. Eine Verbindung zu externen Servern findet nicht statt."
+      },
+      "maps": {
+        "heading": "Google Maps",
+        "text": "{{MAPS_SECTION}}"
+      }
+    },
+    "updates": {
+      "heading": "7. Aktualität und Änderung dieser Datenschutzerklärung",
+      "text": "Diese Datenschutzerklärung ist aktuell gültig und hat den Stand {{PRIVACY_DATE}}. Durch die Weiterentwicklung unserer Website oder aufgrund geänderter gesetzlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern."
+    }
+  }
+}

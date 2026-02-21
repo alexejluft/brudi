@@ -1,0 +1,124 @@
+{
+  "impressum": {
+    "_description": "Legal Notice — required for all commercial websites, adapted for international use",
+    "intro": "Legal Information",
+    "company": "{{COMPANY_NAME}}",
+    "represented_by": "Represented by: {{REPRESENTATIVE_NAME}}",
+    "address": "{{STREET}}\n{{ZIP}} {{CITY}}\n{{COUNTRY}}",
+    "contact": {
+      "heading": "Contact",
+      "phone": "Phone: {{PHONE}}",
+      "email": "Email: {{EMAIL}}",
+      "website": "Website: {{WEBSITE}}"
+    },
+    "registration": {
+      "heading": "Registration",
+      "court": "Court of Registration: {{REGISTER_COURT}}",
+      "number": "Registration Number: {{REGISTER_NUMBER}}"
+    },
+    "vat": {
+      "heading": "VAT Identification Number",
+      "text": "VAT Identification Number according to Section 27 a of the German VAT Act: {{VAT_ID}}"
+    },
+    "responsible": {
+      "heading": "Responsible for Content",
+      "text": "{{RESPONSIBLE_NAME}}\n{{RESPONSIBLE_ADDRESS}}"
+    },
+    "dispute_resolution": {
+      "heading": "EU Dispute Resolution",
+      "text": "The European Commission provides a platform for online dispute resolution (ODR) at https://ec.europa.eu/consumers/odr/. You can find our email address in this legal notice above.",
+      "note": "We are not willing or obligated to participate in dispute resolution proceedings before a consumer arbitration board."
+    },
+    "liability_content": {
+      "heading": "Liability for Content",
+      "text": "As a service provider, we are liable for our own content on these pages according to general laws. However, as a service provider, we are not obligated to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity. Our obligations to remove or block the use of information remain unaffected. Any liability for damages that may result from the use of information provided, including any kind of information which is incomplete or incorrect, shall be excluded."
+    },
+    "liability_links": {
+      "heading": "Liability for Links",
+      "text": "Our website contains links to external third-party websites over whose content we have no control. Therefore, we cannot accept any liability for third-party content. The respective provider or operator of the pages is always responsible for the content of the linked pages. The linked pages were checked for possible legal violations at the time of linking. Illegal content was not detected at the time of linking. Permanent monitoring of the content of linked pages is not reasonable without concrete evidence of a violation. Upon notification of violations, we will immediately remove such links."
+    },
+    "copyright": {
+      "heading": "Copyright",
+      "text": "The content and works created by the site operators on these pages are subject to copyright law. The reproduction, processing, distribution, and any kind of exploitation outside the limits of copyright require written consent of the author or creator. Downloads and copies of these pages are permitted for private, non-commercial use only. If you reproduce, process, distribute, or otherwise exploit content on this site in violation of copyright, you will be liable and may face civil and criminal penalties."
+    }
+  },
+  "datenschutz": {
+    "_description": "Privacy Policy — GDPR-compliant privacy notice",
+    "title": "Privacy Policy",
+    "intro": {
+      "heading": "1. Privacy Policy Overview",
+      "general": "The following information provides an overview of how we process your personal data when you visit our website.",
+      "collection": {
+        "heading": "Who is responsible for data collection on this website?",
+        "text": "Data processing on this website is performed by the website operator: {{COMPANY_NAME}}, {{STREET}}, {{ZIP}} {{CITY}}. Email: {{EMAIL}}"
+      },
+      "how": {
+        "heading": "How do we collect your data?",
+        "text": "Your data is collected in part by you providing it to us (for example, via a contact form). Other data is collected automatically or with your consent when you visit the website by our IT systems (for example, technical data such as internet browser, operating system, or the time of your page visit)."
+      },
+      "purpose": {
+        "heading": "What do we use your data for?",
+        "text": "A portion of the data is collected to ensure error-free provision of the website. Other data may be used to analyze your user behavior to optimize our services."
+      },
+      "rights": {
+        "heading": "What rights do you have regarding your data?",
+        "text": "You have the right at any time to obtain information free of charge about the origin, recipient, and purpose of your stored personal data. You also have the right to request the correction or deletion of this data. You may also restrict processing and object to processing. You also have the right to data portability."
+      }
+    },
+    "hosting": {
+      "heading": "2. Hosting",
+      "text": "This website is hosted by {{HOSTING_PROVIDER}}. For details on their privacy practices, please see the privacy policy of {{HOSTING_PROVIDER}}: {{HOSTING_PRIVACY_URL}}.",
+      "legal_basis": "Legal basis: Art. 6 para. 1 lit. f GDPR (legitimate interest in reliable representation of our website)."
+    },
+    "general_info": {
+      "heading": "3. General Information and Mandatory Disclosures",
+      "privacy": {
+        "heading": "Privacy Protection",
+        "text": "The operators of these pages take the protection of your personal data very seriously. We treat your personal data confidentially and in accordance with statutory data protection regulations and this privacy policy."
+      },
+      "ssl": {
+        "heading": "SSL or TLS Encryption",
+        "text": "For security reasons and to protect the transmission of confidential content, this website uses SSL or TLS encryption. You can recognize an encrypted connection by the address bar of your browser changing from \"http://\" to \"https://\"."
+      }
+    },
+    "data_collection": {
+      "heading": "4. Data Collection on This Website",
+      "cookies": {
+        "heading": "Cookies",
+        "text": "Our website uses so-called \"cookies\". Cookies are small data packets that do not cause any damage to your device.",
+        "types": "We use {{COOKIE_TYPES}}.",
+        "legal_basis": "Legal basis: Art. 6 para. 1 lit. f GDPR (technically necessary cookies) or Art. 6 para. 1 lit. a GDPR (consent for optional cookies)."
+      },
+      "contact_form": {
+        "heading": "Contact Form",
+        "text": "If you submit inquiries to us via the contact form, your information from the inquiry form, including the contact details you provide, will be stored with us for the purpose of processing your inquiry and in case of follow-up questions.",
+        "legal_basis": "Legal basis: Art. 6 para. 1 lit. b GDPR (contract fulfillment or pre-contractual measures)."
+      },
+      "server_logs": {
+        "heading": "Server Log Files",
+        "text": "The provider of the website automatically collects and stores information in server log files that your browser transmits to us: browser type and version, operating system used, referrer URL, hostname of the accessing computer, time of server request, and IP address.",
+        "legal_basis": "Legal basis: Art. 6 para. 1 lit. f GDPR."
+      }
+    },
+    "analytics": {
+      "heading": "5. Analysis Tools and Advertising",
+      "text": "{{ANALYTICS_SECTION}}",
+      "none": "This website does not use any analysis tools or advertising cookies."
+    },
+    "plugins": {
+      "heading": "6. Plugins and Tools",
+      "fonts": {
+        "heading": "Locally Embedded Fonts",
+        "text": "This website uses locally embedded fonts. No connection to external servers is established."
+      },
+      "maps": {
+        "heading": "Google Maps",
+        "text": "{{MAPS_SECTION}}"
+      }
+    },
+    "updates": {
+      "heading": "7. Timeliness and Changes to This Privacy Policy",
+      "text": "This privacy policy is currently valid as of {{PRIVACY_DATE}}. As our website continues to develop or due to changes in legal requirements, it may become necessary to update this privacy policy."
+    }
+  }
+}

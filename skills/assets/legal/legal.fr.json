@@ -1,0 +1,124 @@
+{
+  "impressum": {
+    "_description": "Mentions légales - Informations obligatoires concernant l'identité et la responsabilité du prestataire",
+    "intro": "Les mentions légales ci-dessous s'appliquent à l'utilisation de notre site web.",
+    "company": "{{COMPANY_NAME}}",
+    "represented_by": "Représentée par {{REPRESENTATIVE_NAME}}",
+    "address": "{{STREET}}\n{{ZIP}} {{CITY}}\n{{COUNTRY}}",
+    "contact": {
+      "heading": "Coordonnées de contact",
+      "phone": "Téléphone : {{PHONE}}",
+      "email": "Adresse e-mail : {{EMAIL}}",
+      "website": "Site web : {{WEBSITE}}"
+    },
+    "registration": {
+      "heading": "Informations d'inscription",
+      "court": "Tribunal d'enregistrement : {{REGISTER_COURT}}",
+      "number": "Numéro d'enregistrement : {{REGISTER_NUMBER}}"
+    },
+    "vat": {
+      "heading": "Identifiant de TVA",
+      "text": "Numéro de TVA intracommunautaire : {{VAT_ID}}"
+    },
+    "responsible": {
+      "heading": "Responsable du contenu",
+      "text": "{{RESPONSIBLE_NAME}}\n{{RESPONSIBLE_ADDRESS}}\n\nLa responsabilité du contenu s'étend à toutes les sections de ce site web."
+    },
+    "dispute_resolution": {
+      "heading": "Résolution des litiges",
+      "text": "Conformément à la directive sur la résolution des litiges en ligne (RLL), nous vous informons que nous ne sommes pas obligés de participer à des procédures de résolution des litiges devant un organe d'arbitrage extrajudiciaire.",
+      "note": "Plateforme de résolution des litiges de la Commission européenne : https://ec.europa.eu/consumers/odr"
+    },
+    "liability_content": {
+      "heading": "Limitation de responsabilité - Contenu",
+      "text": "Bien que nous nous efforcions de maintenir des informations exactes et à jour sur ce site web, {{COMPANY_NAME}} ne peut pas garantir l'exactitude, l'exhaustivité ou la pertinence de tout le contenu. {{COMPANY_NAME}} n'assume aucune responsabilité pour les dommages ou pertes résultant de l'utilisation ou de la confiance accordée à ces informations."
+    },
+    "liability_links": {
+      "heading": "Limitation de responsabilité - Liens externes",
+      "text": "Ce site web peut contenir des liens vers des sites web tiers. Nous ne sommes pas responsables du contenu, de la disponibilité ou de la précision de ces sites web externes. Les utilisateurs utilisent ces sites tiers à leurs propres risques."
+    },
+    "copyright": {
+      "heading": "Droits d'auteur et propriété intellectuelle",
+      "text": "Tous les contenus de ce site web, y compris les textes, les images, les graphiques, les logos et les logiciels, sont la propriété de {{COMPANY_NAME}} ou de ses concédants de licence respectifs et sont protégés par les lois sur le droit d'auteur. La reproduction ou la distribution de ce contenu sans autorisation écrite explicite est interdite."
+    }
+  },
+  "datenschutz": {
+    "_description": "Politique de confidentialité - Informations sur le traitement des données personnelles conformément au RGPD",
+    "title": "Politique de confidentialité",
+    "intro": {
+      "heading": "Introduction",
+      "general": "La protection de vos données personnelles est une priorité absolue pour {{COMPANY_NAME}}. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos données personnelles conformément au Règlement général sur la protection des données (RGPD) et à la législation française applicable.",
+      "collection": {
+        "heading": "Collecte de données",
+        "text": "Nous collectons vos données personnelles uniquement lorsque cela est nécessaire pour fournir nos services ou accomplir des obligations légales. Les données collectées comprennent votre nom, votre adresse e-mail, votre adresse IP et les informations que vous fournissez volontairement via nos formulaires de contact."
+      },
+      "how": {
+        "heading": "Comment nous collectons vos données",
+        "text": "Nous collectons vos données de plusieurs façons : directement lorsque vous les fournissez volontairement, automatiquement via des cookies et des technologies de suivi, et à travers les serveurs web lors de votre navigation."
+      },
+      "purpose": {
+        "heading": "Finalités du traitement",
+        "text": "Nous utilisons vos données personnelles pour : fournir et améliorer nos services, communiquer avec vous, traiter vos demandes, analyser l'utilisation du site web, et nous conformer aux obligations légales."
+      },
+      "rights": {
+        "heading": "Vos droits",
+        "text": "Conformément au RGPD, vous avez le droit d'accéder à vos données personnelles, de les rectifier, de les supprimer, de restreindre le traitement, de vous opposer au traitement, et de la portabilité des données. Pour exercer ces droits, veuillez contacter : {{EMAIL}}"
+      }
+    },
+    "hosting": {
+      "heading": "Hébergement",
+      "text": "Ce site web est hébergé par {{HOSTING_PROVIDER}}. Les serveurs peuvent être situés en dehors de l'UE. Le fournisseur d'hébergement traite vos données selon ses conditions de confidentialité disponibles à : {{HOSTING_PRIVACY_URL}}",
+      "legal_basis": "Base juridique : intérêt légitime pour assurer la disponibilité et la fiabilité du site web"
+    },
+    "general_info": {
+      "heading": "Informations générales",
+      "privacy": {
+        "heading": "Responsable du traitement",
+        "text": "Le responsable du traitement des données personnelles est {{COMPANY_NAME}}, représentée par {{RESPONSIBLE_NAME}}, {{RESPONSIBLE_ADDRESS}}."
+      },
+      "ssl": {
+        "heading": "Cryptage SSL/TLS",
+        "text": "Ce site web utilise le cryptage SSL/TLS pour protéger vos données personnelles en transit. Les données transmises via votre connexion Internet sont cryptées et ne peuvent pas être lues par des tiers."
+      }
+    },
+    "data_collection": {
+      "heading": "Collecte de données en détail",
+      "cookies": {
+        "heading": "Cookies",
+        "text": "Ce site web utilise des cookies pour améliorer l'expérience utilisateur et analyser l'utilisation du site. Les cookies sont de petits fichiers texte stockés sur votre appareil. Vous pouvez désactiver les cookies dans les paramètres de votre navigateur.",
+        "types": "Types de cookies : {{COOKIE_TYPES}}",
+        "legal_basis": "Base juridique : consentement et intérêt légitime"
+      },
+      "contact_form": {
+        "heading": "Formulaire de contact",
+        "text": "Si vous nous contactez via notre formulaire de contact, nous collectons votre nom, votre adresse e-mail et le contenu de votre message pour traiter votre demande et vous répondre.",
+        "legal_basis": "Base juridique : exécution d'un contrat ou intérêt légitime"
+      },
+      "server_logs": {
+        "heading": "Journaux serveur",
+        "text": "Les serveurs web enregistrent automatiquement certaines informations lors de votre visite, notamment votre adresse IP, le navigateur utilisé, la page de référence et l'heure d'accès. Ces données sont utilisées pour des fins statistiques et de sécurité.",
+        "legal_basis": "Base juridique : intérêt légitime pour la sécurité et l'amélioration du service"
+      }
+    },
+    "analytics": {
+      "heading": "Analyse web",
+      "text": "{{ANALYTICS_SECTION}}",
+      "none": "Aucun outil d'analyse web actif n'est actuellement utilisé sur ce site."
+    },
+    "plugins": {
+      "heading": "Plugins et extensions",
+      "fonts": {
+        "heading": "Polices Google Fonts",
+        "text": "Ce site web utilise les polices Google Fonts. Lors de l'accès à ce site, les données vous concernant sont transmises aux serveurs Google situés aux États-Unis. Pour plus d'informations, consulez la politique de confidentialité de Google : https://policies.google.com/privacy"
+      },
+      "maps": {
+        "heading": "Cartes Google Maps",
+        "text": "{{MAPS_SECTION}}"
+      }
+    },
+    "updates": {
+      "heading": "Mises à jour de cette politique",
+      "text": "Nous nous réservons le droit de mettre à jour cette politique de confidentialité à tout moment. Les modifications significatives seront communiquées par voie électronique ou par un avis éminence sur le site web. La date de la dernière mise à jour est {{PRIVACY_DATE}}."
+    }
+  }
+}

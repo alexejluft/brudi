@@ -1,0 +1,124 @@
+{
+  "impressum": {
+    "_description": "Note legali - Impressum con informazioni aziendali obbligatorie",
+    "intro": "Le seguenti informazioni sono obbligatorie secondo la legge tedesca TMG (Telemediengesetz) e sono rese disponibili per trasparenza.",
+    "company": "{{COMPANY_NAME}}",
+    "represented_by": "Rappresentato da:",
+    "address": "{{STREET}}\n{{ZIP}} {{CITY}}\n{{COUNTRY}}",
+    "contact": {
+      "heading": "Contatti",
+      "phone": "Telefono: {{PHONE}}",
+      "email": "Email: {{EMAIL}}",
+      "website": "Sito web: {{WEBSITE}}"
+    },
+    "registration": {
+      "heading": "Iscrizione nel registro delle imprese",
+      "court": "Tribunale competente: {{REGISTER_COURT}}",
+      "number": "Numero di iscrizione: {{REGISTER_NUMBER}}"
+    },
+    "vat": {
+      "heading": "Numero di partita IVA",
+      "text": "Partita IVA: {{VAT_ID}}"
+    },
+    "responsible": {
+      "heading": "Responsabile dei contenuti",
+      "text": "Responsabile editoriale: {{RESPONSIBLE_NAME}}, {{RESPONSIBLE_ADDRESS}}"
+    },
+    "dispute_resolution": {
+      "heading": "Risoluzione delle controversie",
+      "text": "L'Unione Europea fornisce una piattaforma online per la risoluzione delle controversie (piattaforma ODR) accessibile presso https://ec.europa.eu/consumers/odr/. Non siamo obbligati a partecipare a procedure di risoluzione delle controversie dinanzi a un organismo arbitrale consumer.",
+      "note": "I consumatori hanno il diritto di presentare reclami all'autorità competente."
+    },
+    "liability_content": {
+      "heading": "Esclusione di responsabilità per i contenuti",
+      "text": "I contenuti delle nostre pagine sono stati creati con cura. Tuttavia, non possiamo garantire l'accuratezza, la completezza e l'attualità dei contenuti. Secondo la legge generale, siamo responsabili dei nostri contenuti su queste pagine in conformità con la legge generale (§ 7 TMG). Tuttavia, secondo il diritto tedesco, non siamo responsabili di conservare informazioni o di comunicare a richiesta informazioni che non abbiamo creato (§§ 8-10 TMG)."
+    },
+    "liability_links": {
+      "heading": "Esclusione di responsabilità per i link",
+      "text": "La nostra pagina web contiene link a siti web esterni di terzi. Non abbiamo influenza sul contenuto di questi siti web esterni. Pertanto, non possiamo assumerci alcuna responsabilità per questi contenuti esterni. Il fornitore o l'operatore del sito web collegato rimane sempre responsabile del contenuto delle pagine collegate. I siti web collegati sono stati controllati per possibili violazioni legali al momento del collegamento. Nessun contenuto illegale è stato riconosciuto al momento del collegamento. Monitoreremo costantemente i siti web collegati per modifiche che potrebbero costituire una violazione della legge. Se scopriamo una violazione della legge, rimuoveremo immediatamente il link in questione."
+    },
+    "copyright": {
+      "heading": "Diritti d'autore",
+      "text": "Il contenuto di questo sito web è protetto dal diritto d'autore. Tutti i diritti sono riservati. La riproduzione, la distribuzione, la trasmissione, la memorizzazione in cache, l'esposizione pubblica o qualsiasi altro utilizzo del contenuto senza il consenso esplicito per iscritto di {{COMPANY_NAME}} è vietato."
+    }
+  },
+  "datenschutz": {
+    "_description": "Informativa sulla privacy - Dichiarazione di protezione dei dati personali conforme al GDPR",
+    "title": "Informativa sulla privacy",
+    "intro": {
+      "heading": "Protezione dei dati personali",
+      "general": "La protezione dei vostri dati personali è particolarmente importante per noi. Elaboriamo i vostri dati personali esclusivamente in conformità alle disposizioni della legge sulla protezione dei dati. Questa informativa sulla privacy descrive il tipo, l'entità e lo scopo della raccolta e dell'utilizzo dei dati personali da parte di {{COMPANY_NAME}}.",
+      "collection": {
+        "heading": "Raccolta e elaborazione dei dati",
+        "text": "I dati personali vengono raccolti solo se forniti volontariamente, ad esempio tramite moduli di contatto o registrazione."
+      },
+      "how": {
+        "heading": "Come proteggiamo i vostri dati",
+        "text": "Utilizziamo misure di sicurezza tecniche e organizzative per proteggere i vostri dati personali da accesso non autorizzato, alterazione, perdita e distruzione."
+      },
+      "purpose": {
+        "heading": "Finalità del trattamento",
+        "text": "I vostri dati personali vengono elaborati esclusivamente per le finalità indicate nell'informativa sulla privacy, con il vostro consenso esplicito e in conformità al Regolamento UE 2016/679 (GDPR)."
+      },
+      "rights": {
+        "heading": "I vostri diritti",
+        "text": "Avete diritto di accesso, rettifica, cancellazione e limitazione del trattamento dei vostri dati personali. Per esercitare questi diritti, contattateci all'indirizzo email {{EMAIL}}."
+      }
+    },
+    "hosting": {
+      "heading": "Hosting",
+      "text": "Il nostro sito web è ospitato da {{HOSTING_PROVIDER}}. I dati relativi all'utilizzo del sito web possono essere trasmessi al provider di hosting come parte dell'operazione. Per ulteriori informazioni sulla protezione dei dati, consultare l'informativa sulla privacy di {{HOSTING_PROVIDER}} disponibile presso {{HOSTING_PRIVACY_URL}}.",
+      "legal_basis": "Base giuridica: Articolo 6(1) f) GDPR (legittime scopi commerciali)"
+    },
+    "general_info": {
+      "heading": "Informazioni generali",
+      "privacy": {
+        "heading": "Dichiarazione sulla privacy",
+        "text": "L'utilizzo del nostro sito web è generalmente possibile senza fornire dati personali. Se effettuate il login, trasmettete alcuni dati a {{COMPANY_NAME}}, che vengono salvati e utilizzati solo per gli scopi indicati."
+      },
+      "ssl": {
+        "heading": "Comunicazione crittografata",
+        "text": "Il nostro sito web utilizza il protocollo SSL (Secure Sockets Layer) per proteggere i dati trasmessi. I dati sono crittografati prima della trasmissione."
+      }
+    },
+    "data_collection": {
+      "heading": "Raccolta dati",
+      "cookies": {
+        "heading": "Cookie",
+        "text": "Questo sito web utilizza cookie per memorizzare informazioni sui visitatori. I cookie sono piccoli file di testo che vengono salvati sul vostro dispositivo e ci permettono di migliorare l'usabilità del sito web. Potete rifiutare i cookie non essenziali in qualsiasi momento nelle impostazioni del vostro browser.",
+        "types": "Tipi di cookie: {{COOKIE_TYPES}}",
+        "legal_basis": "Base giuridica: Articolo 6(1) a) GDPR (consenso)"
+      },
+      "contact_form": {
+        "heading": "Modulo di contatto",
+        "text": "Quando utilizzate il modulo di contatto, i dati forniti (nome, email, messaggio) vengono trasmessi a {{COMPANY_NAME}} e utilizzati esclusivamente per rispondere alla vostra richiesta.",
+        "legal_basis": "Base giuridica: Articolo 6(1) a) GDPR (consenso) e Articolo 6(1) f) GDPR (scopi commerciali legittimi)"
+      },
+      "server_logs": {
+        "heading": "File di log del server",
+        "text": "Il nostro provider di hosting raccoglie dati nella forma di file di log del server. Questi includono indirizzo IP, browser utilizzato, pagina di riferimento, ora di accesso, volume di dati trasferiti e codice di stato HTTP. Questi dati vengono utilizzati per scopi statistici e per migliorare la sicurezza e le prestazioni del sito web.",
+        "legal_basis": "Base giuridica: Articolo 6(1) f) GDPR (scopi commerciali legittimi)"
+      }
+    },
+    "analytics": {
+      "heading": "Analitiche web",
+      "text": "{{ANALYTICS_SECTION}}",
+      "none": "Questo sito web non utilizza alcun servizio di analitiche web che raccoglie dati personali."
+    },
+    "plugins": {
+      "heading": "Plugin e strumenti integrati",
+      "fonts": {
+        "heading": "Font web",
+        "text": "Questo sito web utilizza font web da fornitori esterni. Quando accedete al sito web, i font vengono caricati da server esterni. Durante il caricamento, il vostro indirizzo IP può essere trasmesso al fornitore di font."
+      },
+      "maps": {
+        "heading": "Mappe integrate",
+        "text": "{{MAPS_SECTION}}"
+      }
+    },
+    "updates": {
+      "heading": "Aggiornamenti di questa informativa",
+      "text": "Ci riserviamo il diritto di aggiornare questa informativa sulla privacy in qualsiasi momento. L'ultima modifica risale a {{PRIVACY_DATE}}. Controllate periodicamente questa pagina per rimanere informato riguardo alle modifiche."
+    }
+  }
+}

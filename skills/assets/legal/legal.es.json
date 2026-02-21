@@ -1,0 +1,124 @@
+{
+  "impressum": {
+    "_description": "Aviso legal - Información obligatoria sobre la identidad y responsabilidad del prestador de servicios",
+    "intro": "Los siguientes avisos legales se aplican al uso de nuestro sitio web.",
+    "company": "{{COMPANY_NAME}}",
+    "represented_by": "Representada por {{REPRESENTATIVE_NAME}}",
+    "address": "{{STREET}}\n{{ZIP}} {{CITY}}\n{{COUNTRY}}",
+    "contact": {
+      "heading": "Datos de contacto",
+      "phone": "Teléfono: {{PHONE}}",
+      "email": "Correo electrónico: {{EMAIL}}",
+      "website": "Sitio web: {{WEBSITE}}"
+    },
+    "registration": {
+      "heading": "Información de registro",
+      "court": "Tribunal de inscripción: {{REGISTER_COURT}}",
+      "number": "Número de registro: {{REGISTER_NUMBER}}"
+    },
+    "vat": {
+      "heading": "Identificación de IVA",
+      "text": "Número de identificación de IVA: {{VAT_ID}}"
+    },
+    "responsible": {
+      "heading": "Responsable del contenido",
+      "text": "{{RESPONSIBLE_NAME}}\n{{RESPONSIBLE_ADDRESS}}\n\nLa responsabilidad del contenido se extiende a todas las secciones de este sitio web."
+    },
+    "dispute_resolution": {
+      "heading": "Resolución de disputas",
+      "text": "De conformidad con la Directiva sobre resolución de conflictos en línea (RLL), le informamos que no estamos obligados a participar en procedimientos de resolución de controversias ante un organismo arbitral extrajudicial.",
+      "note": "Plataforma de resolución de controversias de la Comisión Europea: https://ec.europa.eu/consumers/odr"
+    },
+    "liability_content": {
+      "heading": "Limitación de responsabilidad - Contenido",
+      "text": "Aunque nos esforzamos por mantener información exacta y actualizada en este sitio web, {{COMPANY_NAME}} no puede garantizar la exactitud, integridad o relevancia de todo el contenido. {{COMPANY_NAME}} no asume ninguna responsabilidad por daños o pérdidas que resulten del uso o confianza en esta información."
+    },
+    "liability_links": {
+      "heading": "Limitación de responsabilidad - Enlaces externos",
+      "text": "Este sitio web puede contener enlaces a sitios web de terceros. No somos responsables del contenido, disponibilidad o exactitud de estos sitios web externos. Los usuarios utilizan estos sitios de terceros por su cuenta y riesgo."
+    },
+    "copyright": {
+      "heading": "Derechos de autor y propiedad intelectual",
+      "text": "Todo el contenido de este sitio web, incluidos textos, imágenes, gráficos, logotipos y software, es propiedad de {{COMPANY_NAME}} o de sus respectivos licenciantes y está protegido por las leyes de derechos de autor. La reproducción o distribución de este contenido sin autorización escrita explícita está prohibida."
+    }
+  },
+  "datenschutz": {
+    "_description": "Política de privacidad - Información sobre el tratamiento de datos personales de conformidad con el RGPD y LOPD-GDD",
+    "title": "Política de privacidad",
+    "intro": {
+      "heading": "Introducción",
+      "general": "La protección de sus datos personales es una prioridad absoluta para {{COMPANY_NAME}}. Esta política de privacidad explica cómo recopilamos, utilizamos y protegemos sus datos personales de conformidad con el Reglamento General de Protección de Datos (RGPD) y la Ley Orgánica de Protección de Datos Personales y garantía de derechos digitales (LOPD-GDD) de España.",
+      "collection": {
+        "heading": "Recopilación de datos",
+        "text": "Recopilamos sus datos personales solo cuando es necesario para proporcionar nuestros servicios o cumplir con obligaciones legales. Los datos recopilados incluyen su nombre, dirección de correo electrónico, dirección IP e información que proporciona voluntariamente a través de nuestros formularios de contacto."
+      },
+      "how": {
+        "heading": "Cómo recopilamos sus datos",
+        "text": "Recopilamos sus datos de varias formas: directamente cuando los proporciona voluntariamente, automáticamente a través de cookies y tecnologías de seguimiento, y a través de los servidores web durante su navegación."
+      },
+      "purpose": {
+        "heading": "Finalidades del tratamiento",
+        "text": "Utilizamos sus datos personales para: proporcionar y mejorar nuestros servicios, comunicarnos con usted, procesar sus solicitudes, analizar el uso del sitio web y cumplir con las obligaciones legales."
+      },
+      "rights": {
+        "heading": "Sus derechos",
+        "text": "De conformidad con el RGPD, usted tiene derecho a acceder a sus datos personales, rectificarlos, suprimirlos, restringir el tratamiento, oponerse al tratamiento y a la portabilidad de datos. Para ejercer estos derechos, póngase en contacto con: {{EMAIL}}"
+      }
+    },
+    "hosting": {
+      "heading": "Alojamiento",
+      "text": "Este sitio web está alojado por {{HOSTING_PROVIDER}}. Los servidores pueden estar ubicados fuera de la UE. El proveedor de alojamiento trata sus datos de conformidad con sus términos de privacidad disponibles en: {{HOSTING_PRIVACY_URL}}",
+      "legal_basis": "Base legal: interés legítimo para garantizar la disponibilidad y confiabilidad del sitio web"
+    },
+    "general_info": {
+      "heading": "Información general",
+      "privacy": {
+        "heading": "Responsable del tratamiento",
+        "text": "El responsable del tratamiento de datos personales es {{COMPANY_NAME}}, representada por {{RESPONSIBLE_NAME}}, {{RESPONSIBLE_ADDRESS}}."
+      },
+      "ssl": {
+        "heading": "Cifrado SSL/TLS",
+        "text": "Este sitio web utiliza cifrado SSL/TLS para proteger sus datos personales en tránsito. Los datos transmitidos a través de su conexión a Internet están cifrados y no pueden ser leídos por terceros."
+      }
+    },
+    "data_collection": {
+      "heading": "Recopilación de datos en detalle",
+      "cookies": {
+        "heading": "Cookies",
+        "text": "Este sitio web utiliza cookies para mejorar la experiencia del usuario y analizar el uso del sitio. Las cookies son pequeños archivos de texto almacenados en su dispositivo. Puede desactivar las cookies en la configuración de su navegador.",
+        "types": "Tipos de cookies: {{COOKIE_TYPES}}",
+        "legal_basis": "Base legal: consentimiento e interés legítimo"
+      },
+      "contact_form": {
+        "heading": "Formulario de contacto",
+        "text": "Si nos contacta a través de nuestro formulario de contacto, recopilamos su nombre, dirección de correo electrónico y el contenido de su mensaje para procesar su solicitud y responderle.",
+        "legal_basis": "Base legal: ejecución de un contrato o interés legítimo"
+      },
+      "server_logs": {
+        "heading": "Registros del servidor",
+        "text": "Los servidores web registran automáticamente cierta información cuando visita el sitio, incluida su dirección IP, el navegador utilizado, la página de referencia y la hora de acceso. Estos datos se utilizan con fines estadísticos y de seguridad.",
+        "legal_basis": "Base legal: interés legítimo para la seguridad y mejora del servicio"
+      }
+    },
+    "analytics": {
+      "heading": "Análisis web",
+      "text": "{{ANALYTICS_SECTION}}",
+      "none": "Actualmente no se utiliza ninguna herramienta de análisis web activo en este sitio."
+    },
+    "plugins": {
+      "heading": "Complementos y extensiones",
+      "fonts": {
+        "heading": "Google Fonts",
+        "text": "Este sitio web utiliza Google Fonts. Al acceder a este sitio, los datos sobre usted se transmiten a los servidores de Google ubicados en Estados Unidos. Para más información, consulte la política de privacidad de Google: https://policies.google.com/privacy"
+      },
+      "maps": {
+        "heading": "Google Maps",
+        "text": "{{MAPS_SECTION}}"
+      }
+    },
+    "updates": {
+      "heading": "Actualizaciones de esta política",
+      "text": "Nos reservamos el derecho de actualizar esta política de privacidad en cualquier momento. Los cambios significativos serán comunicados electrónicamente o mediante un aviso destacado en el sitio web. La fecha de la última actualización es {{PRIVACY_DATE}}."
+    }
+  }
+}

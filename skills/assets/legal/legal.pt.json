@@ -1,0 +1,124 @@
+{
+  "impressum": {
+    "_description": "Aviso legal - Impressum com informações comerciais obrigatórias",
+    "intro": "As seguintes informações são obrigatórias de acordo com a Lei de Meios de Comunicação (TMG) alemã e são fornecidas para transparência.",
+    "company": "{{COMPANY_NAME}}",
+    "represented_by": "Representado por:",
+    "address": "{{STREET}}\n{{ZIP}} {{CITY}}\n{{COUNTRY}}",
+    "contact": {
+      "heading": "Informações de contato",
+      "phone": "Telefone: {{PHONE}}",
+      "email": "E-mail: {{EMAIL}}",
+      "website": "Site: {{WEBSITE}}"
+    },
+    "registration": {
+      "heading": "Inscrição no registo comercial",
+      "court": "Tribunal competente: {{REGISTER_COURT}}",
+      "number": "Número de inscrição: {{REGISTER_NUMBER}}"
+    },
+    "vat": {
+      "heading": "Número de IVA",
+      "text": "Número de IVA: {{VAT_ID}}"
+    },
+    "responsible": {
+      "heading": "Responsável pelos conteúdos",
+      "text": "Responsável editorial: {{RESPONSIBLE_NAME}}, {{RESPONSIBLE_ADDRESS}}"
+    },
+    "dispute_resolution": {
+      "heading": "Resolução de conflitos",
+      "text": "A União Europeia fornece uma plataforma online para a resolução de conflitos (plataforma RLL) acessível em https://ec.europa.eu/consumers/odr/. Não somos obrigados a participar em procedimentos de resolução de conflitos perante um organismo arbitral para consumidores.",
+      "note": "Os consumidores têm o direito de apresentar reclamações à autoridade competente."
+    },
+    "liability_content": {
+      "heading": "Exclusão de responsabilidade pelos conteúdos",
+      "text": "Os conteúdos das nossas páginas foram criados com cuidado. No entanto, não podemos garantir a precisão, completude e atualidade dos conteúdos. De acordo com a lei geral, somos responsáveis pelos nossos conteúdos nessas páginas em conformidade com a lei geral (§ 7 TMG). No entanto, de acordo com a lei alemã, não somos responsáveis pela preservação de informações ou pela divulgação de informações que não criámos (§§ 8-10 TMG)."
+    },
+    "liability_links": {
+      "heading": "Exclusão de responsabilidade por links",
+      "text": "A nossa página web contém links para websites externos de terceiros. Não temos influência sobre o conteúdo desses websites externos. Portanto, não podemos assumir qualquer responsabilidade por esses conteúdos externos. O fornecedor ou operador do website ligado é sempre responsável pelo conteúdo das páginas ligadas. Os websites ligados foram verificados quanto a possíveis violações legais no momento da ligação. Nenhum conteúdo ilegal foi identificado no momento da ligação. Monitorizaremos continuamente os websites ligados para alterações que possam constituir uma violação da lei. Se descobrirmos uma violação da lei, removeremos imediatamente o link em questão."
+    },
+    "copyright": {
+      "heading": "Direitos autorais",
+      "text": "O conteúdo deste website está protegido pelo direito autoral. Todos os direitos estão reservados. A reprodução, distribuição, transmissão, armazenamento em cache, exibição pública ou qualquer outra utilização do conteúdo sem o consentimento expresso por escrito de {{COMPANY_NAME}} é proibida."
+    }
+  },
+  "datenschutz": {
+    "_description": "Política de privacidade - Declaração de proteção de dados pessoais em conformidade com RGPD",
+    "title": "Política de privacidade",
+    "intro": {
+      "heading": "Proteção de dados pessoais",
+      "general": "A proteção dos seus dados pessoais é particularmente importante para nós. Processamos os seus dados pessoais exclusivamente em conformidade com as disposições da lei de proteção de dados. Esta política de privacidade descreve o tipo, a extensão e o objetivo da coleta e uso de dados pessoais por {{COMPANY_NAME}}.",
+      "collection": {
+        "heading": "Coleta e processamento de dados",
+        "text": "Os dados pessoais são coletados apenas se fornecidos voluntariamente, por exemplo, através de formulários de contato ou registros."
+      },
+      "how": {
+        "heading": "Como protegemos os seus dados",
+        "text": "Utilizamos medidas de segurança técnicas e organizacionais para proteger os seus dados pessoais contra acesso não autorizado, alteração, perda e destruição."
+      },
+      "purpose": {
+        "heading": "Finalidade do processamento",
+        "text": "Os seus dados pessoais são processados exclusivamente para os fins indicados nesta política de privacidade, com o seu consentimento expresso e em conformidade com o Regulamento UE 2016/679 (RGPD)."
+      },
+      "rights": {
+        "heading": "Os seus direitos",
+        "text": "Você tem direito de acesso, retificação, exclusão e limitação do processamento dos seus dados pessoais. Para exercer estes direitos, contatenos no endereço de e-mail {{EMAIL}}."
+      }
+    },
+    "hosting": {
+      "heading": "Alojamento",
+      "text": "O nosso website é alojado por {{HOSTING_PROVIDER}}. Os dados relativos à utilização do website podem ser transmitidos ao fornecedor de alojamento como parte da operação. Para mais informações sobre proteção de dados, consulte a política de privacidade de {{HOSTING_PROVIDER}} disponível em {{HOSTING_PRIVACY_URL}}.",
+      "legal_basis": "Base legal: Artigo 6(1) f) RGPD (interesses comerciais legítimos)"
+    },
+    "general_info": {
+      "heading": "Informações gerais",
+      "privacy": {
+        "heading": "Declaração de privacidade",
+        "text": "O uso do nosso website é geralmente possível sem fornecer dados pessoais. Se efetuar login, transmite alguns dados a {{COMPANY_NAME}}, que são salvos e utilizados apenas para os fins indicados."
+      },
+      "ssl": {
+        "heading": "Comunicação encriptada",
+        "text": "O nosso website utiliza o protocolo SSL (Secure Sockets Layer) para proteger os dados transmitidos. Os dados são encriptados antes da transmissão."
+      }
+    },
+    "data_collection": {
+      "heading": "Coleta de dados",
+      "cookies": {
+        "heading": "Cookies",
+        "text": "Este website utiliza cookies para armazenar informações sobre os visitantes. Os cookies são pequenos ficheiros de texto que são salvos no seu dispositivo e nos permitem melhorar a usabilidade do website. Você pode recusar cookies não essenciais a qualquer momento nas definições do seu navegador.",
+        "types": "Tipos de cookies: {{COOKIE_TYPES}}",
+        "legal_basis": "Base legal: Artigo 6(1) a) RGPD (consentimento)"
+      },
+      "contact_form": {
+        "heading": "Formulário de contato",
+        "text": "Quando você utiliza o formulário de contato, os dados fornecidos (nome, e-mail, mensagem) são transmitidos a {{COMPANY_NAME}} e utilizados exclusivamente para responder à sua solicitação.",
+        "legal_basis": "Base legal: Artigo 6(1) a) RGPD (consentimento) e Artigo 6(1) f) RGPD (interesses comerciais legítimos)"
+      },
+      "server_logs": {
+        "heading": "Ficheiros de registo do servidor",
+        "text": "O nosso fornecedor de alojamento coleta dados na forma de ficheiros de registo do servidor. Estes incluem endereço IP, navegador utilizado, página de referência, hora de acesso, volume de dados transferidos e código de estado HTTP. Estes dados são utilizados para fins estatísticos e para melhorar a segurança e o desempenho do website.",
+        "legal_basis": "Base legal: Artigo 6(1) f) RGPD (interesses comerciais legítimos)"
+      }
+    },
+    "analytics": {
+      "heading": "Analítica web",
+      "text": "{{ANALYTICS_SECTION}}",
+      "none": "Este website não utiliza qualquer serviço de analítica web que colete dados pessoais."
+    },
+    "plugins": {
+      "heading": "Plugins e ferramentas integradas",
+      "fonts": {
+        "heading": "Fontes web",
+        "text": "Este website utiliza fontes web de fornecedores externos. Quando acessa o website, as fontes são carregadas de servidores externos. Durante o carregamento, o seu endereço IP pode ser transmitido ao fornecedor de fontes."
+      },
+      "maps": {
+        "heading": "Mapas integrados",
+        "text": "{{MAPS_SECTION}}"
+      }
+    },
+    "updates": {
+      "heading": "Atualizações desta política",
+      "text": "Reservamo-nos o direito de atualizar esta política de privacidade a qualquer momento. A última modificação data de {{PRIVACY_DATE}}. Verifique esta página periodicamente para se manter informado sobre as alterações."
+    }
+  }
+}
