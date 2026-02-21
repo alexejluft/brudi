@@ -98,7 +98,7 @@ export function getMotionDuration(d: number) {
 }
 
 // ✅ GPU only: transform + opacity. Always clean up.
-gsap.to(el, { x: 100, opacity: 0.8, duration: getMotionDuration(motion.duration.base), willChange: 'transform, opacity' })
+gsap.to(el, { x: 100, opacity: 0.8, duration: getMotionDuration(motion.duration.base), willChange: 'transform, opacity' }) // willChange: use on max 3 elements, remove after animation
 useEffect(() => {
   const ctx = gsap.context(() => { /* animations */ }, containerRef)
   return () => ctx.revert()

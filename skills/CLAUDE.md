@@ -64,69 +64,120 @@ Critical combinations:
 
 ---
 
-## Available Skills
+## Asset Awareness
 
-These skills contain the exact patterns to use. **Load the relevant skill
-before working on that domain.**
+Before starting any project, read `~/.brudi/assets/INDEX.md` to discover pre-built:
+- Variable font pairings with setup instructions
+- Design tokens, Tailwind presets, and CSS resets
+- i18n translation keys (154 UI phrases, 6 languages)
+- Legal page templates (GDPR/DSGVO compliant)
+- GSAP and Framer Motion code snippets
 
-### Foundation
-- `building-layouts` — Grid, Flexbox, Container Queries
-- `designing-for-awards` — Visual decisions, avoiding AI-slop
-- `animating-interfaces` — Timing, easing, performance rules
-- `developing-with-react` — RSC, hooks, state patterns
-- `typing-with-typescript` — Strict types, utility types
-- `testing-user-interfaces` — Vitest, Testing Library
-- `optimizing-performance` — Core Web Vitals, LCP, INP, CLS
-- `building-accessibly` — WCAG, keyboard nav, ARIA
-
-### Data & Stack
-- `fetching-data-correctly` — Race conditions, TanStack Query, AbortController, optimistic updates
-- `building-with-nextjs` — App Router, Server vs Client Components, caching, metadata
-
-### Code Quality
-- `maintaining-quality` — Zod for JSON.parse, typed tryCatch, T3 env validation, unused imports
-- `making-tech-decisions` — State management, rendering strategy, abstractions, bundle size
-
-### Award-Level Craft
-- `designing-award-layouts` — 8pt spacing, dark theme layering, mobile-first, scroll indicator, mobile menu close, motion system, Unsplash placeholders
-- `designing-with-perception` — Human perception, fluid type, contrast
-- `designing-for-mobile` — Touch targets, thumb zones, safe areas
-- `handling-ui-states` — All 4 states, skeleton, form states
-- `crafting-typography` — Fluid type scale, variable fonts, hierarchy
-- `creating-visual-depth` — Layered shadows, glassmorphism limits, grainy gradients, z-index system
-- `building-interactions` — Hover states, :active feedback, transition:all bug, prefers-reduced-motion, :focus-visible
-- `building-components` — FAQ accordion (GSAP height:auto, Framer Motion AnimatePresence, numbered row variant, ARIA)
-
-### Stack Orchestration (Critical)
-- `orchestrating-gsap-lenis` — GSAP + Lenis: autoRaf, ticker, cleanup
-- `orchestrating-react-animations` — GSAP/Framer in React lifecycle
-- `scrolling-with-purpose` — ScrollTrigger cleanup, Lenis integration, horizontal scroll, sequential animations
-- `orchestrating-css-js-animations` — CSS vs GSAP ownership, fill-mode conflict, will-change limits
-- `building-page-transitions` — Astro View Transitions vs GSAP curtain, cleanup order, lifecycle events
-
-### SaaS
-- `architecting-saas` — Route groups, getUser vs getSession, multi-tenancy schema, service layer
-- `integrating-supabase` — Server vs browser client, realtime cleanup, Storage RLS, typed queries
-- `handling-data-sync` — Optimistic updates, cache invalidation, infinite scroll, useMutation forms
-- `designing-saas-ux` — Onboarding flow, pricing tiers, empty states, settings architecture
-
-### Alex's Workflow
-- `starting-a-project` — PRD → stack → structure, mandatory briefing questions (hero, preloader, dark/light mode, legal, transitions)
-- `building-legal-pages` — Impressum (§5 DDG), DSGVO Privacy Policy, Cookie-Banner rules, copyright footer (DE/EU mandatory)
+**Load only what the current phase requires.** Do NOT load all assets — they exist to be discovered when needed.
 
 ---
 
-## How to Use Skills
+## Skills — Load by Phase
 
-When working on a task, identify which skills apply, then read them:
+Read skills on demand as you work. Never load all skills at project start.
 
-```
-User asks to animate something with GSAP in React →
-  Load: animating-interfaces + orchestrating-gsap-lenis + orchestrating-react-animations
-  Then write code.
-```
+### Phase 1: Project Setup
+Read these FIRST when starting any project.
 
-Skills are in: `skills/skills/[skill-name]/SKILL.md`
+- `starting-a-project` — PRD → stack → structure, mandatory briefing questions
+- `crafting-brand-systems` — Design system foundations, tokens, color scales
+- `crafting-typography` — Fluid type scales, variable fonts, hierarchy
+- `designing-for-mobile` — Touch targets, thumb zones, safe areas
+- `implementing-design-tokens` — CSS custom properties, naming, usage patterns
+- `implementing-dark-mode` — Light/dark theme layering, CSS variables, system detection
+
+### Phase 2: Core Build
+Read these when building features, components, and animations.
+
+**Layout & Components:**
+- `building-layouts` — Grid, Flexbox, Container Queries
+- `building-components` — Accordions, carousels, dropdowns, ARIA, state variants
+- `building-interactions` — Hover states, :active feedback, focus-visible, prefers-reduced-motion
+- `handling-ui-states` — All 4 states (Loading, Error, Empty, Content), skeletons
+
+**Design & Perception:**
+- `designing-award-layouts` — 8pt spacing, dark theme layering, scroll indicators, motion systems
+- `designing-with-perception` — Human perception, contrast, fluid scaling
+- `creating-visual-depth` — Layered shadows, glassmorphism, grainy gradients, z-index systems
+- `designing-for-awards` — Visual decisions, avoiding AI-slop
+
+**React & TypeScript:**
+- `developing-with-react` — RSC, hooks, state patterns, composition
+- `typing-with-typescript` — Strict types, utility types, generics
+
+**Data & APIs:**
+- `building-with-nextjs` — App Router, Server vs Client Components, caching, metadata
+- `fetching-data-correctly` — Race conditions, TanStack Query, AbortController, optimistic updates
+- `handling-errors-idiomatically` — Error boundaries, typed error handling, fallbacks
+- `validating-forms` — Form validation, Zod, submission patterns
+- `implementing-auth-properly` — Session patterns, token handling, security
+- `integrating-supabase` — Server vs browser client, realtime, Storage RLS, typed queries
+- `handling-data-sync` — Optimistic updates, cache invalidation, infinite scroll
+
+**Animations & Interactions:**
+- `animating-interfaces` — Timing, easing, performance rules
+- `orchestrating-react-animations` — GSAP/Framer in React lifecycle
+- `orchestrating-gsap-lenis` — GSAP + Lenis: autoRaf, ticker, cleanup
+- `orchestrating-css-js-animations` — CSS vs GSAP ownership, fill-mode conflict
+- `orchestrating-motion-language` — Consistent motion principles, timing systems
+- `orchestrating-3d-in-react` — Three.js in React, Babylon.js, performance
+- `scrolling-with-purpose` — ScrollTrigger cleanup, Lenis integration, sequential animations
+- `narrating-web-experiences` — Storytelling through motion, pacing, atmosphere
+- `building-page-transitions` — Astro View Transitions vs GSAP, cleanup order
+
+**SaaS & Apps:**
+- `architecting-saas` — Route groups, auth patterns, multi-tenancy schema, service layer
+- `designing-saas-ux` — Onboarding, pricing tiers, empty states, settings architecture
+- `handling-file-uploads` — File validation, progress tracking, CDN storage
+- `implementing-i18n` — Routing, middleware, language switching, SEO
+- `implementing-seo` — Metadata, structured data, canonicals, open graph
+- `integrating-payments` — Payment gateways, PCI compliance, webhook handling, billing
+- `managing-database-schemas` — Migrations, relationships, constraints, testing
+- `managing-background-jobs` — Job queues, cron jobs, error recovery
+- `securing-applications` — OWASP, CSRF, XSS, injection, rate limiting
+- `managing-secrets` — Environment variables, key rotation, secret management
+
+**Advanced Patterns:**
+- `building-with-threejs` — Three.js setup, materials, lighting, performance
+- `building-pwa` — Service workers, offline support, app manifest
+- `designing-resilient-apis` — Versioning, backwards compatibility, rate limits
+- `visualizing-data` — Charts, graphs, D3.js, data visualization best practices
+- `monitoring-errors` — Error tracking, alerting, log aggregation
+- `maintaining-quality` — Zod for JSON.parse, typed tryCatch, unused imports
+- `making-tech-decisions` — State management, rendering strategy, bundle size
+
+### Phase 3: Polish & Content
+Read these when feature-complete and optimizing.
+
+- `testing-user-interfaces` — Vitest, Testing Library, component testing
+- `testing-accessibility` — WCAG, aXe, keyboard navigation, screen readers
+- `building-accessibly` — Semantic HTML, ARIA, focus management
+- `optimizing-images` — Responsive images, WebP, srcset, lazy loading
+- `optimizing-performance` — Core Web Vitals, LCP, INP, CLS, code splitting
+- `building-legal-pages` — Impressum, DSGVO Privacy Policy, Cookie Banner rules
+- `testing-end-to-end` — Playwright, user flow testing, CI integration
+
+### Phase 4: Launch & Scale
+Read these when deploying and scaling.
+
+- `deploying-to-production` — Vercel setup, env secrets, preview deployments
+- `scaling-horizontally` — Database replication, caching strategies, CDN
+- `monitoring-errors` — Error tracking, performance monitoring, analytics
+
+---
+
+## Skill Loading Rules
+
+1. **At project start:** Read `starting-a-project` + Phase 1 skills only
+2. **Before each task:** Read the relevant skill(s) for what you're building
+3. **Never read all skills at once** — load on demand as work progresses
+4. **Skills location:** `~/.brudi/skills/[skill-name]/SKILL.md`
+5. **Orchestration principle:** If combining libraries, read the relevant orchestration skill first
 
 ---
 

@@ -46,6 +46,8 @@ body { font: 400 1rem/1.6 var(--font-inter); }
 
 ## Color System: Brand + Contextual + State
 
+> 💡 Asset: `~/.brudi/assets/configs/design-tokens.css`
+
 ```css
 /* ✅ Correct: Complete color system */
 :root {

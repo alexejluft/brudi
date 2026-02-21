@@ -40,15 +40,15 @@ export default function RootLayout({ children }) {
 ```css
 /* ✅ Correct: Tokens for both themes */
 :root {
-  --color-bg: #ffffff;
-  --color-text: #1f2937;
+  --color-background: #ffffff;
+  --color-foreground: #1f2937;
   --color-surface: #f9fafb;
   --color-border: #e5e7eb;
 }
 
 .dark {
-  --color-bg: #0f172a;
-  --color-text: #f1f5f9;
+  --color-background: #0f172a;
+  --color-foreground: #f1f5f9;
   --color-surface: #1e293b;
   --color-border: #334155;
 }

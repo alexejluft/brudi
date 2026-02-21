@@ -94,6 +94,8 @@ function HeroSection() {
 
 ## Variable Font Animations
 
+> 💡 Asset: `~/.brudi/assets/configs/gsap-snippets.ts`
+
 GSAP animates `font-variation-settings` — weight, slant in real-time. Only works with variable fonts. See `crafting-typography` for full patterns.
 
 ```tsx

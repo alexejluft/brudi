@@ -38,7 +38,7 @@ gsap.registerPlugin(ScrollTrigger)
 export default function SmoothScrollProvider({ children }) {
   useEffect(() => {
     const lenis = new Lenis({ duration: 1.2, smoothWheel: true, smoothTouch: false })
-    const raf = (time) => { lenis.raf(time); ScrollTrigger.update() }
+    const raf = (time) => { lenis.raf(time * 1000); ScrollTrigger.update() } // GSAP=seconds, Lenis=ms
     gsap.ticker.add(raf)
     return () => { gsap.ticker.remove(raf); lenis.destroy() }
   }, [])

@@ -24,7 +24,7 @@ html {
 /* ── Selection Styling ── */
 ::selection {
   background: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-background);
 }
 
 /* ── Focus Visible (accessible) ── */
@@ -43,8 +43,8 @@ img, video, svg {
 /* ── Body defaults ── */
 body {
   min-height: 100dvh;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-body);
 }
 

@@ -66,7 +66,9 @@ gsap.to('.hero-title', {
 // ❌ WRONG: animating font-weight (integer steps only) → use fontVariationSettings
 ```
 
-**Brudi ships 5 variable fonts** (`~/.brudi/assets/fonts/woff2/`). Always prefer these over static alternatives. See `assets/fonts/FONTS.md` for pairings.
+**Brudi ships 5 variable fonts** (`~/.brudi/assets/fonts/woff2/`). Always prefer these over static alternatives.
+
+> 💡 Asset: `~/.brudi/assets/fonts/FONTS.md` for pairings + setup
 
 ---
 

@@ -52,7 +52,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(ScrollTrigger)
 
-const lenis = new Lenis()
+const lenis = new Lenis({ autoRaf: false })
 
 // ✅ Use lenis.on — not window.addEventListener
 lenis.on("scroll", ScrollTrigger.update)

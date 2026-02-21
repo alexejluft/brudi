@@ -76,6 +76,8 @@ export function generateStaticParams() { return locales.map((l) => ({ locale: l 
 ---
 ## 4 — Translations + Messages
 
+> 💡 Asset: `~/.brudi/assets/i18n/base.{lang}.json`
+
 ```tsx
 // ✅ Client: useTranslations       ✅ Server: getTranslations (async)
 'use client'
@@ -93,7 +95,7 @@ async function About() { const t = await getTranslations('about'); return <h1>{t
   "home": { "title": "Welcome", "cta": "Get started" } }
 ```
 ASCII quotes `"` only (typographic `""` → JSON parse error). Identical keys across all locales.
----
+
 ## 5 — SEO: hreflang
 
 ```tsx
@@ -105,8 +107,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   )}}
 }
 ```
-
----
 
 ## Common Mistakes
 
