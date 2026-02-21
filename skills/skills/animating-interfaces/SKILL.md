@@ -14,36 +14,26 @@ description: Use when adding animations, scroll effects, or smooth scrolling. St
 ## Reduced Motion First
 
 ```tsx
-// ✅ Correct: CSS global kill-switch
-'@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}'
-
-// ✅ Correct: JS check before any GSAP setup
+// ✅ CSS kill-switch + JS check before GSAP setup
+// CSS: @media (prefers-reduced-motion: reduce) { *, *::before, *::after {
+//   animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }}
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-if (prefersReduced) return  // Skip animation setup entirely
-
+if (prefersReduced) return  // Skip all GSAP setup
 // ❌ WRONG: No reduced-motion check — accessibility failure
 ```
 
 ---
 
-## Timing Hierarchy
+## Timing + Easing
 
-| Type | Duration | When |
-|------|----------|------|
-| Micro | 100–200ms | Button hover, toggles, icon swap |
-| Standard | 200–400ms | Card reveal, dropdown, panel |
-| Dramatic | 400–800ms | Hero entrance, page transition, modal |
+Micro: 100–200ms (hover, toggles). Standard: 200–400ms (cards, panels). Dramatic: 400–800ms (hero, modals).
 
-**Easing:**
-- Entering: `ease-out` — responsive, impactful
-- Leaving: `ease-in` — graceful exit
-- Movement: `cubic-bezier(0.16, 1, 0.3, 1)` — smooth deceleration
-- Never `linear` for UI movement — feels robotic
+```
+Entering  → ease-out             (responsive, impactful)
+Leaving   → ease-in              (graceful exit)
+Movement  → cubic-bezier(0.16, 1, 0.3, 1)  (smooth deceleration)
+Never     → linear               (feels robotic)
+```
 
 ---
 
@@ -61,11 +51,11 @@ gsap.to('.card', { x: 200, opacity: 1, scale: 1.05 })
 ### `will-change` — Apply Before, Remove After
 
 ```tsx
-// ✅ Correct: Set will-change only during animation, release after
+// ✅ Set before, release after — never globally
 gsap.set('.card', { willChange: 'transform, opacity' })
-gsap.to('.card', { y: 0, opacity: 1, onComplete: () => {
-  gsap.set('.card', { willChange: 'auto' })  // Release GPU layer
-}})
+gsap.to('.card', { y: 0, opacity: 1, onComplete: () =>
+  gsap.set('.card', { willChange: 'auto' })
+})
 // ❌ WRONG: * { will-change: transform; } — wastes GPU memory permanently
 ```
 
@@ -74,14 +64,12 @@ gsap.to('.card', { y: 0, opacity: 1, onComplete: () => {
 ## Stagger Patterns
 
 ```tsx
-// ✅ Correct: Max 150ms between items — more feels draggy
+// ✅ Max 80–100ms between items — more feels sluggish
 gsap.from('.card', { y: 40, opacity: 0, stagger: 0.08, ease: 'power2.out' })
-
 // ✅ Grid stagger for 2D layouts
-gsap.from('.grid-item', {
-  scale: 0.8, opacity: 0, stagger: { each: 0.06, grid: 'auto', from: 'start' },
-})
-// ❌ WRONG: stagger: 0.3 — feels sluggish, user waits too long
+gsap.from('.grid-item', { scale: 0.8, opacity: 0,
+  stagger: { each: 0.06, grid: 'auto', from: 'start' } })
+// ❌ WRONG: stagger: 0.3 — user waits too long
 ```
 
 ---
@@ -89,20 +77,29 @@ gsap.from('.grid-item', {
 ## useGSAP Hook (React)
 
 ```tsx
-// ✅ Correct: useGSAP handles cleanup + StrictMode automatically
+// ✅ useGSAP: handles cleanup + StrictMode automatically
 import { useGSAP } from '@gsap/react'
-
 function HeroSection() {
   const container = useRef<HTMLDivElement>(null)
   useGSAP(() => {
     gsap.from('.hero-title', { y: 60, opacity: 0, duration: 0.8 })
     gsap.from('.hero-subtitle', { y: 40, opacity: 0, delay: 0.2 })
-  }, { scope: container })  // Scoped — only targets children
+  }, { scope: container })
   return <div ref={container}>...</div>
 }
-
 // ❌ WRONG: useEffect + manual cleanup — breaks in StrictMode
-// useEffect(() => { gsap.from('.hero', { y: 50 }) }, [])
+```
+
+---
+
+## Variable Font Animations
+
+GSAP animates `font-variation-settings` — weight, slant in real-time. Only works with variable fonts. See `crafting-typography` for full patterns.
+
+```tsx
+// ✅ Hover: thin → bold. Scroll-driven: text "grows" as user scrolls
+gsap.to('.nav-link', { fontVariationSettings: '"wght" 700', duration: 0.3 })
+// ❌ Static font → fontVariationSettings has no effect
 ```
 
 ---
@@ -117,3 +114,4 @@ function HeroSection() {
 | `linear` easing on UI elements | `ease-out` for enter, `ease-in` for exit |
 | Stagger > 150ms between items | Keep `stagger: 0.06–0.1` max |
 | `useEffect` for GSAP in React | `useGSAP` hook with `scope` |
+| Static font + fontVariationSettings | Variable font required — no effect otherwise |

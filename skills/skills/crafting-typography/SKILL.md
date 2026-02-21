@@ -32,41 +32,41 @@ body  { font-size: clamp(1rem, 0.875rem + 0.5vw, 1.125rem); } /* 16–18px */
 
 ---
 
-## Variable Font Loading
+## Variable Font Loading + Animations
 
-```html
-<!-- Preload critical fonts — discovered before CSS is parsed -->
-<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-```
+**Always use Variable Fonts** (`-Variable.woff2`) — one file covers all weights, and GSAP can animate weight/slant axes in real-time.
 
 ```css
-/* ❌ AI default — causes FOIT (invisible text) on slow connections */
+/* ✅ Variable font — font-display: swap prevents FOIT */
 @font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter.woff2') format('woff2');
-  font-weight: 100 900;
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2');
+  font-weight: 200 700;
+  font-display: swap;
 }
-
-/* ✅ Correct — immediate fallback text, minimal layout shift */
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter.woff2') format('woff2');
-  font-weight: 100 900;
-  font-display: swap;        /* Show fallback immediately, swap when loaded */
-  font-optical-sizing: auto; /* Variable font optical adjustments */
-}
-
-/* Size-adjusted fallback — prevents layout shift when font swaps */
-@font-face {
-  font-family: 'Inter Fallback';
-  src: local('Arial');
-  size-adjust: 107%;
-  ascent-override: 90%;
-  descent-override: 22%;
-}
-
-body { font-family: 'Inter', 'Inter Fallback', system-ui, sans-serif; }
+/* ❌ WRONG: static font files per weight — no animation possible */
 ```
+
+```tsx
+// ✅ GSAP animates font-variation-settings — award-level technique
+// Weight animation on hover (thin → bold)
+gsap.to('.headline', {
+  fontVariationSettings: '"wght" 700',
+  duration: 0.4,
+  ease: 'power2.out'
+})
+
+// ✅ Scroll-driven weight: text "grows" as user scrolls in
+gsap.to('.hero-title', {
+  fontVariationSettings: '"wght" 800',
+  scrollTrigger: { trigger: '.hero', start: 'top center', scrub: true }
+})
+
+// ❌ WRONG: static font files → fontVariationSettings has no effect
+// ❌ WRONG: animating font-weight (integer steps only) → use fontVariationSettings
+```
+
+**Brudi ships 5 variable fonts** (`~/.brudi/assets/fonts/woff2/`). Always prefer these over static alternatives. See `assets/fonts/FONTS.md` for pairings.
 
 ---
 
@@ -101,16 +101,7 @@ p    { max-width: 65ch; }   /* Optimal line length — beyond 75ch = fatigue */
 
 ---
 
-## Line-Height by Context
-
-```css
-h1, h2 { line-height: 1.1; }  /* Large text — tight */
-h3, h4  { line-height: 1.3; }  /* Medium — moderate */
-body    { line-height: 1.6; }  /* Body — comfortable (WCAG min: 1.5) */
-button  { line-height: 1.0; }  /* UI elements — compact */
-```
-
-**Always unitless** (`1.6` not `24px`) — scales automatically with font-size.
+**Line-height:** Always unitless — `h1/h2: 1.1`, `h3/h4: 1.3`, `body: 1.6`, `button: 1.0`.
 
 ---
 
