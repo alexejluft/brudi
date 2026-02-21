@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(git commit -m \"$(cat <<''EOF''\nfix: starting-a-project — hard STOP rule before building\n\nAgent darf NICHT bauen bevor 4 Fragen beantwortet sind:\n1. Was ist das Produkt?\n2. Wer ist die Zielgruppe?\n3. Welche Seiten werden gebraucht?\n4. Design-Richtung, Referenzen, Animationen?\n\nKurze Befehle wie \"baue X\" reichen nicht aus — Agent muss stoppen und fragen.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

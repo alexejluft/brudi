@@ -14,9 +14,239 @@ AI generates accordions that look correct but fail on:
 - No keyboard support — Enter, Space, Arrow keys missing
 - `opacity` fade only — space doesn't collapse, layout broken
 
+**Animation technique decision tree:**
+```
+Astro / Vanilla, no GSAP installed → Pattern 1: CSS Grid Row Trick
+Astro / Vanilla, GSAP installed    → Pattern 2: GSAP height:auto
+React / Next.js                    → Pattern 3: Framer Motion
+Premium agency variant (numbered)  → Pattern 4: Expandable Row FAQ
+```
+
 ---
 
-## 1. Accordion — GSAP Pattern (Astro / Vanilla)
+## 1. CSS Grid Row Trick — Preferred for Astro/Vanilla
+
+**This is the best default.** Zero dependencies, pure CSS animation,
+single `.is-active` class drives everything. Proven in production.
+
+**Why this works:** CSS cannot animate `height: 0 → auto`, but it CAN
+animate `grid-template-rows: 0fr → 1fr`. The inner wrapper with
+`overflow: hidden` collapses the content. Smooth, performant, no JS
+height calculations.
+
+```html
+<!-- Standalone HTML — zero dependencies -->
+<section class="faq-section">
+
+  <div class="faq-item" data-faq-item>
+    <div class="faq-item__bg"></div>
+    <button class="faq-item__trigger" aria-expanded="false"
+            aria-controls="faq-panel-1" id="faq-header-1">
+      <span class="faq-item__number">01</span>
+      <div class="faq-item__body">
+        <span class="faq-item__title">Your question here</span>
+        <!-- Grid row trick: 0fr → 1fr animates height smoothly -->
+        <div class="faq-item__content">
+          <div class="faq-item__content-inner">
+            <p class="faq-item__desc">Your answer here.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item__image">
+        <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=240&h=240&fit=crop&q=80"
+             alt="" loading="lazy" />
+      </div>
+      <span class="faq-item__arrow" aria-hidden="true">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6" />
+        </svg>
+      </span>
+    </button>
+  </div>
+
+  <!-- Repeat for each item -->
+  <div class="faq-border-end"></div>
+</section>
+```
+
+```css
+:root {
+  --faq-accent:      #C9A96E;   /* swap for project accent color */
+  --faq-active-text: #111111;
+  --faq-border:      rgba(255, 255, 255, 0.1);
+  --faq-radius:      8px;
+  --faq-duration:    400ms;
+  --faq-easing:      cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --faq-image-size:  114px;
+}
+
+/* Row */
+.faq-item {
+  position: relative;
+  border-top: 1px solid var(--faq-border);
+}
+
+/* Accent background — absolute, behind content */
+.faq-item__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--faq-accent);
+  opacity: 0;
+  border-radius: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--faq-duration) var(--faq-easing),
+    border-radius var(--faq-duration) var(--faq-easing);
+}
+
+/* Full-row button */
+.faq-item__trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.faq-item__number {
+  flex-shrink: 0;
+  width: 2.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--faq-duration) var(--faq-easing);
+}
+
+.faq-item__body  { flex: 1; min-width: 0; }
+
+.faq-item__title {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  transition: color var(--faq-duration) var(--faq-easing);
+}
+
+/* ★ THE GRID ROW TRICK ★ */
+.faq-item__content {
+  display: grid;
+  grid-template-rows: 0fr;                          /* collapsed */
+  transition: grid-template-rows var(--faq-duration) var(--faq-easing);
+}
+
+.faq-item__content-inner { overflow: hidden; }      /* required */
+
+.faq-item__desc {
+  padding-top: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 150%;
+  transition: color var(--faq-duration) var(--faq-easing);
+}
+
+/* Image — reveals by width transition */
+.faq-item__image {
+  flex-shrink: 0;
+  width: 0;
+  height: var(--faq-image-size);
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    width   var(--faq-duration) var(--faq-easing),
+    opacity var(--faq-duration) var(--faq-easing);
+}
+
+.faq-item__image img {
+  width: var(--faq-image-size);
+  height: var(--faq-image-size);
+  object-fit: cover;
+  border-radius: var(--faq-radius);
+}
+
+/* Arrow circle */
+.faq-item__arrow {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid var(--faq-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color var(--faq-duration) var(--faq-easing),
+    color       var(--faq-duration) var(--faq-easing);
+}
+
+.faq-item__arrow svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--faq-duration) var(--faq-easing);
+}
+
+/* ★ SINGLE CLASS DRIVES EVERYTHING ★ */
+.faq-item.is-active .faq-item__bg      { opacity: 1; border-radius: var(--faq-radius); }
+.faq-item.is-active .faq-item__content { grid-template-rows: 1fr; }  /* expand */
+.faq-item.is-active .faq-item__image   { width: var(--faq-image-size); opacity: 1; }
+.faq-item.is-active .faq-item__arrow   { border-color: var(--faq-active-text); color: var(--faq-active-text); }
+.faq-item.is-active .faq-item__arrow svg { transform: rotate(-45deg); }
+
+.faq-item.is-active .faq-item__number,
+.faq-item.is-active .faq-item__title,
+.faq-item.is-active .faq-item__desc   { color: var(--faq-active-text); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .faq-item__trigger { gap: 1.5rem; padding: 1.25rem 1rem; }
+  .faq-item__image   { display: none; }
+  .faq-item__arrow   { width: 2.5rem; height: 2.5rem; }
+}
+```
+
+```js
+// Exclusive accordion: one open at a time
+const items = document.querySelectorAll('[data-faq-item]')
+
+items.forEach(item => {
+  item.querySelector('.faq-item__trigger')
+    .addEventListener('click', () => {
+      const isActive = item.classList.contains('is-active')
+
+      // Close all
+      items.forEach(other => {
+        other.classList.remove('is-active')
+        other.querySelector('.faq-item__trigger')
+          .setAttribute('aria-expanded', 'false')
+      })
+
+      // Open clicked (unless it was already open)
+      if (!isActive) {
+        item.classList.add('is-active')
+        item.querySelector('.faq-item__trigger')
+          .setAttribute('aria-expanded', 'true')
+      }
+    })
+})
+```
+
+**Why this pattern wins:**
+- No GSAP needed — zero JS for height animation
+- Single `.is-active` class — all states in CSS, no inline style toggling
+- `grid-template-rows: 0fr → 1fr` is the only reliable CSS height animation
+- `overflow: hidden` on inner wrapper is required — without it, content bleeds out at `0fr`
+
+---
+
+## 2. Accordion — GSAP Pattern (Astro / Vanilla)
 
 The correct technique for animating `height: auto` with GSAP.
 
@@ -459,7 +689,7 @@ Single FAQ items don't need them.
 
 ❌ max-height: 999px transition
    → Slow start, instant end — feels broken
-   Fix: GSAP height:auto or Framer Motion AnimatePresence
+   Fix: CSS grid-template-rows: 0fr → 1fr (no deps), or GSAP height:auto
 
 ❌ opacity fade only, no height change
    → Panel disappears but space stays — layout broken
