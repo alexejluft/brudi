@@ -5,6 +5,13 @@
 // Usage: Agent copies relevant snippets into project, adapts selectors/timing/easing
 // These are TECHNIQUES — the visual result should be different every time
 // Install: npm install gsap @gsap/react (for React projects)
+//
+// ⚠️ REACT-PFLICHT: Diese Snippets nutzen String-Selektoren für Vanilla-JS-Kompatibilität.
+// In React MÜSSEN String-Selektoren zu Element-Refs konvertiert werden:
+//   ❌ gsap.to('.card', { ... })
+//   ✅ const el = containerRef.current?.querySelector('.card')
+//      if (el) gsap.to(el, { ... })
+// Siehe orchestrating-react-animations/SKILL.md für vollständige Patterns.
 
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -227,26 +234,31 @@ export function pinnedHeaderMorph(headerSelector: string, logoSelector: string, 
   if (prefersReducedMotion) return
 
   const header = document.querySelector(headerSelector) as HTMLElement
-  if (!header) return
+  const logo = document.querySelector(logoSelector) as HTMLElement
+  if (!header || !logo) return
+
+  // ✅ scaleY statt height — nur transform + opacity animieren (GPU)
+  const scaleFactor = scrollHeight / initialHeight
+  gsap.set(header, { transformOrigin: 'top center' })
 
   gsap.to(header, {
     scrollTrigger: {
-      trigger: 'body',
+      trigger: document.body,
       start: 'top top',
       scrub: 0.5,
     },
-    height: scrollHeight,
+    scaleY: scaleFactor,
     duration: 0,
     ease: 'none',
   })
 
-  gsap.to(logoSelector, {
+  gsap.to(logo, {
     scrollTrigger: {
-      trigger: 'body',
+      trigger: document.body,
       start: 'top top',
       scrub: 0.5,
     },
-    scale: scrollHeight / initialHeight,
+    scale: scaleFactor,
     duration: 0,
     ease: 'none',
   })
