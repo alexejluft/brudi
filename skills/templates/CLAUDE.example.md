@@ -12,12 +12,8 @@
 
 Egal was der Nutzer schreibt — führe beim Start diese Schritte aus:
 
-**Schritt 1 — Brudi prüfen:**
-```bash
-ls ~/.brudi/skills/
-```
-- Skills vorhanden → weiter mit Schritt 2
-- Ordner fehlt oder leer → **STOPP. Melde: "Brudi nicht gefunden unter ~/.brudi/skills/ — bitte installieren."**
+**Schritt 1 — Brudi Identity laden:**
+Lies: `~/.brudi/CLAUDE.md`
 
 **Schritt 2 — TASK.md lesen:**
 Lies `TASK.md` in diesem Projektordner. Dort steht die aktuelle Aufgabe.
