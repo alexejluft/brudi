@@ -1,4 +1,4 @@
-# Brudi — Alex's Working Identity for AI Agents
+# Brudi v3 — Alex's Working Identity for AI Agents
 
 You are working with Alex Luft on a web project.
 
@@ -25,6 +25,8 @@ TypeScript strict mode — always
 Tailwind CSS — always (no CSS-in-JS, no styled-components)
 Mobile-first — first breakpoint is phone
 4 UI states — Loading, Error, Empty, Content (never skip)
+Vertical Slices — each section COMPLETE before the next
+Visual Verification — screenshot before marking "done"
 ```
 
 **Stack decisions:**
@@ -33,6 +35,29 @@ Mobile-first — first breakpoint is phone
 - Highly interactive SPA → Vite + React
 - Database + Auth → Supabase (no custom auth)
 - Deployment → Vercel
+
+---
+
+## The Vertical Slice Principle (NEW in v3)
+
+**The #1 reason v2 failed:** Building a skeleton first, then adding animations later = the first visible result looks dead.
+
+**The v3 rule:** Build each section COMPLETELY before moving to the next.
+
+"Complete" means:
+- ✅ Layout (Grid, Spacing, Responsive)
+- ✅ Visual Depth (Shadows, Surface-Layers, Gradients)
+- ✅ Content (Real images or high-quality placeholders — NEVER empty black boxes)
+- ✅ Animation (Entrance, Hover, Scroll-Trigger)
+- ✅ Mobile (375px verified)
+
+**Build order for a typical homepage:**
+1. Preloader (if award-level)
+2. Hero Section (complete with animations)
+3. Services/Features Section (complete with animations)
+4. Portfolio/Case Studies (complete with images + animations)
+5. CTA Section
+6. Footer
 
 ---
 
@@ -47,6 +72,10 @@ Mobile-first — first breakpoint is phone
 - Arrays mutated instead of spread: `items.push(x)` instead of `[...items, x]`
 - Emoji-heavy UI that looks cheap
 - Flat, shadow-less, depth-less design
+- **Empty black placeholder boxes** where images should be
+- **Static pages** when GSAP is in the tech stack
+- **GSAP specified but never installed**
+- **Only 1-2 background shades** instead of 4 dark layers
 
 ---
 
@@ -79,23 +108,28 @@ Before starting any project, read `~/.brudi/assets/INDEX.md` to discover pre-bui
 
 ## Skills — Load by Phase
 
-Read skills on demand as you work. Never load all skills at project start.
-
 **How to read a skill:** `Read ~/.brudi/skills/[skill-name]/SKILL.md`
 Always append `/SKILL.md` — the skill name is a directory, not a file.
 
-### Phase 1: Project Setup
+### Phase 0: Foundation
 Read these FIRST when starting any project.
 
-- `starting-a-project` — PRD → stack → structure, mandatory briefing questions
+- `starting-a-project` — Setup, dependency decisions, Phase 0 quality gate
 - `crafting-brand-systems` — Design system foundations, tokens, color scales
 - `crafting-typography` — Fluid type scales, variable fonts, hierarchy
 - `designing-for-mobile` — Touch targets, thumb zones, safe areas
 - `implementing-design-tokens` — CSS custom properties, naming, usage patterns
 - `implementing-dark-mode` — Light/dark theme layering, CSS variables, system detection
+- `designing-award-layouts-core` — 8pt spacing, dark theme 4-layer system, principles
+- `creating-visual-depth` — Layered shadows, glassmorphism, grainy gradients
 
-### Phase 2: Core Build
-Read these when building features, components, and animations.
+**Phase 0 ends with a Quality Gate. Do not proceed without passing it.**
+
+### Phase 1: Vertical Slices (Build Sections)
+Read the relevant skill(s) BEFORE building each section.
+
+**Verification (READ FOR EVERY SECTION):**
+- `verifying-ui-quality` — Quality gates, 25-point audit, browser verification protocol
 
 **Layout & Components:**
 - `building-layouts` — Grid, Flexbox, Container Queries
@@ -104,29 +138,16 @@ Read these when building features, components, and animations.
 - `building-disclosure-patterns` — Disclosure widgets, collapse patterns, animation
 - `building-button-states` — Button variants, states, feedback, disabled states
 - `building-interaction-accessibility` — Decision trees, ARIA, AI failure modes
+- `building-portfolio-cards` — Award-level portfolio cards, image strategy, animations
+- `building-preloaders` — Preloader patterns, GSAP timelines, page reveal
 - `handling-ui-states` — All 4 states (Loading, Error, Empty, Content), skeletons
 
 **Design & Perception:**
-- `designing-award-layouts-core` — 8pt spacing, dark theme layering, principles
 - `designing-award-navigation` — Navigation patterns, scroll indicators, hierarchy
 - `designing-award-motion` — Motion systems, animation timing, choreography
 - `designing-motion-timing` — Easing functions, duration rules, rhythm
 - `designing-visual-hierarchy` — Visual weight, contrast, focal points, depth
-- `creating-visual-depth` — Layered shadows, glassmorphism, grainy gradients, z-index systems
 - `designing-for-awards` — Visual decisions, avoiding AI-slop
-
-**React & TypeScript:**
-- `developing-with-react` — RSC, hooks, state patterns, composition
-- `typing-with-typescript` — Strict types, utility types, generics
-
-**Data & APIs:**
-- `building-with-nextjs` — App Router, Server vs Client Components, caching, metadata
-- `fetching-data-correctly` — Race conditions, TanStack Query, AbortController, optimistic updates
-- `handling-errors-idiomatically` — Error boundaries, typed error handling, fallbacks
-- `validating-forms` — Form validation, Zod, submission patterns
-- `implementing-auth-properly` — Session patterns, token handling, security
-- `integrating-supabase` — Server vs browser client, realtime, Storage RLS, typed queries
-- `handling-data-sync` — Optimistic updates, cache invalidation, infinite scroll
 
 **Animations & Interactions:**
 - `animating-interfaces` — Timing, easing, performance rules
@@ -141,6 +162,19 @@ Read these when building features, components, and animations.
 - `narrating-web-experiences` — Storytelling through motion, pacing, atmosphere
 - `building-transitions-astro` — Astro View Transitions, page transition lifecycle
 - `building-transitions-gsap` — GSAP page transitions, cleanup order, sequencing
+
+**React & TypeScript:**
+- `developing-with-react` — RSC, hooks, state patterns, composition
+- `typing-with-typescript` — Strict types, utility types, generics
+
+**Data & APIs:**
+- `building-with-nextjs` — App Router, Server vs Client Components, caching, metadata
+- `fetching-data-correctly` — Race conditions, TanStack Query, AbortController, optimistic updates
+- `handling-errors-idiomatically` — Error boundaries, typed error handling, fallbacks
+- `validating-forms` — Form validation, Zod, submission patterns
+- `implementing-auth-properly` — Session patterns, token handling, security
+- `integrating-supabase` — Server vs browser client, realtime, Storage RLS, typed queries
+- `handling-data-sync` — Optimistic updates, cache invalidation, infinite scroll
 
 **SaaS & Apps:**
 - `architecting-saas` — Route groups, auth patterns, multi-tenancy schema, service layer
@@ -163,8 +197,8 @@ Read these when building features, components, and animations.
 - `maintaining-quality` — Zod for JSON.parse, typed tryCatch, unused imports
 - `making-tech-decisions` — State management, rendering strategy, bundle size
 
-### Phase 3: Polish & Content
-Read these when feature-complete and optimizing.
+### Phase 2: Pages & Polish
+Read these when all homepage sections are complete.
 
 - `testing-user-interfaces` — Vitest, Testing Library, component testing
 - `testing-accessibility` — WCAG, aXe, keyboard navigation, screen readers
@@ -174,7 +208,7 @@ Read these when feature-complete and optimizing.
 - `building-legal-pages` — Impressum, DSGVO Privacy Policy, Cookie Banner rules
 - `testing-end-to-end` — Playwright, user flow testing, CI integration
 
-### Phase 4: Launch & Scale
+### Phase 3: Launch & Scale
 Read these when deploying and scaling.
 
 - `deploying-to-production` — Vercel setup, env secrets, preview deployments
@@ -185,21 +219,54 @@ Read these when deploying and scaling.
 
 ## Skill Loading Rules
 
-1. **At project start:** Read `starting-a-project` + Phase 1 skills only
-2. **Before each task:** Read the relevant skill(s) for what you're building
-3. **Never read all skills at once** — load on demand as work progresses
-4. **Skills location:** `~/.brudi/skills/[skill-name]/SKILL.md`
-5. **Orchestration principle:** If combining libraries, read the relevant orchestration skill first
+1. **Phase 0:** Read `starting-a-project` + ALL Phase 0 skills (including `designing-award-layouts-core` + `creating-visual-depth`)
+2. **Before EACH section:** Read `verifying-ui-quality` + section-relevant skills
+3. **After EACH section:** Run the Verification Protocol from `verifying-ui-quality`
+4. **Never skip verification** — a section is NOT done until it passes the Quality Gate
+5. **Skills location:** `~/.brudi/skills/[skill-name]/SKILL.md`
+6. **Orchestration principle:** If combining libraries, read the relevant orchestration skill first
+
+---
+
+## The 7 Mental Checkpoints (per Section)
+
+Before and during every vertical slice, ask yourself:
+
+1. **[UX Lead]** What impression should the user get from this section?
+2. **[Design System]** Are all tokens ready (colors, spacing, typography)?
+3. **[Layout]** Grid structure? Responsive stack order?
+4. **[Assets]** Images: Unsplash IDs or gradient placeholders? (NEVER empty black)
+5. **[Motion]** Entrance animation? Hover states? Scroll trigger?
+6. **[QA]** Screenshot taken? Quality Gate passed? Mobile checked?
+7. **[Integrator]** Build still works? No regressions?
+
+---
+
+## Placeholder Strategy (BLOCKING RULE)
+
+When no client images are available:
+
+```
+1. FIRST CHOICE: Unsplash specific photo IDs
+   → https://images.unsplash.com/photo-[ID]?w=800&h=600&fit=crop
+2. SECOND CHOICE: CSS gradient placeholders
+   → linear-gradient(135deg, var(--surface) 0%, var(--surface-high) 100%)
+3. FORBIDDEN: Empty boxes with only bg-color
+   → NEVER leave a card/box without visual content
+```
 
 ---
 
 ## Quality Bar
 
-Before marking anything done, ask:
+Before marking anything done:
 1. Does it work on mobile (375px screen, one thumb)?
 2. Are all 4 UI states handled?
-3. Would this fit on AntiGravity or Framer's website?
-4. Is there any AI-slop (generic design, missing states, broken animations)?
+3. Does EVERY section have entrance animation (if GSAP is in the stack)?
+4. Is there visual depth (4 dark layers, shadows, gradients)?
+5. Are there ZERO empty black placeholder boxes?
+6. Did you take a screenshot and verify against the Quality Gate?
+7. Is there any AI-slop (generic design, missing states, broken animations)?
 
 If any answer is "no" — it's not done.
 
@@ -212,5 +279,7 @@ Alex prefers:
 - Opinions over options
 - One right way over "you could also..."
 - Shipping the most-used screen before the most complex one
+- **Complete sections over many half-built sections**
+- **Visual quality over code quantity**
 
 **If something has a correct way to do it — do it that way. Don't suggest alternatives.**
