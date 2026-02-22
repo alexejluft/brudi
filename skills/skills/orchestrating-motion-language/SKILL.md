@@ -35,15 +35,26 @@ export const motion = {
 ## Timeline Orchestration
 
 ```tsx
-// ✅ Correct: Sequential + overlapping with stagger
-const tl = gsap.timeline({ defaults: { duration: motion.duration.base, ease: motion.ease.smooth } })
-tl.from('.hero-title', { opacity: 0, y: 30 })
-  .from('.hero-subtitle', { opacity: 0, y: 20 }, '-=0.15')        // Overlap
-  .from('.hero-cards', { opacity: 0, y: 20, stagger: motion.stagger.base }, '-=0.1')
-  .from('.hero-cta', { opacity: 0, scale: 0.9 })
+// ✅ Correct: set() Startzustand, dann to() in Timeline
+const title = containerRef.current?.querySelector('.hero-title')
+const subtitle = containerRef.current?.querySelector('.hero-subtitle')
+const cards = containerRef.current?.querySelectorAll('.hero-cards')
+const cta = containerRef.current?.querySelector('.hero-cta')
 
+gsap.set([title, subtitle, cta], { opacity: 0 })
+gsap.set(title, { y: 30 })
+gsap.set(subtitle, { y: 20 })
+gsap.set(cards, { opacity: 0, y: 20 })
+gsap.set(cta, { scale: 0.9 })
+
+const tl = gsap.timeline({ defaults: { duration: motion.duration.base, ease: motion.ease.smooth } })
+tl.to(title, { opacity: 1, y: 0 })
+  .to(subtitle, { opacity: 1, y: 0 }, '-=0.15')
+  .to(cards, { opacity: 1, y: 0, stagger: motion.stagger.base }, '-=0.1')
+  .to(cta, { opacity: 1, scale: 1 })
+
+// ❌ WRONG: gsap.from() — causes invisible elements in React StrictMode
 // ❌ WRONG: Independent gsap.to() calls — no coordination, can't pause/reverse
-// gsap.to('.title', { opacity: 1 }); gsap.to('.subtitle', { opacity: 1, delay: 0.3 })
 ```
 
 ---
@@ -51,21 +62,25 @@ tl.from('.hero-title', { opacity: 0, y: 30 })
 ## Entrance/Exit Patterns
 
 ```tsx
-// ✅ Correct: Reusable entrance hook
+// ✅ Correct: Reusable entrance hook mit set() + to()
 export function useEntrance(ref, { y = 20, delay = 0 } = {}) {
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(ref.current, {
-        opacity: 0, y, duration: motion.duration.slow,
-        ease: motion.ease.smooth, delay,
-      })
-    }, ref)
-    return () => ctx.revert()
+    const el = ref.current
+    if (!el) return
+
+    gsap.set(el, { opacity: 0, y })
+    const tween = gsap.to(el, {
+      opacity: 1, y: 0, duration: motion.duration.slow,
+      ease: motion.ease.smooth, delay,
+    })
+
+    return () => tween.kill()
   }, [])
 }
 
 // Usage: const ref = useRef(null); useEntrance(ref); <div ref={ref}>Content</div>
 
+// ❌ WRONG: gsap.from() — causes invisible elements in StrictMode
 // ❌ WRONG: Different entrance styles per component — no visual consistency
 ```
 
@@ -80,7 +95,9 @@ export function usePageTransition() {
   return async (href) => {
     await gsap.to('main', { opacity: 0, y: -10, duration: motion.duration.base })
     router.push(href)
-    gsap.from('main', { opacity: 0, y: 10, duration: motion.duration.base })
+    // ✅ set() + to() statt from()
+    gsap.set('main', { opacity: 0, y: 10 })
+    gsap.to('main', { opacity: 1, y: 0, duration: motion.duration.base })
   }
 }
 

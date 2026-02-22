@@ -149,36 +149,46 @@ export function PortfolioSection() {
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Heading entrance
-      gsap.from('[data-animate="heading"]', {
-        opacity: 0,
-        y: 48,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          once: true,
-        },
-      })
+    const section = sectionRef.current
+    if (!section) return
 
-      // Cards stagger entrance
-      gsap.from('[data-animate="card"]', {
-        opacity: 0,
-        y: 64,
-        duration: 0.7,
-        ease: 'power3.out',
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: '[data-animate="card"]',
-          start: 'top 85%',
-          once: true,
-        },
-      })
-    }, sectionRef)
+    const heading = section.querySelector('[data-animate="heading"]')
+    const cards = section.querySelectorAll('[data-animate="card"]')
 
-    return () => ctx.revert() // CRITICAL: cleanup
+    // ✅ set() Startzustand BEVOR ScrollTrigger erstellt wird
+    gsap.set(heading, { opacity: 0, y: 48 })
+    gsap.set(cards, { opacity: 0, y: 64 })
+
+    // Heading entrance
+    const headingTween = gsap.to(heading, {
+      opacity: 1, y: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 80%',
+        once: true,
+      },
+    })
+
+    // Cards stagger entrance
+    const cardsTween = gsap.to(cards, {
+      opacity: 1, y: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 85%',
+        once: true,
+      },
+    })
+
+    return () => {
+      headingTween.kill()
+      cardsTween.kill()
+      ScrollTrigger.getAll().forEach(st => st.kill())
+    }
   }, [])
 
   return (

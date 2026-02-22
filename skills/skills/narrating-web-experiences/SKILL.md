@@ -53,17 +53,25 @@ export default function SmoothScrollProvider({ children }) {
 ## Progressive Reveal
 
 ```tsx
-// ✅ Correct: Fade-in on scroll enter
+// ✅ Correct: set() + to() — NIEMALS from()
 export function RevealOnScroll({ children }) {
   const ref = useRef(null)
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(ref.current, {
-        scrollTrigger: { trigger: ref.current, start: 'top 80%' },
-        opacity: 0, y: 30, duration: 0.8, ease: 'power2.out'
+    const el = ref.current
+    if (!el) return
+
+    gsap.set(el, { opacity: 0, y: 30 })
+    const tween = gsap.to(el, {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 80%', once: true }
+    })
+
+    return () => {
+      tween.kill()
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.trigger === el) st.kill()
       })
-    }, ref)
-    return () => ctx.revert()
+    }
   }, [])
   return <div ref={ref}>{children}</div>
 }

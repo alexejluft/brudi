@@ -69,10 +69,15 @@ gsap.to('.card', { y: 0, opacity: 1, onComplete: () =>
 ## Stagger Patterns
 
 ```tsx
-// ✅ Max 80–100ms between items
-gsap.from('.card', { y: 40, opacity: 0, stagger: 0.08, ease: 'power2.out' })
+// ✅ Max 80–100ms between items — use set() + to(), NEVER from()
+const cards = containerRef.current?.querySelectorAll('.card')
+gsap.set(cards, { y: 40, opacity: 0 })
+gsap.to(cards, { y: 0, opacity: 1, stagger: 0.08, ease: 'power2.out' })
+
 // ✅ Grid stagger for 2D layouts
-gsap.from('.grid-item', { scale: 0.8, opacity: 0,
+const items = containerRef.current?.querySelectorAll('.grid-item')
+gsap.set(items, { scale: 0.8, opacity: 0 })
+gsap.to(items, { scale: 1, opacity: 1,
   stagger: { each: 0.06, grid: 'auto', from: 'start' } })
 ```
 
@@ -86,8 +91,14 @@ import { useRef } from 'react'
 function HeroSection() {
   const container = useRef<HTMLDivElement>(null)
   useGSAP(() => {
-    gsap.from('.hero-title', { y: 60, opacity: 0, duration: 0.8 })
-    gsap.from('.hero-subtitle', { y: 40, opacity: 0, delay: 0.2 })
+    // ✅ IMMER set() + to() — NIEMALS from()
+    const title = container.current?.querySelector('.hero-title')
+    const subtitle = container.current?.querySelector('.hero-subtitle')
+    gsap.set([title, subtitle], { opacity: 0 })
+    gsap.set(title, { y: 60 })
+    gsap.set(subtitle, { y: 40 })
+    gsap.to(title, { y: 0, opacity: 1, duration: 0.8 })
+    gsap.to(subtitle, { y: 0, opacity: 1, delay: 0.2 })
   }, { scope: container })
   return <div ref={container}>...</div>
 }

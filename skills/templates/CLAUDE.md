@@ -180,6 +180,9 @@ Ein Run endet NUR wenn:
 
 Offene Phasen existieren → automatisch weitermachen.
 
+### PROJECT_STATUS.md Pflicht
+Erstelle PROJECT_STATUS.md zu Projektbeginn. Template: `~/.brudi/templates/PROJECT_STATUS.md`
+
 ### Definition of Done
 - Keine schwarzen Platzhalter-Boxen
 - Sichtbare Entrance-Animationen
