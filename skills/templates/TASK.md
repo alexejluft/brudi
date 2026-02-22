@@ -16,12 +16,17 @@
   BUILD = Projekt aufbauen
   AUDIT = Bestehendes prüfen (kein Code ändern)
   FIX = Spezifische Issues beheben (nur genannte)
+
+  Der Modus wird in .brudi/state.json gespeichert.
+  Moduswechsel NUR durch User-Anweisung.
 -->
 
 ---
 
 ## Phase 0: Foundation
 
+- [ ] State prüfen: `cat .brudi/state.json` (Modus, Phase, Slice-Status)
+- [ ] Gate Runner pre-check: `BRUDI_STATE_FILE=.brudi/state.json bash ~/Brudi/orchestration/brudi-gate.sh pre-slice`
 - [ ] Brudi Identity laden (`~/Brudi/CLAUDE.md`)
 - [ ] `~/Brudi/assets/INDEX.md` lesen
 - [ ] Skills lesen: `starting-a-project`, `crafting-brand-systems`, `crafting-typography`, `implementing-design-tokens`, `implementing-dark-mode`, `designing-award-layouts-core`, `creating-visual-depth`

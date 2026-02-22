@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Brudi pre-commit Hook
+#
+# Blocks commits when:
+#   1. state.json exists but is invalid
+#   2. Current in-progress slice has incomplete evidence
+#   3. PROJECT_STATUS.md contains forbidden patterns ("—", empty cells)
+#   4. Mode is AUDIT or RESEARCH and code files are staged
+#
+# Install: cp this file to .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+# ─────────────────────────────────────────────────────────────────────────────
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RESET='\033[0m'
+
+STATE_FILE=".brudi/state.json"
+GATE_SCRIPT="${HOME}/Brudi/orchestration/brudi-gate.sh"
+
+# ── Skip if no Brudi state ──────────────────────────────────────────────────
+
+if [ ! -f "$STATE_FILE" ]; then
+  # Not a Brudi project, skip checks
+  exit 0
+fi
+
+if ! command -v jq &>/dev/null; then
+  echo -e "${YELLOW}⚠️  jq not installed — skipping Brudi pre-commit checks${RESET}"
+  exit 0
+fi
+
+errors=()
+
+# ── 1. Validate state.json ──────────────────────────────────────────────────
+
+if ! jq empty "$STATE_FILE" 2>/dev/null; then
+  errors+=("state.json is not valid JSON")
+fi
+
+version=$(jq -r '.version // "missing"' "$STATE_FILE")
+if [ "$version" != "1.0" ]; then
+  errors+=("state.json has unknown version: $version")
+fi
+
+mode=$(jq -r '.mode // "missing"' "$STATE_FILE")
+case "$mode" in
+  BUILD|AUDIT|FIX|RESEARCH) ;;
+  *) errors+=("state.json has invalid mode: $mode") ;;
+esac
+
+# ── 2. Mode enforcement on staged files ─────────────────────────────────────
+
+staged_code=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(tsx?|jsx?|css|html|json)$' | grep -v 'state\.json' | grep -v 'PROJECT_STATUS' || true)
+
+if [ "$mode" = "AUDIT" ] && [ -n "$staged_code" ]; then
+  errors+=("Mode is AUDIT but code files are staged for commit. AUDIT mode forbids code changes.")
+  errors+=("Staged code files: $(echo "$staged_code" | head -5 | tr '\n' ', ')")
+fi
+
+if [ "$mode" = "RESEARCH" ] && [ -n "$staged_code" ]; then
+  errors+=("Mode is RESEARCH but code files are staged for commit. RESEARCH mode forbids code changes.")
+  errors+=("Staged code files: $(echo "$staged_code" | head -5 | tr '\n' ', ')")
+fi
+
+# ── 3. Check in-progress slices for evidence ────────────────────────────────
+
+in_progress_ids=$(jq -r '[.slices[] | select(.status == "in_progress") | .id] | .[]' "$STATE_FILE" 2>/dev/null || echo "")
+
+for sid in $in_progress_ids; do
+  # Only warn, don't block — slice might still be in progress
+  skill_read=$(jq --argjson id "$sid" '.slices[] | select(.id == $id) | .evidence.skill_read // false' "$STATE_FILE")
+  if [ "$skill_read" != "true" ]; then
+    echo -e "${YELLOW}⚠️  Slice $sid in progress: verifying-ui-quality not yet read${RESET}"
+  fi
+done
+
+# ── 4. Check completed slices have full evidence ────────────────────────────
+
+completed_ids=$(jq -r '[.slices[] | select(.status == "completed") | .id] | .[]' "$STATE_FILE" 2>/dev/null || echo "")
+
+for sid in $completed_ids; do
+  screenshot_d=$(jq -r --argjson id "$sid" '.slices[] | select(.id == $id) | .evidence.screenshot_desktop // ""' "$STATE_FILE")
+  screenshot_m=$(jq -r --argjson id "$sid" '.slices[] | select(.id == $id) | .evidence.screenshot_mobile // ""' "$STATE_FILE")
+  qg_count=$(jq --argjson id "$sid" '.slices[] | select(.id == $id) | .evidence.quality_gate_checks | length // 0' "$STATE_FILE")
+
+  if [ -z "$screenshot_d" ]; then
+    errors+=("Slice $sid marked completed but missing desktop screenshot path")
+  fi
+  if [ -z "$screenshot_m" ]; then
+    errors+=("Slice $sid marked completed but missing mobile screenshot path")
+  fi
+  if [ "$qg_count" -lt 3 ]; then
+    errors+=("Slice $sid marked completed but has only $qg_count/3 quality gate checks")
+  fi
+done
+
+# ── 5. Check PROJECT_STATUS.md for forbidden patterns ───────────────────────
+
+if [ -f "PROJECT_STATUS.md" ]; then
+  # Check for dash as status symbol (but not in headers, comments, or descriptions)
+  # Pattern: | followed by space, dash, space, pipe — this is a table cell with just "—"
+  if grep -P '\|\s*—\s*\|' PROJECT_STATUS.md 2>/dev/null; then
+    errors+=("PROJECT_STATUS.md contains '—' as status symbol (forbidden)")
+  fi
+
+  # Check for empty table cells: || or |  |
+  if grep -P '\|\s*\|' PROJECT_STATUS.md | grep -v '^\s*<!--' | grep -v '^\s*\|.*---' 2>/dev/null; then
+    # Filter out separator rows and comments, only flag data rows
+    empty_cells=$(grep -Pc '\|\s*\|' PROJECT_STATUS.md 2>/dev/null || echo "0")
+    if [ "$empty_cells" -gt 0 ]; then
+      echo -e "${YELLOW}⚠️  PROJECT_STATUS.md may contain empty table cells (check manually)${RESET}"
+    fi
+  fi
+fi
+
+# ── Result ───────────────────────────────────────────────────────────────────
+
+if [ ${#errors[@]} -gt 0 ]; then
+  echo ""
+  echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+  echo -e "${RED}  ⛔ BRUDI PRE-COMMIT: COMMIT BLOCKED${RESET}"
+  echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+  echo ""
+  for err in "${errors[@]}"; do
+    echo -e "${RED}  • $err${RESET}"
+  done
+  echo ""
+  echo -e "${YELLOW}  Fix the issues above, then try again.${RESET}"
+  echo ""
+  exit 1
+fi
+
+echo -e "${GREEN}✅ Brudi pre-commit: All checks passed${RESET}"
+exit 0

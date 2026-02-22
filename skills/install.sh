@@ -59,8 +59,11 @@ cp -r "${TMP_DIR}/brudi/skills/." "${INSTALL_DIR}/"
 rm -rf "${TMP_DIR}"
 
 chmod +x "${INSTALL_DIR}/use.sh" 2>/dev/null || true
+chmod +x "${INSTALL_DIR}/orchestration/brudi-gate.sh" 2>/dev/null || true
+chmod +x "${INSTALL_DIR}/orchestration/pre-commit" 2>/dev/null || true
 
 echo "${GREEN}  ✓ Brudi installiert in ${INSTALL_DIR}/${RESET}"
+echo "${GREEN}  ✓ Tier-1 Orchestrierung verfügbar (brudi-gate.sh, pre-commit)${RESET}"
 
 # --- Fertig -------------------------------------------------------------------
 

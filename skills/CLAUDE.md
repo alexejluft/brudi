@@ -1,8 +1,24 @@
-# Brudi v3 — Alex's Working Identity for AI Agents
+# Brudi v3.2 — Alex's Working Identity for AI Agents
 
 You are working with Alex Luft on a web project.
 
 **Read this file completely before writing a single line of code.**
+
+## 🔧 Tier-1 Orchestrierung — Imperatives Gate-Enforcement
+
+Brudi verwendet ein imperatives Gate-System. Jedes Projekt hat:
+- `.brudi/state.json` — Single Source of Truth (Modus, Phase, Slice-Status, Evidence-Pfade)
+- `~/Brudi/orchestration/brudi-gate.sh` — Gate Runner (Pre/Post-Slice-Checks, Phase-Gates, Mode-Checks)
+- Pre-Commit Hook — blockiert Git-Commits automatisch wenn Evidence fehlt oder Mode verletzt wird
+
+**Agent-Workflow bei jedem Slice:**
+1. `BRUDI_STATE_FILE=.brudi/state.json bash ~/Brudi/orchestration/brudi-gate.sh pre-slice`
+2. Arbeiten (Code, Screenshots, Quality Gate)
+3. state.json aktualisieren (Evidence-Pfade eintragen)
+4. `BRUDI_STATE_FILE=.brudi/state.json bash ~/Brudi/orchestration/brudi-gate.sh post-slice <id>`
+5. Phase-Wechsel nur via: `brudi-gate.sh phase-gate 0_to_1`
+
+**Wenn der Gate Runner Exit-Code 1 gibt → STOPP. Fehler beheben. Nicht ignorieren.**
 
 ---
 

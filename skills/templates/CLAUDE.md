@@ -19,11 +19,43 @@ Egal was der Nutzer schreibt — führe beim Start diese Schritte aus:
 **Schritt 1 — Brudi Identity laden:**
 Lies: `~/Brudi/CLAUDE.md`
 
-**Schritt 2 — TASK.md lesen:**
+**Schritt 2 — State prüfen:**
+Lies `.brudi/state.json` — dort steht der aktuelle Modus, die Phase und der Slice-Status.
+Wenn die Datei nicht existiert: `bash ~/Brudi/use.sh` im Projektordner ausführen.
+
+**Schritt 3 — TASK.md lesen:**
 Lies `TASK.md` in diesem Projektordner. Dort steht die aktuelle Aufgabe.
 
-**Schritt 3 — Relevante Brudi Skills lesen:**
+**Schritt 4 — Gate Runner pre-check:**
+Führe aus: `BRUDI_STATE_FILE=.brudi/state.json bash ~/Brudi/orchestration/brudi-gate.sh pre-slice`
+Bei Exit-Code 1 → Fehler beheben bevor du loslegst.
+
+**Schritt 5 — Relevante Brudi Skills lesen:**
 Lies `~/Brudi/assets/INDEX.md` für verfügbare Assets, dann die Skills die zur Aufgabe passen.
+
+## 🔧 Tier-1 Orchestrierung (PFLICHT)
+
+Dieses Projekt nutzt imperatives Gate-Enforcement via `brudi-gate.sh`:
+
+```bash
+# Vor jedem Slice:
+BRUDI_STATE_FILE=.brudi/state.json bash ~/Brudi/orchestration/brudi-gate.sh pre-slice
+
+# Nach jedem Slice (state.json vorher aktualisieren!):
+BRUDI_STATE_FILE=.brudi/state.json bash ~/Brudi/orchestration/brudi-gate.sh post-slice <id>
+
+# Phase-Wechsel:
+BRUDI_STATE_FILE=.brudi/state.json bash ~/Brudi/orchestration/brudi-gate.sh phase-gate 0_to_1
+
+# Modus-Check vor Aktionen:
+BRUDI_STATE_FILE=.brudi/state.json bash ~/Brudi/orchestration/brudi-gate.sh mode-check write_code
+```
+
+**REGELN:**
+- `.brudi/state.json` ist die Single Source of Truth — nach JEDEM Slice aktualisieren
+- Modus-Wechsel NUR durch User-Anweisung
+- AUDIT→FIX ohne User-Befehl ist VERBOTEN
+- Pre-Commit Hook blockiert Commits automatisch bei fehlender Evidence
 
 ---
 

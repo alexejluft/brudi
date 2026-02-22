@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brudi Project State",
+  "description": "Single Source of Truth for project mode, phase, slice status and evidence.",
+  "type": "object",
+  "required": ["version", "project", "mode", "phase", "slices", "gates"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "project": {
+      "type": "string",
+      "description": "Project name (set by use.sh at project init)"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["BUILD", "AUDIT", "FIX", "RESEARCH"],
+      "description": "Current working mode. Only the user may change this."
+    },
+    "mode_set_by": {
+      "type": "string",
+      "enum": ["user", "task_md"],
+      "description": "Who set the current mode."
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "description": "Current phase (0=Foundation, 1=Slices, 2=Pages, 3=Launch)"
+    },
+    "phase_gate_passed": {
+      "type": "object",
+      "description": "Which phase transition gates have been passed",
+      "properties": {
+        "0_to_1": { "type": "boolean" },
+        "1_to_2": { "type": "boolean" },
+        "2_to_3": { "type": "boolean" }
+      },
+      "required": ["0_to_1", "1_to_2", "2_to_3"],
+      "additionalProperties": false
+    },
+    "slices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "phase", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "in_progress", "completed", "not_applicable"]
+          },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "skill_read": {
+                "type": "boolean",
+                "description": "verifying-ui-quality SKILL.md read and logged"
+              },
+              "build_zero_errors": {
+                "type": "boolean",
+                "description": "npm run build exits with 0 errors"
+              },
+              "screenshot_desktop": {
+                "type": "string",
+                "description": "File path to desktop screenshot, empty string if not yet taken",
+                "pattern": "^($|screenshots/.+\\.png)$"
+              },
+              "screenshot_mobile": {
+                "type": "string",
+                "description": "File path to mobile 375px screenshot, empty string if not yet taken",
+                "pattern": "^($|screenshots/.+\\.png)$"
+              },
+              "console_zero_errors": {
+                "type": "boolean",
+                "description": "Browser console has 0 errors"
+              },
+              "quality_gate_checks": {
+                "type": "array",
+                "description": "3 specific checks from verifying-ui-quality",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "maxItems": 3
+              }
+            },
+            "required": [
+              "skill_read",
+              "build_zero_errors",
+              "screenshot_desktop",
+              "screenshot_mobile",
+              "console_zero_errors",
+              "quality_gate_checks"
+            ]
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "description": "Summary gate status",
+      "additionalProperties": false,
+      "properties": {
+        "last_check": {
+          "type": "string",
+          "description": "ISO timestamp of last gate check"
+        },
+        "last_check_result": {
+          "type": "string",
+          "enum": ["pass", "fail", "not_run"]
+        },
+        "last_check_errors": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Error messages from last failed gate check"
+        }
+      },
+      "required": ["last_check", "last_check_result", "last_check_errors"]
+    }
+  }
+}

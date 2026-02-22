@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "project": "",
+  "mode": "BUILD",
+  "mode_set_by": "task_md",
+  "phase": 0,
+  "phase_gate_passed": {
+    "0_to_1": false,
+    "1_to_2": false,
+    "2_to_3": false
+  },
+  "slices": [],
+  "gates": {
+    "last_check": "",
+    "last_check_result": "not_run",
+    "last_check_errors": []
+  }
+}

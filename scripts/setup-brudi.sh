@@ -20,9 +20,11 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REPO_SKILLS="$REPO_ROOT/skills/skills"
 REPO_ASSETS="$REPO_ROOT/skills/assets"
 REPO_TEMPLATES="$REPO_ROOT/skills/templates"
+REPO_ORCHESTRATION="$REPO_ROOT/skills/orchestration"
 INSTALLED_SKILLS="$HOME/Brudi/skills"
 INSTALLED_ASSETS="$HOME/Brudi/assets"
 INSTALLED_TEMPLATES="$HOME/Brudi/templates"
+INSTALLED_ORCHESTRATION="$HOME/Brudi/orchestration"
 HOOKS_DIR="$REPO_ROOT/.git/hooks"
 PLIST_SRC="$REPO_ROOT/scripts/com.brudi.autosync.plist"
 PLIST_DST="$HOME/Library/LaunchAgents/com.brudi.autosync.plist"
@@ -36,7 +38,8 @@ echo "📁 Creating ~/Brudi directories..."
 mkdir -p "$INSTALLED_SKILLS"
 mkdir -p "$INSTALLED_ASSETS"
 mkdir -p "$INSTALLED_TEMPLATES"
-echo "   ✅ ~/Brudi/skills/, ~/Brudi/assets/ und ~/Brudi/templates/ bereit"
+mkdir -p "$INSTALLED_ORCHESTRATION"
+echo "   ✅ ~/Brudi/skills/, ~/Brudi/assets/, ~/Brudi/templates/ und ~/Brudi/orchestration/ bereit"
 
 # ── 2. Git Hooks ────────────────────────────────────────
 echo "🔗 Installing git hooks..."
@@ -52,9 +55,11 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 REPO_SKILLS="$REPO_ROOT/skills/skills"
 REPO_ASSETS="$REPO_ROOT/skills/assets"
 REPO_TEMPLATES="$REPO_ROOT/skills/templates"
+REPO_ORCHESTRATION="$REPO_ROOT/skills/orchestration"
 INSTALLED_SKILLS="$HOME/Brudi/skills"
 INSTALLED_ASSETS="$HOME/Brudi/assets"
 INSTALLED_TEMPLATES="$HOME/Brudi/templates"
+INSTALLED_ORCHESTRATION="$HOME/Brudi/orchestration"
 
 echo "🔄 Brudi: Syncing after commit..."
 
@@ -72,6 +77,14 @@ fi
 if [ -d "$INSTALLED_TEMPLATES" ]; then
   cp -r "$REPO_TEMPLATES"/. "$INSTALLED_TEMPLATES/"
   echo "✅ Templates synced"
+fi
+
+if [ -d "$REPO_ORCHESTRATION" ]; then
+  mkdir -p "$INSTALLED_ORCHESTRATION"
+  cp -r "$REPO_ORCHESTRATION"/. "$INSTALLED_ORCHESTRATION/"
+  chmod +x "$INSTALLED_ORCHESTRATION/brudi-gate.sh" 2>/dev/null || true
+  chmod +x "$INSTALLED_ORCHESTRATION/pre-commit" 2>/dev/null || true
+  echo "✅ Orchestration synced"
 fi
 HOOK
 chmod +x "$HOOKS_DIR/post-commit"
@@ -94,10 +107,14 @@ echo "📦 Initialer Sync..."
 cp -r "$REPO_SKILLS"/. "$INSTALLED_SKILLS/"
 cp -r "$REPO_ASSETS"/. "$INSTALLED_ASSETS/"
 cp -r "$REPO_TEMPLATES"/. "$INSTALLED_TEMPLATES/"
+cp -r "$REPO_ORCHESTRATION"/. "$INSTALLED_ORCHESTRATION/"
+chmod +x "$INSTALLED_ORCHESTRATION/brudi-gate.sh" 2>/dev/null || true
+chmod +x "$INSTALLED_ORCHESTRATION/pre-commit" 2>/dev/null || true
 SKILL_COUNT=$(ls "$INSTALLED_SKILLS" | wc -l | tr -d ' ')
 echo "   ✅ $SKILL_COUNT Skills synced → ~/Brudi/skills/"
 echo "   ✅ Assets synced → ~/Brudi/assets/"
 echo "   ✅ Templates synced → ~/Brudi/templates/"
+echo "   ✅ Orchestration synced → ~/Brudi/orchestration/"
 
 # ── Done ────────────────────────────────────────────────
 echo ""
