@@ -2,3 +2,22 @@ playground/
 .DS_Store
 .claude/settings.local.json
 ~$*
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Build artifacts
+node_modules/
+dist/
+build/
+.next/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
