@@ -4,10 +4,23 @@ globs: ["**/page.tsx", "**/layout.tsx", "**/globals.css"]
 ---
 # Verifying UI Quality
 
+## ⛔ ENFORCEMENT — Dieser Skill ist PFLICHT
+
+**Dieser Skill ist NICHT optional.** Vor JEDEM Slice musst du:
+1. Diesen Skill lesen
+2. 3 Checks aus der relevanten Phase-Gate-Liste auswählen
+3. Diese 3 Checks in PROJECT_STATUS.md dokumentieren BEVOR du baust
+
+**Nach JEDEM Slice musst du:**
+1. Desktop-Screenshot machen (Pfad in PROJECT_STATUS.md)
+2. Mobile 375px Screenshot machen (Pfad in PROJECT_STATUS.md)
+3. Console = 0 Errors verifizieren
+4. PROJECT_STATUS.md Slice-Zeile aktualisieren
+
+**Ein Slice ohne diese 4 Nachweise gilt als NICHT ABGESCHLOSSEN.**
+
 ## When to Use This Skill
 After EVERY vertical slice (section completion), after EVERY phase gate, and before marking ANY task "done."
-
-This is NOT optional. A section is not complete until it passes verification.
 
 ---
 
@@ -27,13 +40,14 @@ npm run build 2>&1 | tail -20
 # Warnings are acceptable, errors are NOT
 ```
 
-### Step 3: Visual Check (Browser Required)
+### Step 3: Visual Check (Browser Required — PFLICHT)
 Take screenshots at:
 1. Homepage above-the-fold (no scroll)
 2. After scrolling to each major section
-3. Mobile viewport (375px width)
+3. **Mobile viewport (375px width) — PFLICHT, nicht optional**
 
 For each screenshot, verify against the current Phase Quality Gate.
+**Jeden Screenshot-Pfad in PROJECT_STATUS.md dokumentieren.**
 
 ### Step 4: Console Check
 Open DevTools Console:

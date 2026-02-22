@@ -272,6 +272,50 @@ If any answer is "no" — it's not done.
 
 ---
 
+## 🚫 Hard Gates — Verbindliche Regeln
+
+### Slice Completion Checklist (JEDER Slice, JEDE Seite)
+
+Ein Slice ist NICHT abgeschlossen ohne ALLE 6 Punkte:
+
+1. `verifying-ui-quality` Skill gelesen + 3 Checks dokumentiert
+2. Code geschrieben und funktional
+3. Screenshot Desktop (Pfad in PROJECT_STATUS.md)
+4. Screenshot Mobile 375px (Pfad in PROJECT_STATUS.md)
+5. Console = 0 Errors (verifiziert)
+6. PROJECT_STATUS.md aktualisiert
+
+**Nächster Slice erst wenn alle 6 Punkte erfüllt.**
+
+### Anti-Pattern Guardrails (VERBOTEN)
+
+| Pattern | Status |
+|---------|--------|
+| `gsap.from()` mit String-Selektoren | ⛔ VERBOTEN — immer `gsap.set()` + `gsap.to()` mit Element-Refs |
+| `* { margin: 0 }` oder eigene CSS-Resets | ⛔ VERBOTEN — Tailwind v4 Preflight reicht |
+| `reactStrictMode: false` | ⛔ VERBOTEN — Code muss idempotent sein |
+| Batch-Screenshots am Ende statt pro Slice | ⛔ VERBOTEN — Screenshot nach JEDEM Slice |
+| Mobile-Test ignorieren | ⛔ VERBOTEN — 375px Screenshot ist PFLICHT |
+
+### Run-Ende Regeln
+
+Ein Run endet NUR wenn:
+- Alle Phasen der TASK.md abgeschlossen, ODER
+- User sagt STOP, ODER
+- Echte Blockade (dokumentiert in PROJECT_STATUS.md)
+
+Offene Phasen existieren → automatisch weitermachen. Nicht fragen, nicht warten.
+
+### PROJECT_STATUS.md Pflicht
+
+Jedes Projekt MUSS eine `PROJECT_STATUS.md` führen. Template: `~/.brudi/templates/PROJECT_STATUS.md`
+- Wird nach JEDEM Slice aktualisiert
+- Enthält Screenshot-Pfade als Evidenz
+- Enthält Issue-Tracking
+- Ist die einzige Wahrheitsquelle für den Projektstatus
+
+---
+
 ## When in Doubt
 
 Alex prefers:

@@ -149,3 +149,41 @@ Brudi ist dein Regelwerk. Improvisieren ohne Brudi ist nicht erlaubt.
 Jede Entscheidung muss verteidigbar sein.
 Kein Generic SaaS Look. Kein Inter als Font. Kein purple-to-blue Gradient.
 Wenn es nach einem Template aussieht — neu anfangen.
+
+---
+
+## 🚫 Hard Gates — Verbindliche Regeln
+
+### Slice Completion Checklist (JEDER Slice)
+Ein Slice gilt NICHT als abgeschlossen, wenn einer dieser Punkte fehlt:
+- [ ] `verifying-ui-quality` gelesen + 3 Checks dokumentiert
+- [ ] Code geschrieben und funktional
+- [ ] Screenshot Desktop (Pfad in PROJECT_STATUS.md)
+- [ ] Screenshot Mobile 375px (Pfad in PROJECT_STATUS.md)
+- [ ] Console = 0 Errors (verifiziert)
+- [ ] PROJECT_STATUS.md aktualisiert
+
+Nächster Slice erst wenn alle 6 Punkte erfüllt.
+
+### Anti-Pattern Guardrails (VERBOTEN)
+- `gsap.from()` mit String-Selektoren → Immer `gsap.set()` + `gsap.to()` mit Element-Refs
+- `* { margin: 0 }` oder eigene CSS-Resets → Tailwind v4 Preflight reicht
+- `reactStrictMode: false` → Code muss Strict Mode kompatibel sein
+- Batch-Screenshots am Ende statt pro Slice
+- Mobile-Test ignorieren
+
+### Run-Ende Regeln
+Ein Run endet NUR wenn:
+- Alle Phasen abgeschlossen, ODER
+- User sagt STOP, ODER
+- Echte Blockade (dokumentiert in PROJECT_STATUS.md)
+
+Offene Phasen existieren → automatisch weitermachen.
+
+### Definition of Done
+- Keine schwarzen Platzhalter-Boxen
+- Sichtbare Entrance-Animationen
+- 4 Dark-Layer erkennbar
+- Mobile 375px getestet (Screenshot mit Pfad)
+- Console: 0 Errors
+- PROJECT_STATUS.md aktualisiert

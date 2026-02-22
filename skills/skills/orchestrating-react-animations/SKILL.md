@@ -7,7 +7,21 @@ description: Use when adding GSAP or Framer Motion to React components. Animatio
 
 **The rule:** Animations live inside `useEffect`. DOM is only safe to touch after mount.
 
-## GSAP in React
+## ⛔ VERBOTEN — gsap.from() in React
+
+**NIEMALS `gsap.from()` verwenden.** Es setzt initial-Werte (z.B. opacity:0) sofort beim Erstellen — bevor React rendern kann. Das führt zu unsichtbaren Elementen, besonders mit StrictMode oder ScrollTrigger.
+
+```tsx
+// ❌ VERBOTEN — Element wird unsichtbar, bleibt oft stecken
+gsap.from(ref.current, { y: 40, opacity: 0 })
+gsap.from('.card', { y: 40, opacity: 0 })  // String-Selektoren noch schlimmer
+
+// ✅ KORREKT — gsap.set() + gsap.to() mit Element-Refs
+gsap.set(ref.current, { y: 40, opacity: 0 })
+gsap.to(ref.current, { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' })
+```
+
+## GSAP in React — Korrektes Pattern
 
 ```tsx
 gsap.registerPlugin(ScrollTrigger) // Outside component — register once
@@ -16,18 +30,35 @@ function AnimatedCard() {
   const cardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(cardRef.current, { y: 40, opacity: 0, duration: 0.6, ease: 'power2.out' })
-    }, cardRef) // scope to this element
+    const el = cardRef.current
+    if (!el) return
 
-    return () => ctx.revert() // ✅ cleans up animations + ScrollTriggers
+    // ✅ set() setzt den Startzustand explizit
+    gsap.set(el, { y: 40, opacity: 0 })
+
+    // ✅ to() animiert zum Zielzustand
+    const tween = gsap.to(el, {
+      y: 0, opacity: 1,
+      duration: 0.6,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', once: true }
+    })
+
+    return () => {
+      tween.kill()
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.trigger === el) st.kill()
+      })
+    }
   }, [])
 
   return <div ref={cardRef}>...</div>
 }
 ```
 
-**`gsap.context()` is non-negotiable.** Scopes, cleans up, and fixes StrictMode double-runs.
+**Warum set() + to():** `gsap.set()` setzt den Startzustand synchron. `gsap.to()` animiert davon weg. Das ist idempotent — funktioniert mit StrictMode, funktioniert bei ScrollTrigger-Reruns, keine unsichtbaren Elemente.
+
+**`gsap.context()` is non-negotiable.** Scopes, cleans up, and fixes StrictMode double-runs. Alternativ: manuelles Cleanup wie oben (tween.kill + ScrollTrigger.kill).
 
 > 💡 Asset: `~/.brudi/assets/configs/framer-motion-snippets.ts`
 
@@ -84,11 +115,34 @@ function usePrefersReducedMotion() {
 // Usage: if (reducedMotion) return inside useEffect
 ```
 
+## Multiple Elemente animieren (Stagger)
+
+```tsx
+// ✅ KORREKT — querySelectorAll statt String-Selektoren
+useEffect(() => {
+  const cards = sectionRef.current?.querySelectorAll('[data-card]')
+  if (!cards?.length) return
+
+  gsap.set(cards, { y: 60, opacity: 0 })
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', once: true }
+  })
+  tl.to(cards, { y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: 'power2.out' })
+
+  return () => { tl.kill(); ScrollTrigger.getAll().forEach(st => st.kill()) }
+}, [])
+```
+
+**NIEMALS String-Selektoren in gsap.context():** `gsap.from('.card', { stagger })` innerhalb von `gsap.context(sectionRef)` findet oft nicht alle Elemente oder animiert sie falsch. Immer `querySelectorAll` + Element-Refs.
+
 ## Common Mistakes
 
 | Mistake | Result | Fix |
 |---------|--------|-----|
+| `gsap.from()` in React | Elements invisible, StrictMode breaks | **IMMER** `gsap.set()` + `gsap.to()` |
+| String-Selektoren (`.card`, `[data-x]`) in gsap.from/to | Elements not found in context scope | `querySelectorAll` auf Ref |
 | GSAP outside `useEffect` | SSR crash | Always inside `useEffect` |
-| No `ctx.revert()` | Memory leaks, StrictMode flicker | Always return `() => ctx.revert()` |
+| No cleanup (kill/revert) | Memory leaks, StrictMode flicker | Always return cleanup function |
 | `registerPlugin` inside component | Re-registers every render | Once at module level |
 | Mixing GSAP + Framer Motion | Conflicts | One library per scope |
+| `once: true` ohne gsap.set() Fallback | Element bleibt unsichtbar wenn Trigger nicht feuert | Immer gsap.set() VOR ScrollTrigger |

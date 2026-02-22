@@ -120,9 +120,12 @@ npm run dev
 □ DevTools: 4 different background colors defined in :root
 □ Lenis smooth scroll works (if installed — scroll should feel buttery)
 □ Console: 0 errors
+□ Mobile 375px: Seite lädt korrekt (Screenshot machen!)
+□ reactStrictMode: true in next.config (PFLICHT)
 ```
 
 **If any check fails → fix it now. Do NOT proceed to building sections.**
+**Screenshot Desktop + Mobile 375px in PROJECT_STATUS.md dokumentieren.**
 
 ---
 ## Step 7: Plan Your Vertical Slices
@@ -142,6 +145,21 @@ Each section will be built COMPLETELY (layout + content + depth + animation + re
 - Portfolio cards → `building-portfolio-cards`
 - Any section with animation → `animating-interfaces` + `orchestrating-gsap-lenis`
 - Any section with depth → `creating-visual-depth`
+
+---
+
+## ⛔ Anti-Patterns (VERBOTEN)
+
+Diese Fehler führen IMMER zu Problemen. Sie sind verboten — nicht "zu vermeiden", sondern **VERBOTEN**:
+
+| Anti-Pattern | Warum verboten | Korrekte Alternative |
+|--------------|----------------|---------------------|
+| `gsap.from()` mit String-Selektoren | Elemente werden unsichtbar, StrictMode bricht | `gsap.set()` + `gsap.to()` mit Element-Refs |
+| `gsap.from('.card', { stagger })` | Scope-Problem in gsap.context() | `querySelectorAll('[data-card]')` + `gsap.to()` |
+| `* { margin: 0 }` oder eigene CSS-Resets | Überschreibt Tailwind Preflight, bricht `mx-auto` | Tailwind v4 Preflight reicht — KEINEN eigenen Reset |
+| `reactStrictMode: false` | Versteckt Bugs statt sie zu fixen | Code muss idempotent sein (set/to Pattern) |
+| Batch-Screenshots am Ende | Fehler werden zu spät entdeckt | Screenshot nach JEDEM Slice |
+| Mobile-Test ignorieren | Responsive Bugs werden übersehen | 375px Screenshot nach JEDEM Slice |
 
 ---
 ## Common Mistakes
