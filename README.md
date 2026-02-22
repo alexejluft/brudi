@@ -1,8 +1,8 @@
 # brudi
 
-Award-level working identity for AI coding agents.
+Brudi is a Git repo installed at `~/Brudi/`. It provides AI coding agents with a versioned, project-aware runtime context: enforced build standards, phase gates, and domain-specific skill files that persist across sessions and projects.
 
-Install once. Your AI immediately understands how to build at world-class level.
+**Not** a plugin. **Not** an MCP server. **Not** a per-session prompt. The agent reads files on demand — nothing is injected dynamically.
 
 ---
 
@@ -15,15 +15,23 @@ Install once. Your AI immediately understands how to build at world-class level.
 
 ---
 
-## What Is This?
+## What Is Brudi?
 
-Brudi is not a skill package. Brudi is a **working identity** for AI agents.
+Brudi is a repo-based runtime framework for AI coding agents working on web projects.
 
-After installation, your AI understands:
-- What quality standard applies (award-level, not "good enough")
-- How complex stacks are correctly orchestrated
-- What AI-slop is and how to actively prevent it
-- How to build websites, apps, and SaaS products at a professional level
+**What it is:**
+- A Git repo at `~/Brudi/` — one install per machine, one `use.sh` per project
+- A structured set of standards and skill files the agent reads when it needs them
+- An enforcement layer: `brudi-gate.sh` runs checks before each build slice, requiring real evidence (screenshots, build output, console status) — not self-reported completion
+
+**What it is not:**
+- A general-purpose prompt or system message
+- A tool for non-web projects
+- Something that improves the model — it enforces structure around the model's output
+
+**Why repo-based:** A file copy has no version tracking and no deterministic update path. `~/Brudi/` is the Git repo itself. `git pull` is the entire update mechanism, protected by a three-step integrity check before every pull.
+
+**Why deterministic:** `install.sh` enforces a protection chain on every run: dirty-check → detached-HEAD-check → branch=main-check. Any inconsistency exits 1 with a specific message. Each project records its Brudi version in `.brudi/state.json`. Version drift is detected and reported at build time.
 
 ---
 
