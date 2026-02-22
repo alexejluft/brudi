@@ -152,41 +152,103 @@ Wenn es nach einem Template aussieht — neu anfangen.
 
 ---
 
+## 🔒 Mode Control — Modus-Steuerung
+
+Du arbeitest IMMER in genau EINEM Modus. Der Modus wird aus TASK.md abgeleitet oder vom User zugewiesen.
+
+| Modus | Erlaubt | Verboten |
+|-------|---------|----------|
+| **BUILD** | Code schreiben, Screenshots, Quality Gates | Fremden Code auditieren, Bugs fixen die nicht zum Slice gehören |
+| **AUDIT** | Lesen, Screenshots, Analyse schreiben | Code ändern, Dateien erstellen/löschen |
+| **FIX** | NUR genannte Issues fixen | Neue Features, eigenmächtige "Verbesserungen" |
+
+**Moduswechsel NUR durch explizite User-Anweisung.** AUDIT-Ergebnisse → dokumentieren und User informieren, NICHT automatisch fixen.
+
+---
+
 ## 🚫 Hard Gates — Verbindliche Regeln
 
-### Slice Completion Checklist (JEDER Slice)
-Ein Slice gilt NICHT als abgeschlossen, wenn einer dieser Punkte fehlt:
-- [ ] `verifying-ui-quality` gelesen + 3 Checks dokumentiert
-- [ ] Code geschrieben und funktional
-- [ ] Screenshot Desktop (Pfad in PROJECT_STATUS.md)
-- [ ] Screenshot Mobile 375px (Pfad in PROJECT_STATUS.md)
-- [ ] Console = 0 Errors (verifiziert)
-- [ ] PROJECT_STATUS.md aktualisiert
+### Pre-Conditions (VOR jedem Slice)
 
-Nächster Slice erst wenn alle 6 Punkte erfüllt.
+1. Vorheriger Slice: Alle 6 Post-Conditions ✅ (oder es ist Slice 1)
+2. Skill geladen: `verifying-ui-quality` gelesen (in PROJECT_STATUS.md dokumentiert)
+3. Phase-Gate: Wenn neuer Slice zu neuer Phase gehört → Phase-Transition-Gate bestanden
+
+**Pre-Condition ❌ → STOPP. Zuerst erfüllen.**
+
+### Slice Completion Checklist — Post-Conditions (JEDER Slice)
+
+Ein Slice gilt NICHT als abgeschlossen, wenn einer dieser Punkte fehlt:
+
+- [ ] `verifying-ui-quality` gelesen + 3 Checks dokumentiert
+- [ ] Code geschrieben und funktional (`npm run build` = 0 Errors)
+- [ ] Screenshot Desktop — DATEIPFAD in PROJECT_STATUS.md
+- [ ] Screenshot Mobile 375px — DATEIPFAD in PROJECT_STATUS.md
+- [ ] Console = 0 Errors (Screenshot oder Build-Output als Nachweis)
+- [ ] PROJECT_STATUS.md Slice-Zeile mit allen Spalten aktualisiert
+
+Nächster Slice erst wenn alle 6 Punkte ✅. Kein "Code Audit stattdessen", kein "später nachholen".
+
+### Evidence-Spezifikation
+
+| Gate | Akzeptiert | NICHT akzeptiert |
+|------|-----------|------------------|
+| Screenshot | Datei existiert + Pfad dokumentiert | "Sieht gut aus", "Code ist responsive" |
+| Console 0 | DevTools-Screenshot ODER Build-Output | "Keine Fehler bemerkt" |
+| Quality Gate | 3 benannte Checks + Ergebnis | "Quality Gate: ✅" ohne Details |
+
+### Phase-Transition-Gates
+
+| Übergang | Bedingung |
+|----------|-----------|
+| Phase 0 → 1 | ALLE Phase 0 Tasks ✅ mit Evidenz |
+| Phase 1 → 2 | ALLE Slices ✅ mit vollständiger Evidenz |
+| Phase 2 → 3 | ALLE Seiten ✅ + Definition of Done ✅ |
+
+**Phase-Gate = JEDE Zeile in PROJECT_STATUS.md ✅ mit Evidenz.**
 
 ### Anti-Pattern Guardrails (VERBOTEN)
-- `gsap.from()` mit String-Selektoren → Immer `gsap.set()` + `gsap.to()` mit Element-Refs
+
+- `gsap.from()` mit String-Selektoren → `gsap.set()` + `gsap.to()` mit Element-Refs
 - `* { margin: 0 }` oder eigene CSS-Resets → Tailwind v4 Preflight reicht
 - `reactStrictMode: false` → Code muss Strict Mode kompatibel sein
 - Batch-Screenshots am Ende statt pro Slice
 - Mobile-Test ignorieren
+- Evidenz substituieren ("Code Audit" statt Screenshot)
+- Eigenmächtiger Moduswechsel
+- Status-Symbol "—" oder leere Zellen
+
+### Status-Symbole (NUR diese 4 erlaubt)
+
+| Symbol | Bedeutung |
+|--------|-----------|
+| ✅ | Abgeschlossen mit Evidenz |
+| ❌ | Nicht begonnen |
+| 🟨 | In Arbeit |
+| ⬜ | Nicht anwendbar |
 
 ### Run-Ende Regeln
+
 Ein Run endet NUR wenn:
-- Alle Phasen abgeschlossen, ODER
+- Alle Phasen abgeschlossen + Definition of Done ✅, ODER
 - User sagt STOP, ODER
 - Echte Blockade (dokumentiert in PROJECT_STATUS.md)
 
-Offene Phasen existieren → automatisch weitermachen.
+"Weitermachen" gilt NUR innerhalb des aktuellen Modus und der aktuellen Phase.
 
 ### PROJECT_STATUS.md Pflicht
+
 Erstelle PROJECT_STATUS.md zu Projektbeginn. Template: `~/Brudi/templates/PROJECT_STATUS.md`
+- Wird nach JEDEM Slice aktualisiert
+- Enthält Screenshot-DATEIPFADE (nicht nur ✅/❌)
+- Enthält Skill-Log
+- Verwendet NUR definierte Status-Symbole
 
 ### Definition of Done
+
 - Keine schwarzen Platzhalter-Boxen
 - Sichtbare Entrance-Animationen
 - 4 Dark-Layer erkennbar
-- Mobile 375px getestet (Screenshot mit Pfad)
+- Mobile 375px getestet (Screenshot-DATEIPFAD dokumentiert)
 - Console: 0 Errors
-- PROJECT_STATUS.md aktualisiert
+- PROJECT_STATUS.md vollständig mit Evidenz

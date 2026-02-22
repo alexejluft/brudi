@@ -272,20 +272,69 @@ If any answer is "no" — it's not done.
 
 ---
 
+## 🔒 Mode Control — Modus-Steuerung
+
+Du arbeitest IMMER in genau EINEM der folgenden Modi. Der Modus wird vom User zugewiesen — NIEMALS eigenmächtig gewechselt.
+
+| Modus | Beschreibung | Erlaubte Aktionen | Verbotene Aktionen |
+|-------|-------------|-------------------|-------------------|
+| **BUILD** | Projekt aufbauen gemäß TASK.md | Code schreiben, Screenshots, Quality Gates | Fremden Code auditieren, Bugs fixen die nicht zum aktuellen Slice gehören |
+| **AUDIT** | Bestehendes Projekt prüfen | Lesen, Screenshots, Analyse-Dokument schreiben | Code ändern, Dateien erstellen/löschen |
+| **FIX** | Spezifische Issues beheben | NUR die vom User genannten Issues fixen | Neue Features, Refactoring, eigenmächtige "Verbesserungen" |
+| **RESEARCH** | Analyse ohne Codeänderungen | Lesen, Recherchieren, Analyse schreiben | Code ändern, Dateien erstellen (außer Analyse-Dokument) |
+
+**Regel 1:** Der Startmodus wird aus TASK.md abgeleitet. "Baue..." = BUILD. "Prüfe..." = AUDIT. "Fixe..." = FIX.
+**Regel 2:** Ein Moduswechsel erfolgt NUR durch explizite User-Anweisung im Chat.
+**Regel 3:** Wenn ein AUDIT Issues findet → NICHT automatisch in FIX wechseln. Issues dokumentieren und User informieren.
+**Regel 4:** "Offene Phasen existieren" ist KEIN Grund für einen Moduswechsel. Es ist ein Grund, im aktuellen Modus weiterzuarbeiten.
+
+---
+
 ## 🚫 Hard Gates — Verbindliche Regeln
 
-### Slice Completion Checklist (JEDER Slice, JEDE Seite)
+### Pre-Conditions (VOR jedem Slice)
+
+Bevor ein neuer Slice begonnen werden darf, müssen ALLE Pre-Conditions erfüllt sein:
+
+1. **Vorheriger Slice:** Alle 6 Punkte der Slice Completion Checklist ✅ (oder es ist Slice 1)
+2. **Skill geladen:** `verifying-ui-quality` SKILL.md gelesen (Dateiname in PROJECT_STATUS.md dokumentiert)
+3. **Phase-Gate:** Wenn neuer Slice zu einer neuen Phase gehört → Phase-Transition-Gate bestanden
+
+**Wenn eine Pre-Condition ❌ ist → STOPP. Nicht weiterarbeiten. Pre-Condition zuerst erfüllen.**
+
+### Slice Completion Checklist — Post-Conditions (JEDER Slice, JEDE Seite)
 
 Ein Slice ist NICHT abgeschlossen ohne ALLE 6 Punkte:
 
 1. `verifying-ui-quality` Skill gelesen + 3 Checks dokumentiert
-2. Code geschrieben und funktional
-3. Screenshot Desktop (Pfad in PROJECT_STATUS.md)
-4. Screenshot Mobile 375px (Pfad in PROJECT_STATUS.md)
-5. Console = 0 Errors (verifiziert)
-6. PROJECT_STATUS.md aktualisiert
+2. Code geschrieben und funktional (Build = 0 Errors)
+3. Screenshot Desktop — **DATEIPFAD** in PROJECT_STATUS.md (z.B. `screenshots/slice-2-desktop.png`)
+4. Screenshot Mobile 375px — **DATEIPFAD** in PROJECT_STATUS.md (z.B. `screenshots/slice-2-mobile.png`)
+5. Console = 0 Errors (Screenshot oder Textnachweis)
+6. PROJECT_STATUS.md Slice-Zeile mit allen 6 Spalten aktualisiert
 
-**Nächster Slice erst wenn alle 6 Punkte erfüllt.**
+**Nächster Slice erst wenn alle 6 Punkte ✅. Kein "Code Audit stattdessen", kein "später nachholen".**
+
+### Evidence-Spezifikation
+
+| Gate | Akzeptierte Evidenz | NICHT akzeptiert |
+|------|---------------------|------------------|
+| Desktop Screenshot | Datei existiert, Pfad in PROJECT_STATUS.md | "Sieht gut aus", "Code ist responsive" |
+| Mobile 375px | Datei existiert, Pfad in PROJECT_STATUS.md, Viewport = 375px | "Code audit bestätigt responsive", Dash "—" |
+| Console 0 | Screenshot DevTools Console ODER `npm run build` Output = 0 Errors | "Keine Fehler bemerkt" |
+| Quality Gate | 3 spezifische Checks aus verifying-ui-quality benannt + Ergebnis | "Quality Gate: ✅" ohne Details |
+| Code funktional | `npm run build` erfolgreich (Exit Code 0) | "Kompiliert wahrscheinlich" |
+| PROJECT_STATUS.md | Datei aktualisiert mit Dateipfaden, nicht nur ✅/❌ | Leere Zellen, "—", nur Symbole |
+
+### Phase-Transition-Gates
+
+| Übergang | Gate-Bedingung | Blockade bei Nichterfüllung |
+|----------|---------------|----------------------------|
+| Phase 0 → Phase 1 | ALLE Phase 0 Tasks ✅ + Desktop + Mobile Screenshot + Build = 0 | Slice 1 darf NICHT beginnen |
+| Phase 1 → Phase 2 | ALLE Phase 1 Slices ✅ mit vollständiger Evidenz | Keine neue Seite darf begonnen werden |
+| Phase 2 → Phase 3 | ALLE Seiten ✅ + Definition of Done Checklist ✅ | Deployment darf NICHT starten |
+
+**Ein Phase-Gate ist bestanden wenn JEDE Zeile in PROJECT_STATUS.md für diese Phase ✅ hat — mit Evidenz, nicht nur Symbol.**
 
 ### Anti-Pattern Guardrails (VERBOTEN)
 
@@ -296,23 +345,39 @@ Ein Slice ist NICHT abgeschlossen ohne ALLE 6 Punkte:
 | `reactStrictMode: false` | ⛔ VERBOTEN — Code muss idempotent sein |
 | Batch-Screenshots am Ende statt pro Slice | ⛔ VERBOTEN — Screenshot nach JEDEM Slice |
 | Mobile-Test ignorieren | ⛔ VERBOTEN — 375px Screenshot ist PFLICHT |
+| Evidenz substituieren ("Code Audit" statt Screenshot) | ⛔ VERBOTEN — Nur akzeptierte Evidenz zählt |
+| Eigenmächtiger Moduswechsel (z.B. AUDIT→FIX) | ⛔ VERBOTEN — Nur User kann Modus wechseln |
+| Status-Symbol "—" oder leere Zelle | ⛔ VERBOTEN — Nur ✅ ❌ 🟨 ⬜ erlaubt |
+
+### Status-Symbol-Legende (VERBINDLICH)
+
+| Symbol | Bedeutung | Wann verwenden |
+|--------|-----------|----------------|
+| ✅ | Abgeschlossen mit Evidenz | Alle Nachweise vorhanden |
+| ❌ | Nicht begonnen | Task existiert, noch nicht gestartet |
+| 🟨 | In Arbeit / Teilweise | Aktuell in Bearbeitung |
+| ⬜ | Nicht anwendbar | Task gilt für diesen Kontext nicht |
+
+**"—" (Dash) ist KEIN gültiges Status-Symbol.** Jede Zelle muss eines der 4 Symbole haben.
 
 ### Run-Ende Regeln
 
 Ein Run endet NUR wenn:
-- Alle Phasen der TASK.md abgeschlossen, ODER
+- Alle Phasen der TASK.md abgeschlossen UND Definition of Done ✅, ODER
 - User sagt STOP, ODER
-- Echte Blockade (dokumentiert in PROJECT_STATUS.md)
+- Echte Blockade die der Agent nicht lösen kann (dokumentiert in PROJECT_STATUS.md mit Begründung)
 
-Offene Phasen existieren → automatisch weitermachen. Nicht fragen, nicht warten.
+**"Automatisch weitermachen" gilt NUR innerhalb des zugewiesenen Modus und der aktuellen Phase.** Phasen-Übergang erfordert Phase-Transition-Gate. Modus-Wechsel erfordert User-Anweisung.
 
 ### PROJECT_STATUS.md Pflicht
 
 Jedes Projekt MUSS eine `PROJECT_STATUS.md` führen. Template: `~/Brudi/templates/PROJECT_STATUS.md`
 - Wird nach JEDEM Slice aktualisiert
-- Enthält Screenshot-Pfade als Evidenz
+- Enthält Screenshot-DATEIPFADE als Evidenz (nicht nur ✅/❌)
 - Enthält Issue-Tracking
+- Enthält Skill-Log (welche Skills wann gelesen)
 - Ist die einzige Wahrheitsquelle für den Projektstatus
+- Verwendet NUR die definierten Status-Symbole (✅ ❌ 🟨 ⬜)
 
 ---
 
