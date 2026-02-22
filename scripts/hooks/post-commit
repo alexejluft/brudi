@@ -1,0 +1,47 @@
+#!/bin/bash
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+REPO_PKG="$REPO_ROOT/skills"
+INSTALL_DIR="$HOME/.brudi"
+
+echo "🔄 Brudi: Syncing after commit..."
+
+if [ ! -d "$INSTALL_DIR" ]; then
+  echo "⚠️  ~/.brudi/ existiert nicht — überspringe Sync"
+  exit 0
+fi
+
+# Skills (Kern-Dateien)
+if [ -d "$INSTALL_DIR/skills" ]; then
+  cp -r "$REPO_PKG/skills"/. "$INSTALL_DIR/skills/"
+  SKILL_COUNT=$(ls "$INSTALL_DIR/skills" | wc -l | tr -d ' ')
+  echo "✅ Skills synced ($SKILL_COUNT skills)"
+fi
+
+# Assets (configs, snippets)
+if [ -d "$REPO_PKG/assets" ]; then
+  mkdir -p "$INSTALL_DIR/assets"
+  cp -r "$REPO_PKG/assets"/. "$INSTALL_DIR/assets/"
+  echo "✅ Assets synced"
+fi
+
+# Templates (CLAUDE.md, TASK.md, PROJECT_STATUS.md)
+if [ -d "$REPO_PKG/templates" ]; then
+  mkdir -p "$INSTALL_DIR/templates"
+  cp -r "$REPO_PKG/templates"/. "$INSTALL_DIR/templates/"
+  echo "✅ Templates synced"
+fi
+
+# Docs (testing, etc.)
+if [ -d "$REPO_PKG/docs" ]; then
+  mkdir -p "$INSTALL_DIR/docs"
+  cp -r "$REPO_PKG/docs"/. "$INSTALL_DIR/docs/"
+  echo "✅ Docs synced"
+fi
+
+# Root-Dateien (CLAUDE.md, AGENTS.md, BOOTSTRAP.md, etc.)
+for FILE in CLAUDE.md AGENTS.md BOOTSTRAP.md INSTALL.md README.md use.sh; do
+  if [ -f "$REPO_PKG/$FILE" ]; then
+    cp "$REPO_PKG/$FILE" "$INSTALL_DIR/$FILE"
+  fi
+done
+echo "✅ Root files synced"
