@@ -18,6 +18,9 @@ KI-Agenten sagen: "Lies Brudi und befolge die Regeln."
 `~` bedeutet immer dein Home-Verzeichnis — das funktioniert auf jedem Mac,
 jedem Linux-PC, ohne absoluten Pfad, ohne Anpassung.
 
+**Ab v3.3.0:** `~/Brudi/` IST das Git-Repo. Es gibt keine Kopie, keinen Sync.
+Updates laufen direkt über `cd ~/Brudi && git pull`.
+
 ---
 
 ## Schritt 1 — Brudi global installieren (einmalig)
@@ -25,20 +28,19 @@ jedem Linux-PC, ohne absoluten Pfad, ohne Anpassung.
 ### Option A: Automatisch (empfohlen)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
 ```
 
-Brudi landet danach in: `~/Brudi/`
+Das Skript klont das Brudi-Repo nach `~/Brudi/`.
 
-### Option B: Manuell (wenn du Brudi bereits heruntergeladen hast)
+**Was passiert bei erneutem Ausführen?**
+- Wenn `~/Brudi/` bereits ein Repo ist → `git pull` (Update)
+- Wenn `~/Brudi/` existiert aber kein Repo ist (alte Version) → Backup erstellen, dann neu klonen
 
-Du hast Brudi irgendwo auf deinem PC, z.B. unter:
-`~/Downloads/brudi/` oder `/projects/brudi/`
-
-Dann einfach den `skills/` Ordner nach `~/Brudi/` kopieren:
+### Option B: Manuell
 
 ```bash
-cp -r /pfad/zu/brudi/skills/ ~/Brudi/
+git clone https://github.com/alexejluft/brudi.git ~/Brudi
 ```
 
 ### Prüfen ob es funktioniert hat
@@ -46,8 +48,8 @@ cp -r /pfad/zu/brudi/skills/ ~/Brudi/
 ```bash
 ls ~/Brudi/
 # Ausgabe sollte zeigen:
-# AGENTS.md  CLAUDE.md  INSTALL.md  assets/  docs/  install.sh
-# orchestration/  skills/  templates/  use.sh
+# AGENTS.md  CLAUDE.md  INSTALL.md  VERSION  assets/  docs/
+# install.sh  orchestration/  skills/  templates/  use.sh
 ```
 
 ---
@@ -69,7 +71,7 @@ Das Skript erstellt:
 | `CLAUDE.md` | Projekt-Context + Tier-1 Regeln (aus Template) |
 | `TASK.md` | Aufgaben-Template mit Phase 0 |
 | `PROJECT_STATUS.md` | Status-Tracking mit Evidence-Tabellen |
-| `.brudi/state.json` | Single Source of Truth (Mode, Phase, Slices) |
+| `.brudi/state.json` | Single Source of Truth (Mode, Phase, Slices, Brudi-Version) |
 | `screenshots/` | Evidence-Verzeichnis |
 | `.git/hooks/pre-commit` | Gate-Enforcement (blockiert bei Fehlern) |
 
@@ -102,7 +104,7 @@ Folgt Schritt 2: cat .brudi/state.json (aktueller Mode + Phase)
       ↓
 Folgt Schritt 3: liest TASK.md (aktuelle Aufgabe)
       ↓
-Folgt Schritt 4: brudi-gate.sh pre-slice (Gate-Check)
+Folgt Schritt 4: brudi-gate.sh pre-slice (Gate-Check + Version-Check)
       ↓
 Arbeitet mit Mode Control, Evidence Gates, Phase Transitions
 ```
@@ -111,39 +113,28 @@ Bei jeder neuen Session wiederholt sich dieser Ablauf automatisch.
 
 ---
 
-## Automatische Updates (für Brudi-Entwickler)
-
-Wenn du am Brudi-Repo selbst arbeitest, kannst du automatische Sync einrichten:
+## Brudi updaten
 
 ```bash
-cd /pfad/zum/brudi-repo
-bash scripts/setup-brudi.sh
+cd ~/Brudi && git pull
 ```
 
-Das installiert:
+Alle bestehenden Projekte profitieren sofort, weil sie auf `~/Brudi/` zeigen.
 
-| Mechanismus | Trigger | Funktion |
-|-------------|---------|----------|
-| `post-commit` Hook | Nach jedem Commit | Synct sofort nach ~/Brudi/ |
-| `post-merge` Hook | Nach jedem `git pull` | Synct sofort nach ~/Brudi/ |
-| LaunchAgent | Alle 15 Minuten | Auto `git pull` + Sync |
-
-Alternativ nur die Git-Hooks (ohne LaunchAgent):
-
-```bash
-bash scripts/setup-hooks.sh
-```
+Bei großen Versionssprüngen prüft `brudi-gate.sh pre-slice` automatisch,
+ob die installierte Version zur Projektversion passt und warnt bei Drift.
 
 ---
 
 ## Struktur nach der Installation
 
 ```
-~/Brudi/                     ← Brudi global (einmalig)
+~/Brudi/                     ← Brudi global (= Git-Repo)
 ├── AGENTS.md                 ← Master-Identität (alle Agents)
 ├── CLAUDE.md                 ← Master-Identität (Claude Code)
 ├── INSTALL.md                ← Diese Datei
-├── install.sh                ← Global-Installer
+├── VERSION                   ← Aktuelle Version (z.B. 3.3.0)
+├── install.sh                ← Global-Installer (git clone)
 ├── use.sh                    ← Projekt-Verbinder
 ├── skills/                   ← Detailwissen pro Thema
 │   ├── building-layouts/
@@ -170,22 +161,22 @@ bash scripts/setup-hooks.sh
 ├── TASK.md                    ← Aktuelle Aufgabe
 ├── PROJECT_STATUS.md          ← Status mit Evidence
 ├── .brudi/
-│   └── state.json             ← Mode, Phase, Slices (SSOT)
+│   └── state.json             ← Mode, Phase, Slices, Brudi-Version (SSOT)
 ├── screenshots/               ← Evidence-Screenshots
 └── src/...
 ```
 
 ---
 
-## Brudi updaten
+## Breaking Change: v3.3.0
 
-```bash
-# Option A: Installer erneut ausführen
-curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/install.sh | sh
+Ab v3.3.0 ist `~/Brudi/` direkt das Git-Repo. Die alte Kopier-basierte
+Installation (mit `cp -r` und Sync-Hooks) wird nicht mehr unterstützt.
 
-# Option B: Manuell (wenn du das Repo hast)
-cd /pfad/zum/brudi-repo && git pull
-# → post-merge Hook synct automatisch nach ~/Brudi/
-```
+**Was ändert sich?**
+- `install.sh` klont jetzt das Repo statt Dateien zu kopieren
+- Sync-Mechanismen (post-merge Hook, LaunchAgent) sind nicht mehr nötig
+- Updates laufen über `cd ~/Brudi && git pull`
 
-Alle bestehenden Projekte profitieren sofort, weil sie auf `~/Brudi/` zeigen.
+**Bestehende Installationen:** Das install.sh erkennt alte Kopie-Installationen
+(kein `.git/` Verzeichnis), erstellt ein Backup und installiert neu als Repo.

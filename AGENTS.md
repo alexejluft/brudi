@@ -126,7 +126,7 @@ User asks to animate something with GSAP in React →
   Then write code.
 ```
 
-Skills are in: `skills/skills/[skill-name]/SKILL.md`
+Skills are in: `~/Brudi/skills/[skill-name]/SKILL.md`
 
 ---
 

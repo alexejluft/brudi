@@ -2,7 +2,7 @@
 set -e
 
 # -----------------------------------------------------------------------------
-# Brudi — Projekt-Verbinder (v3.2 + Tier-1 Orchestrierung)
+# Brudi — Projekt-Verbinder (v3.3.0 + Tier-1 Orchestrierung)
 #
 # Was dieses Skript macht:
 #   1. Legt AGENTS.md + CLAUDE.md im Projektordner an (zeigen auf ~/Brudi/)
@@ -41,7 +41,7 @@ if [ ! -d "${BRUDI_DIR}" ]; then
   echo "  ✗ Brudi ist noch nicht global installiert."
   echo ""
   echo "  Installiere zuerst Brudi:"
-  echo "  curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/install.sh | sh"
+  echo "  curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh"
   echo ""
   exit 1
 fi
@@ -50,18 +50,21 @@ fi
 
 mkdir -p "${BRUDI_LOCAL}"
 
+BRUDI_VERSION=$(cat "${BRUDI_DIR}/VERSION" 2>/dev/null || echo "unknown")
+
 if [ -f "${STATE_FILE}" ]; then
   echo "${YELLOW}  ! state.json existiert bereits — wird nicht überschrieben.${RESET}"
 else
-  # Copy init state and set project name
+  # Copy init state and set project name + brudi_version
   if command -v jq &>/dev/null; then
-    jq --arg name "$PROJECT_NAME" '.project = $name' \
+    jq --arg name "$PROJECT_NAME" --arg bv "$BRUDI_VERSION" \
+      '.project = $name | .brudi_version = $bv' \
       "${BRUDI_DIR}/orchestration/state.init.json" > "${STATE_FILE}"
   else
-    sed "s/\"project\": \"\"/\"project\": \"${PROJECT_NAME}\"/" \
+    sed "s/\"project\": \"\"/\"project\": \"${PROJECT_NAME}\"/; s/\"brudi_version\": \"\"/\"brudi_version\": \"${BRUDI_VERSION}\"/" \
       "${BRUDI_DIR}/orchestration/state.init.json" > "${STATE_FILE}"
   fi
-  echo "${GREEN}  ✓ .brudi/state.json erstellt (Mode: BUILD, Phase: 0)${RESET}"
+  echo "${GREEN}  ✓ .brudi/state.json erstellt (Mode: BUILD, Phase: 0, Brudi: v${BRUDI_VERSION})${RESET}"
 fi
 
 # --- screenshots/ Verzeichnis ------------------------------------------------

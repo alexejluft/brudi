@@ -3,13 +3,17 @@
   "title": "Brudi Project State",
   "description": "Single Source of Truth for project mode, phase, slice status and evidence.",
   "type": "object",
-  "required": ["version", "project", "mode", "phase", "slices", "gates"],
+  "required": ["version", "brudi_version", "project", "mode", "phase", "slices", "gates"],
   "additionalProperties": false,
   "properties": {
     "version": {
       "type": "string",
       "const": "1.0",
       "description": "Schema version"
+    },
+    "brudi_version": {
+      "type": "string",
+      "description": "Brudi version at project init (from ~/Brudi/VERSION). Used by brudi-gate.sh to warn on version drift."
     },
     "project": {
       "type": "string",

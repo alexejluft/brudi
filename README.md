@@ -1,91 +1,175 @@
-# Brudi — Dein KI-Baukasten für hochwertige Websites
+# brudi
 
-Brudi ist ein Skill-Paket, das deinen KI-Agenten (wie Claude) beibringt, professionelle und preisgekrönte Websites zu bauen. Statt dass die KI rät, hat sie klare Regeln und fertige Bausteine — das Ergebnis sind bessere Websites, schneller und günstiger.
+Award-level working identity for AI coding agents.
+
+Install once. Your AI immediately understands how to build at world-class level.
 
 ---
 
-## Was ist Brudi?
+> **⚠️ Breaking Change: v3.3.0**
+>
+> Ab v3.3.0 ist `~/Brudi/` direkt das Git-Repo (vorher: Kopie mit Sync).
+> Die alte Kopier-basierte Installation wird nicht mehr unterstützt.
+> Bei bestehender Installation: `install.sh` erneut ausführen — erstellt automatisch
+> ein Backup und installiert als Repo. Details: [INSTALL.md](INSTALL.md#breaking-change-v330)
 
-Brudi ist wie ein Lehrbuch für deinen KI-Agenten. Statt dass der Agent rät wie eine Website gebaut wird, hat er mit Brudi klare Regeln, Best Practices und fertige Bausteine. Das Ergebnis: professionelle, award-würdige Websites — schneller und günstiger. Du brauchst nur drei Schritte, um Brudi zu nutzen.
+---
+
+## What Is This?
+
+Brudi is not a skill package. Brudi is a **working identity** for AI agents.
+
+After installation, your AI understands:
+- What quality standard applies (award-level, not "good enough")
+- How complex stacks are correctly orchestrated
+- What AI-slop is and how to actively prevent it
+- How to build websites, apps, and SaaS products at a professional level
 
 ---
 
 ## Installation
 
-### Schritt 1 — Brudi herunterladen
+Two steps. That's it.
 
-Öffne dein Terminal (das schwarze Fenster mit der Textzeile) und kopiere diesen Befehl hinein. Er lädt Brudi auf deinen Computer herunter.
-
-```bash
-git clone https://github.com/alexejluft/brudi.git
-cd brudi
-```
-
-### Schritt 2 — Brudi installieren
-
-Jetzt installieren wir Brudi mit einem einzigen Befehl. Das Script richtet alles automatisch ein — du musst das nur einmal machen.
+### Step 1 — Install Brudi globally (once per machine)
 
 ```bash
-bash scripts/setup-brudi.sh
+curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
 ```
 
-Das Script installiert Brudi unter `~/Brudi/`. Ab jetzt findet dein KI-Agent alles automatisch. ✅ Brudi ist bereit!
+Brudi lands in `~/Brudi/` — one fixed location on your machine.
+
+**Already have Brudi downloaded?** Clone it manually:
+```bash
+git clone https://github.com/alexejluft/brudi.git ~/Brudi
+```
+
+### Step 2 — Connect a project (once per project)
+
+```bash
+cd ~/projects/fairsplit
+sh ~/Brudi/use.sh
+```
+
+This creates `AGENTS.md` and `CLAUDE.md` in your project folder.
+Both point to `~/Brudi/` — your agent reads Brudi on every session start.
+
+**That's it. Your agent now works at award level.**
 
 ---
 
-## Neues Projekt starten
-
-### Schritt 1 — Projektordner vorbereiten
-
-Erstelle einen neuen Ordner für dein Projekt und kopiere die beiden Startdateien hinein — das sind die einzigen Dateien, die du brauchst.
-
-```bash
-mkdir ~/Projects/mein-projekt
-cp ~/Brudi/templates/CLAUDE.md ~/Projects/mein-projekt/
-cp ~/Brudi/templates/TASK.md ~/Projects/mein-projekt/
-```
-
-### Schritt 2 — Projektdetails ausfüllen
-
-Öffne die Datei `CLAUDE.md` in deinem Projektordner. Dort findest du Platzhalter, die du mit deinen Projektdetails ausfüllst — Projektname, Farben, Zielgruppe und so weiter.
-
-Keine Sorge — du musst nicht alles verstehen! Schau dir die Beispiel-Datei an (`CLAUDE.example.md` im selben `templates/` Ordner), dort siehst du wie eine ausgefüllte Version aussieht. Du kannst auch ChatGPT oder einen anderen KI-Assistenten bitten, dir beim Ausfüllen zu helfen.
-
-### Schritt 3 — KI-Agent starten
-
-Navigiere deinen KI-Agenten (z.B. Claude Code) zu deinem Projektordner und starte ihn.
-
-```bash
-cd ~/Projects/mein-projekt
-claude
-```
-
-Dann sagst du dem Agenten einfach, was du bauen willst:
-
-> Baue die Forma Studio Website
-
-Der Agent liest automatisch deine `CLAUDE.md`, findet Brudi und fängt an zu arbeiten. Du kannst dich zurücklehnen und zusehen.
+For detailed instructions and all scenarios, see [INSTALL.md](INSTALL.md).
 
 ---
 
-## Was steckt in Brudi?
+## How It Works
 
-📚 **60+ Skills** — Regeln und Best Practices für alles von Animationen bis SEO
+```
+Agent reads CLAUDE.md / AGENTS.md on session start
+      ↓
+Understands standards, stack, anti-patterns
+      ↓
+When working on a specific domain, loads the relevant skill:
+  orchestrating-gsap-lenis/SKILL.md
+  orchestrating-react-animations/SKILL.md
+      ↓
+Writes correct code on first attempt
+```
 
-🎨 **Professionelle Schriftarten** — Typografische Best Practices, sofort einsatzbereit
-
-🌍 **Mehrsprachig** — Vorgefertigte Übersetzungen und lokalisierte Inhalte
-
-⚖️ **Rechtstexte** — Impressum & Datenschutz Vorlagen für verschiedene Länder
-
-🎬 **Animations-Bausteine** — GSAP, Framer Motion und Web Animations Techniken
-
-⚙️ **Konfigurationen** — Tailwind v4 globals.css template, Design Tokens, CSS und JavaScript Grundlagen
+Skills load only when needed. Initial context load is small (~150 tokens).
 
 ---
 
-## Fragen?
+## Skills (31 total)
 
-Wenn du Fragen hast, schau dir die Dokumentation in der `docs/` Ordner an oder öffne ein Issue auf GitHub. Das Brudi-Team hilft gerne weiter.
+### Foundation
 
-Viel Erfolg beim Bauen! 🚀
+| Skill | Use When |
+|-------|----------|
+| `building-layouts` | Grid, Flexbox, Container Queries |
+| `designing-for-awards` | Visual decisions, avoiding AI-slop |
+| `animating-interfaces` | Timing, easing, performance rules |
+| `developing-with-react` | RSC, hooks, state patterns |
+| `typing-with-typescript` | Strict types, utility types |
+| `testing-user-interfaces` | Vitest, Testing Library |
+| `optimizing-performance` | Core Web Vitals, LCP, INP, CLS |
+| `building-accessibly` | WCAG, keyboard nav, ARIA |
+
+### Data & Stack
+
+| Skill | Use When |
+|-------|----------|
+| `fetching-data-correctly` | Race conditions, TanStack Query, optimistic updates |
+| `building-with-nextjs` | App Router, Server vs Client Components, caching, metadata |
+
+### Code Quality
+
+| Skill | Use When |
+|-------|----------|
+| `maintaining-quality` | Zod validation, typed tryCatch, T3 env, unused imports |
+| `making-tech-decisions` | State management, rendering strategy, abstractions, bundle size |
+
+### Award-Level Craft
+
+| Skill | Use When |
+|-------|----------|
+| `designing-award-layouts` | 8pt spacing, dark theme layers, mobile-first, visual hierarchy, motion system |
+| `designing-with-perception` | Human perception, fluid typography, contrast |
+| `designing-for-mobile` | Touch targets, thumb zones, safe areas |
+| `handling-ui-states` | Loading/Error/Empty/Content — all 4 states |
+| `crafting-typography` | Fluid type scale, variable fonts, hierarchy |
+| `creating-visual-depth` | Layered shadows, glassmorphism, grainy gradients, elevation system |
+| `building-interactions` | Hover states, :active, transition:all bug, prefers-reduced-motion |
+| `building-components` | FAQ accordion — GSAP height:auto, Framer Motion, numbered row variant, ARIA |
+
+### Stack Orchestration (Critical)
+
+| Skill | Use When |
+|-------|----------|
+| `orchestrating-gsap-lenis` | Combining GSAP and Lenis smooth scroll |
+| `orchestrating-react-animations` | GSAP or Framer Motion in React |
+| `scrolling-with-purpose` | ScrollTrigger cleanup, Lenis integration, horizontal scroll |
+| `orchestrating-css-js-animations` | CSS vs GSAP ownership, fill-mode conflict, will-change limits |
+| `building-page-transitions` | Page transitions — Astro native vs GSAP curtain |
+
+### SaaS
+
+| Skill | Use When |
+|-------|----------|
+| `architecting-saas` | Route groups, auth middleware, multi-tenancy, service layer |
+| `integrating-supabase` | Server vs browser client, realtime, Storage uploads, typed queries |
+| `handling-data-sync` | Optimistic updates, cache invalidation, infinite scroll, useMutation forms |
+| `designing-saas-ux` | Onboarding, pricing page, empty states, settings architecture |
+
+### Alex's Workflow
+
+| Skill | Use When |
+|-------|----------|
+| `starting-a-project` | Beginning any new project — briefing questions, stack, structure |
+| `building-legal-pages` | Any German/EU website — Impressum, DSGVO, Cookie-Banner |
+
+---
+
+## Philosophy
+
+- **Depth over breadth** — Each skill is one domain, understood completely
+- **Anti-AI-slop** — Every pattern solves a documented AI failure mode
+- **Orchestration over isolation** — Libraries must work together correctly
+- **Opinionated** — One correct way, not "you could also..."
+- **TDD-tested** — Every skill has pressure test scenarios
+
+See [docs/philosophy.md](docs/philosophy.md)
+
+---
+
+## Status
+
+**v3.3.0** — 31 skills across 8 categories, all evidence-based with pressure tests. Repo-based installation, Tier-1 Orchestrierung.
+
+## License
+
+MIT — [LICENSE](LICENSE)
+
+---
+
+*Built by Brudi & Alex. Not AI slop.*

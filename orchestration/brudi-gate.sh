@@ -125,6 +125,16 @@ cmd_pre_slice() {
   mode=$(get_state '.mode')
   phase=$(get_state '.phase')
 
+  # 0. Version drift check (warning, not blocking)
+  local brudi_dir="${BRUDI_DIR:-${HOME}/Brudi}"
+  local installed_version
+  installed_version=$(cat "${brudi_dir}/VERSION" 2>/dev/null || echo "unknown")
+  local state_version
+  state_version=$(get_state '.brudi_version')
+  if [ "$state_version" != "" ] && [ "$state_version" != "null" ] && [ "$installed_version" != "$state_version" ]; then
+    warn "Version drift: Projekt initialisiert mit Brudi v${state_version}, installiert ist v${installed_version}. Empfehlung: cd ~/Brudi && git pull"
+  fi
+
   # 1. Mode must be BUILD
   if [ "$mode" != "BUILD" ]; then
     die "Cannot start a slice in $mode mode. Only BUILD mode allows creating slices."
