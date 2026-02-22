@@ -31,6 +31,15 @@ if [ -d "$REPO_PKG/templates" ]; then
   echo "✅ Templates synced"
 fi
 
+# Orchestration (brudi-gate.sh, pre-commit, state schema)
+if [ -d "$REPO_PKG/orchestration" ]; then
+  mkdir -p "$INSTALL_DIR/orchestration"
+  cp -r "$REPO_PKG/orchestration"/. "$INSTALL_DIR/orchestration/"
+  chmod +x "$INSTALL_DIR/orchestration/brudi-gate.sh" 2>/dev/null || true
+  chmod +x "$INSTALL_DIR/orchestration/pre-commit" 2>/dev/null || true
+  echo "✅ Orchestration synced"
+fi
+
 # Docs (testing, etc.)
 if [ -d "$REPO_PKG/docs" ]; then
   mkdir -p "$INSTALL_DIR/docs"

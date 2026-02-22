@@ -26,7 +26,7 @@ INSTALLED_ASSETS="$HOME/Brudi/assets"
 INSTALLED_TEMPLATES="$HOME/Brudi/templates"
 INSTALLED_ORCHESTRATION="$HOME/Brudi/orchestration"
 HOOKS_DIR="$REPO_ROOT/.git/hooks"
-PLIST_SRC="$REPO_ROOT/scripts/com.brudi.autosync.plist"
+PLIST_TEMPLATE="$REPO_ROOT/scripts/com.brudi.autosync.plist.template"
 PLIST_DST="$HOME/Library/LaunchAgents/com.brudi.autosync.plist"
 
 echo ""
@@ -93,7 +93,7 @@ echo "   ✅ post-commit hook aktualisiert"
 # ── 3. LaunchAgent ──────────────────────────────────────
 echo "⏰ Installing macOS LaunchAgent (auto-pull alle 15min)..."
 mkdir -p "$HOME/Library/LaunchAgents"
-cp "$PLIST_SRC" "$PLIST_DST"
+sed "s|__BRUDI_REPO_PATH__|$REPO_ROOT|g" "$PLIST_TEMPLATE" > "$PLIST_DST"
 
 # Unload if already running, then reload
 launchctl unload "$PLIST_DST" 2>/dev/null || true

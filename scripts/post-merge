@@ -3,38 +3,60 @@
 # Runs automatically after every `git pull` — syncs ~/Brudi/ without manual steps.
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-REPO_SKILLS="$REPO_ROOT/skills/skills"
-REPO_ASSETS="$REPO_ROOT/skills/assets"
-REPO_TEMPLATES="$REPO_ROOT/skills/templates"
-INSTALLED_SKILLS="$HOME/.brudi/skills"
-INSTALLED_ASSETS="$HOME/.brudi/assets"
-INSTALLED_TEMPLATES="$HOME/.brudi/templates"
+REPO_PKG="$REPO_ROOT/skills"
+INSTALL_DIR="$HOME/Brudi"
 
 echo "🔄 Brudi: Syncing after pull..."
 
+if [ ! -d "$INSTALL_DIR" ]; then
+  echo "⚠️  ~/Brudi/ existiert nicht — überspringe Sync"
+  exit 0
+fi
+
 # ── Skills ──
-if [ -d "$INSTALLED_SKILLS" ]; then
-  cp -r "$REPO_SKILLS"/. "$INSTALLED_SKILLS/"
-  SKILL_COUNT=$(ls "$INSTALLED_SKILLS" | wc -l | tr -d ' ')
+if [ -d "$REPO_PKG/skills" ]; then
+  mkdir -p "$INSTALL_DIR/skills"
+  cp -r "$REPO_PKG/skills"/. "$INSTALL_DIR/skills/"
+  SKILL_COUNT=$(ls "$INSTALL_DIR/skills" | wc -l | tr -d ' ')
   echo "✅ Skills synced ($SKILL_COUNT skills)"
-else
-  echo "⚠️  ~/Brudi/skills/ not found — skipping"
 fi
 
 # ── Assets ──
-if [ -d "$INSTALLED_ASSETS" ]; then
-  cp -r "$REPO_ASSETS"/. "$INSTALLED_ASSETS/"
+if [ -d "$REPO_PKG/assets" ]; then
+  mkdir -p "$INSTALL_DIR/assets"
+  cp -r "$REPO_PKG/assets"/. "$INSTALL_DIR/assets/"
   echo "✅ Assets synced"
-else
-  echo "⚠️  ~/Brudi/assets/ not found — skipping"
 fi
 
 # ── Templates ──
-if [ -d "$INSTALLED_TEMPLATES" ]; then
-  cp -r "$REPO_TEMPLATES"/. "$INSTALLED_TEMPLATES/"
+if [ -d "$REPO_PKG/templates" ]; then
+  mkdir -p "$INSTALL_DIR/templates"
+  cp -r "$REPO_PKG/templates"/. "$INSTALL_DIR/templates/"
   echo "✅ Templates synced"
-else
-  echo "⚠️  ~/Brudi/templates/ not found — skipping"
 fi
+
+# ── Orchestration ──
+if [ -d "$REPO_PKG/orchestration" ]; then
+  mkdir -p "$INSTALL_DIR/orchestration"
+  cp -r "$REPO_PKG/orchestration"/. "$INSTALL_DIR/orchestration/"
+  chmod +x "$INSTALL_DIR/orchestration/brudi-gate.sh" 2>/dev/null || true
+  chmod +x "$INSTALL_DIR/orchestration/pre-commit" 2>/dev/null || true
+  echo "✅ Orchestration synced"
+fi
+
+# ── Docs ──
+if [ -d "$REPO_PKG/docs" ]; then
+  mkdir -p "$INSTALL_DIR/docs"
+  cp -r "$REPO_PKG/docs"/. "$INSTALL_DIR/docs/"
+  echo "✅ Docs synced"
+fi
+
+# ── Root-Dateien (CLAUDE.md, AGENTS.md, etc.) ──
+for FILE in CLAUDE.md AGENTS.md BOOTSTRAP.md INSTALL.md README.md use.sh install.sh; do
+  if [ -f "$REPO_PKG/$FILE" ]; then
+    cp "$REPO_PKG/$FILE" "$INSTALL_DIR/$FILE"
+  fi
+done
+echo "✅ Root files synced"
 
 echo "✅ Brudi up to date."

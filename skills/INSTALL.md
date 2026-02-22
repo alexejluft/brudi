@@ -8,12 +8,13 @@ Brudi funktioniert in zwei Schritten:
 
 ```
 Schritt 1 (einmalig):   Brudi global auf deinen PC laden → ~/Brudi/
-Schritt 2 (pro Projekt): Projekt mit Brudi verbinden → AGENTS.md / CLAUDE.md
+Schritt 2 (pro Projekt): Projekt mit Brudi verbinden → use.sh
 ```
 
 **Warum zwei Schritte?**
 Brudi liegt einmal auf deinem PC (`~/Brudi/`). Jedes Projekt bekommt
-eine kleine Datei (AGENTS.md), die deinem KI-Agenten sagt: "Lies Brudi."
+Startdateien (AGENTS.md, CLAUDE.md, TASK.md, state.json), die deinem
+KI-Agenten sagen: "Lies Brudi und befolge die Regeln."
 `~` bedeutet immer dein Home-Verzeichnis — das funktioniert auf jedem Mac,
 jedem Linux-PC, ohne absoluten Pfad, ohne Anpassung.
 
@@ -40,34 +41,39 @@ Dann einfach den `skills/` Ordner nach `~/Brudi/` kopieren:
 cp -r /pfad/zu/brudi/skills/ ~/Brudi/
 ```
 
-Beispiel wenn Brudi unter `/AI/Brudi Workspace/projects/brudi/` liegt:
-
-```bash
-cp -r "/AI/Brudi Workspace/projects/brudi/skills/" ~/Brudi/
-```
-
 ### Prüfen ob es funktioniert hat
 
 ```bash
 ls ~/Brudi/
-# Ausgabe sollte zeigen: AGENTS.md  CLAUDE.md  INSTALL.md  skills/  use.sh
+# Ausgabe sollte zeigen:
+# AGENTS.md  CLAUDE.md  INSTALL.md  assets/  docs/  install.sh
+# orchestration/  skills/  templates/  use.sh
 ```
 
 ---
 
 ## Schritt 2 — Projekt mit Brudi verbinden (pro Projekt)
 
-### Option A: Automatisch
+### Option A: Automatisch (empfohlen)
 
 ```bash
 cd ~/projects/fairsplit      # in den Projektordner wechseln
 sh ~/Brudi/use.sh           # Brudi verbinden
 ```
 
-Das Skript legt `AGENTS.md` und `CLAUDE.md` im Projektordner an.
-Fertig. Dein KI-Agent liest diese Dateien ab jetzt automatisch.
+Das Skript erstellt:
 
-### Option B: Manuell (du legst die Datei selbst an)
+| Datei | Funktion |
+|-------|----------|
+| `AGENTS.md` | Arbeitsanweisungen (zeigt auf ~/Brudi/) |
+| `CLAUDE.md` | Projekt-Context + Tier-1 Regeln (aus Template) |
+| `TASK.md` | Aufgaben-Template mit Phase 0 |
+| `PROJECT_STATUS.md` | Status-Tracking mit Evidence-Tabellen |
+| `.brudi/state.json` | Single Source of Truth (Mode, Phase, Slices) |
+| `screenshots/` | Evidence-Verzeichnis |
+| `.git/hooks/pre-commit` | Gate-Enforcement (blockiert bei Fehlern) |
+
+### Option B: Manuell
 
 Erstelle eine Datei `AGENTS.md` in deinem Projektordner mit diesem Inhalt:
 
@@ -81,13 +87,6 @@ Lies vor dem Start vollständig:
 Skills bei Bedarf laden aus: ~/Brudi/skills/[skill-name]/SKILL.md
 ```
 
-Für Claude Code zusätzlich `CLAUDE.md` im Projektordner:
-
-```markdown
-Lies vor dem Start: ~/Brudi/CLAUDE.md
-Skills: ~/Brudi/skills/[skill-name]/SKILL.md
-```
-
 ---
 
 ## Was passiert danach?
@@ -95,59 +94,44 @@ Skills: ~/Brudi/skills/[skill-name]/SKILL.md
 ```
 KI-Agent startet im Projektordner fairsplit/
       ↓
-Liest AGENTS.md (oder CLAUDE.md)
+Liest CLAUDE.md (Projekt-Context + Tier-1 Regeln)
       ↓
-Folgt der Anweisung: liest ~/Brudi/AGENTS.md
+Folgt Schritt 1: liest ~/Brudi/CLAUDE.md (vollständige Identität)
       ↓
-Weiß: Alex's Stack, Standards, Anti-Patterns, Workflow
+Folgt Schritt 2: cat .brudi/state.json (aktueller Mode + Phase)
       ↓
-Arbeitet sofort korrekt — ohne Erklärungen, ohne Korrekturen
+Folgt Schritt 3: liest TASK.md (aktuelle Aufgabe)
+      ↓
+Folgt Schritt 4: brudi-gate.sh pre-slice (Gate-Check)
+      ↓
+Arbeitet mit Mode Control, Evidence Gates, Phase Transitions
 ```
 
 Bei jeder neuen Session wiederholt sich dieser Ablauf automatisch.
-Das löst das Gedächtnis-Problem von KI-Agenten.
 
 ---
 
-## Szenarien
+## Automatische Updates (für Brudi-Entwickler)
 
-### "Ich starte ein neues Projekt und will dass mein Agent sofort richtig arbeitet"
+Wenn du am Brudi-Repo selbst arbeitest, kannst du automatische Sync einrichten:
 
 ```bash
-mkdir ~/projects/fairsplit
-cd ~/projects/fairsplit
-sh ~/Brudi/use.sh
-# → Agent kann sofort starten
+cd /pfad/zum/brudi-repo
+bash scripts/setup-brudi.sh
 ```
 
-### "Mein Agent soll Brudi selbst installieren"
+Das installiert:
 
-Sag deinem Agent:
+| Mechanismus | Trigger | Funktion |
+|-------------|---------|----------|
+| `post-commit` Hook | Nach jedem Commit | Synct sofort nach ~/Brudi/ |
+| `post-merge` Hook | Nach jedem `git pull` | Synct sofort nach ~/Brudi/ |
+| LaunchAgent | Alle 15 Minuten | Auto `git pull` + Sync |
 
-> Installiere Brudi. Es liegt unter [Pfad zu brudi/skills/] auf diesem PC.
-> Kopiere es nach ~/Brudi/ und führe dann use.sh im aktuellen Projektordner aus.
-
-Der Agent führt diese zwei Befehle aus:
-```bash
-cp -r /pfad/zu/brudi/skills/ ~/Brudi/
-sh ~/Brudi/use.sh
-```
-
-### "Ich habe Brudi von GitHub heruntergeladen und will es manuell einrichten"
+Alternativ nur die Git-Hooks (ohne LaunchAgent):
 
 ```bash
-# Brudi liegt z.B. in ~/Downloads/brudi/
-cp -r ~/Downloads/brudi/skills/ ~/Brudi/
-cd ~/projects/mein-projekt
-sh ~/Brudi/use.sh
-```
-
-### "Ich will Brudi updaten"
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/install.sh | sh
-# Bestätigung mit "j" → Brudi wird neu installiert
-# Alle Projekte profitieren sofort, weil sie auf ~/Brudi/ zeigen
+bash scripts/setup-hooks.sh
 ```
 
 ---
@@ -155,30 +139,53 @@ curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/instal
 ## Struktur nach der Installation
 
 ```
-~/Brudi/                   ← Brudi global (einmalig)
-├── AGENTS.md               ← Master-Identität (alle Agents)
-├── CLAUDE.md               ← Master-Identität (Claude Code)
-├── INSTALL.md              ← Diese Datei
-├── install.sh              ← Global-Installer
-├── use.sh                  ← Projekt-Verbinder
-└── skills/
-    ├── building-layouts/
-    ├── designing-for-awards/
-    ├── animating-interfaces/
-    ├── developing-with-react/
-    ├── typing-with-typescript/
-    ├── testing-user-interfaces/
-    ├── optimizing-performance/
-    ├── building-accessibly/
-    ├── designing-with-perception/
-    ├── designing-for-mobile/
-    ├── handling-ui-states/
-    ├── orchestrating-gsap-lenis/
-    ├── orchestrating-react-animations/
-    └── starting-a-project/
+~/Brudi/                     ← Brudi global (einmalig)
+├── AGENTS.md                 ← Master-Identität (alle Agents)
+├── CLAUDE.md                 ← Master-Identität (Claude Code)
+├── INSTALL.md                ← Diese Datei
+├── install.sh                ← Global-Installer
+├── use.sh                    ← Projekt-Verbinder
+├── skills/                   ← Detailwissen pro Thema
+│   ├── building-layouts/
+│   ├── designing-for-awards/
+│   ├── animating-interfaces/
+│   ├── verifying-ui-quality/
+│   └── ...
+├── templates/                ← Projekt-Templates
+│   ├── CLAUDE.md             ← Projekt-Context Template
+│   ├── TASK.md               ← Aufgaben-Template
+│   └── PROJECT_STATUS.md     ← Status-Template
+├── orchestration/            ← Tier-1 Gate-Enforcement
+│   ├── brudi-gate.sh         ← Gate Runner (5 Subcommands)
+│   ├── pre-commit            ← Git Pre-Commit Hook
+│   ├── state.init.json       ← Initialer State
+│   └── state.schema.json     ← Schema-Validierung
+├── assets/                   ← Fonts, i18n, Legal, Configs
+│   └── INDEX.md
+└── docs/                     ← Interne Dokumentation
 
-~/projects/fairsplit/       ← Dein Projekt (pro Projekt)
-├── AGENTS.md               ← Zeigt auf ~/Brudi/AGENTS.md
-├── CLAUDE.md               ← Zeigt auf ~/Brudi/CLAUDE.md
+~/projects/fairsplit/          ← Dein Projekt (pro Projekt)
+├── AGENTS.md                  ← Zeigt auf ~/Brudi/AGENTS.md
+├── CLAUDE.md                  ← Projekt-Context (aus Template)
+├── TASK.md                    ← Aktuelle Aufgabe
+├── PROJECT_STATUS.md          ← Status mit Evidence
+├── .brudi/
+│   └── state.json             ← Mode, Phase, Slices (SSOT)
+├── screenshots/               ← Evidence-Screenshots
 └── src/...
 ```
+
+---
+
+## Brudi updaten
+
+```bash
+# Option A: Installer erneut ausführen
+curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/install.sh | sh
+
+# Option B: Manuell (wenn du das Repo hast)
+cd /pfad/zum/brudi-repo && git pull
+# → post-merge Hook synct automatisch nach ~/Brudi/
+```
+
+Alle bestehenden Projekte profitieren sofort, weil sie auf `~/Brudi/` zeigen.

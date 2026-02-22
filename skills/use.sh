@@ -131,28 +131,23 @@ if [ -f "${CLAUDE_FILE}" ]; then
 fi
 
 if [ -z "${CLAUDE_DONE}" ]; then
-  cat > "${CLAUDE_FILE}" << EOF
-# Arbeitsanweisungen für dieses Projekt
+  CLAUDE_TEMPLATE="${BRUDI_DIR}/templates/CLAUDE.md"
+  if [ -f "${CLAUDE_TEMPLATE}" ]; then
+    sed "s/\[Dein Projektname\]/${PROJECT_NAME}/g; s/\[Projektname\]/${PROJECT_NAME}/g" \
+      "${CLAUDE_TEMPLATE}" > "${CLAUDE_FILE}"
+    echo "${GREEN}  ✓ CLAUDE.md aus Template erstellt (vollständig mit Tier-1, Mode Control, Hard Gates)${RESET}"
+  else
+    echo "${YELLOW}  ! Template ~/Brudi/templates/CLAUDE.md nicht gefunden — erstelle Minimalversion${RESET}"
+    cat > "${CLAUDE_FILE}" << EOF
+# ${PROJECT_NAME} — Project Context
 
-Lies vor dem Start vollständig:
-- ~/Brudi/CLAUDE.md   ← Wer Alex ist, Standards, Stack, Anti-Patterns
-- Passende Skills aus ~/Brudi/skills/[skill-name]/SKILL.md laden wenn nötig
-
-## Tier-1 Orchestrierung (PFLICHT)
-
-Dieses Projekt nutzt imperatives Gate-Enforcement:
-
-1. **State lesen:** \`cat .brudi/state.json\` — zeigt aktuellen Modus, Phase, Slice-Status
-2. **Vor jedem Slice:** \`bash ~/Brudi/orchestration/brudi-gate.sh pre-slice\`
-3. **Nach jedem Slice:** state.json aktualisieren, dann \`bash ~/Brudi/orchestration/brudi-gate.sh post-slice <id>\`
-4. **Phase-Wechsel:** \`bash ~/Brudi/orchestration/brudi-gate.sh phase-gate 0_to_1\`
-5. **Mode-Check:** \`bash ~/Brudi/orchestration/brudi-gate.sh mode-check <action>\`
-
-**VERBOTEN:** Modus eigenmächtig wechseln. AUDIT→FIX ohne User. Gates überspringen.
-
-Projektname: ${PROJECT_NAME}
+Lies vor dem Start vollständig: ~/Brudi/CLAUDE.md
+Skills: ~/Brudi/skills/[skill-name]/SKILL.md
+State: cat .brudi/state.json
+Gate Runner: bash ~/Brudi/orchestration/brudi-gate.sh pre-slice
 EOF
-  echo "${GREEN}  ✓ CLAUDE.md erstellt (mit Tier-1 Referenzen)${RESET}"
+  fi
+  echo "${GREEN}  ✓ CLAUDE.md erstellt${RESET}"
 fi
 
 # --- TASK.md + PROJECT_STATUS.md Templates ------------------------------------
