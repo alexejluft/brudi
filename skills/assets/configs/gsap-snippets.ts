@@ -187,7 +187,9 @@ export function pageTransition(exitColor = '#000', direction: 'left' | 'right' |
   const clipStart = direction === 'left' || direction === 'right' ? '0% 0 / 0% 100%' : '0 0 / 100% 0%'
   const clipEnd = direction === 'left' || direction === 'right' ? '0% 0 / 100% 100%' : '0 0 / 100% 100%'
 
-  gsap.from(overlay, { clipPath: clipStart, duration, ease: 'power2.inOut' })
+  // ✅ set() + to() statt from()
+  gsap.set(overlay, { clipPath: clipStart })
+  gsap.to(overlay, { clipPath: clipEnd, duration, ease: 'power2.inOut' })
 }
 
 // =============================================================
