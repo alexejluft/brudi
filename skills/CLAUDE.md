@@ -95,7 +95,7 @@ Critical combinations:
 
 ## Asset Awareness
 
-Before starting any project, read `~/.brudi/assets/INDEX.md` to discover pre-built:
+Before starting any project, read `~/Brudi/assets/INDEX.md` to discover pre-built:
 - Variable font pairings with setup instructions
 - Design tokens, Tailwind presets, and CSS resets
 - i18n translation keys (154 UI phrases, 6 languages)
@@ -108,7 +108,7 @@ Before starting any project, read `~/.brudi/assets/INDEX.md` to discover pre-bui
 
 ## Skills — Load by Phase
 
-**How to read a skill:** `Read ~/.brudi/skills/[skill-name]/SKILL.md`
+**How to read a skill:** `Read ~/Brudi/skills/[skill-name]/SKILL.md`
 Always append `/SKILL.md` — the skill name is a directory, not a file.
 
 ### Phase 0: Foundation
@@ -223,7 +223,7 @@ Read these when deploying and scaling.
 2. **Before EACH section:** Read `verifying-ui-quality` + section-relevant skills
 3. **After EACH section:** Run the Verification Protocol from `verifying-ui-quality`
 4. **Never skip verification** — a section is NOT done until it passes the Quality Gate
-5. **Skills location:** `~/.brudi/skills/[skill-name]/SKILL.md`
+5. **Skills location:** `~/Brudi/skills/[skill-name]/SKILL.md`
 6. **Orchestration principle:** If combining libraries, read the relevant orchestration skill first
 
 ---
@@ -308,7 +308,7 @@ Offene Phasen existieren → automatisch weitermachen. Nicht fragen, nicht warte
 
 ### PROJECT_STATUS.md Pflicht
 
-Jedes Projekt MUSS eine `PROJECT_STATUS.md` führen. Template: `~/.brudi/templates/PROJECT_STATUS.md`
+Jedes Projekt MUSS eine `PROJECT_STATUS.md` führen. Template: `~/Brudi/templates/PROJECT_STATUS.md`
 - Wird nach JEDEM Slice aktualisiert
 - Enthält Screenshot-Pfade als Evidenz
 - Enthält Issue-Tracking

@@ -4,7 +4,7 @@
 # Einmalig ausführen auf dem iMac — danach ist alles automatisch.
 #
 # Was dieses Script macht:
-#   1. Erstellt ~/.brudi/skills/ und ~/.brudi/assets/
+#   1. Erstellt ~/Brudi/skills/ und ~/Brudi/assets/
 #   2. Installiert post-commit Hook (sync nach eigenem Commit)
 #   3. Installiert post-merge Hook  (sync nach git pull)
 #   4. Installiert macOS LaunchAgent (auto git pull alle 15min)
@@ -20,9 +20,9 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REPO_SKILLS="$REPO_ROOT/skills/skills"
 REPO_ASSETS="$REPO_ROOT/skills/assets"
 REPO_TEMPLATES="$REPO_ROOT/skills/templates"
-INSTALLED_SKILLS="$HOME/.brudi/skills"
-INSTALLED_ASSETS="$HOME/.brudi/assets"
-INSTALLED_TEMPLATES="$HOME/.brudi/templates"
+INSTALLED_SKILLS="$HOME/Brudi/skills"
+INSTALLED_ASSETS="$HOME/Brudi/assets"
+INSTALLED_TEMPLATES="$HOME/Brudi/templates"
 HOOKS_DIR="$REPO_ROOT/.git/hooks"
 PLIST_SRC="$REPO_ROOT/scripts/com.brudi.autosync.plist"
 PLIST_DST="$HOME/Library/LaunchAgents/com.brudi.autosync.plist"
@@ -32,11 +32,11 @@ echo "🚀 Brudi Setup"
 echo "──────────────────────────────────────────"
 
 # ── 1. Directories ──────────────────────────────────────
-echo "📁 Creating ~/.brudi directories..."
+echo "📁 Creating ~/Brudi directories..."
 mkdir -p "$INSTALLED_SKILLS"
 mkdir -p "$INSTALLED_ASSETS"
 mkdir -p "$INSTALLED_TEMPLATES"
-echo "   ✅ ~/.brudi/skills/, ~/.brudi/assets/ und ~/.brudi/templates/ bereit"
+echo "   ✅ ~/Brudi/skills/, ~/Brudi/assets/ und ~/Brudi/templates/ bereit"
 
 # ── 2. Git Hooks ────────────────────────────────────────
 echo "🔗 Installing git hooks..."
@@ -52,9 +52,9 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 REPO_SKILLS="$REPO_ROOT/skills/skills"
 REPO_ASSETS="$REPO_ROOT/skills/assets"
 REPO_TEMPLATES="$REPO_ROOT/skills/templates"
-INSTALLED_SKILLS="$HOME/.brudi/skills"
-INSTALLED_ASSETS="$HOME/.brudi/assets"
-INSTALLED_TEMPLATES="$HOME/.brudi/templates"
+INSTALLED_SKILLS="$HOME/Brudi/skills"
+INSTALLED_ASSETS="$HOME/Brudi/assets"
+INSTALLED_TEMPLATES="$HOME/Brudi/templates"
 
 echo "🔄 Brudi: Syncing after commit..."
 
@@ -95,9 +95,9 @@ cp -r "$REPO_SKILLS"/. "$INSTALLED_SKILLS/"
 cp -r "$REPO_ASSETS"/. "$INSTALLED_ASSETS/"
 cp -r "$REPO_TEMPLATES"/. "$INSTALLED_TEMPLATES/"
 SKILL_COUNT=$(ls "$INSTALLED_SKILLS" | wc -l | tr -d ' ')
-echo "   ✅ $SKILL_COUNT Skills synced → ~/.brudi/skills/"
-echo "   ✅ Assets synced → ~/.brudi/assets/"
-echo "   ✅ Templates synced → ~/.brudi/templates/"
+echo "   ✅ $SKILL_COUNT Skills synced → ~/Brudi/skills/"
+echo "   ✅ Assets synced → ~/Brudi/assets/"
+echo "   ✅ Templates synced → ~/Brudi/templates/"
 
 # ── Done ────────────────────────────────────────────────
 echo ""

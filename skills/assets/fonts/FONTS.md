@@ -4,7 +4,7 @@
 
 All woff2 files are in `/assets/fonts/woff2/`. Copy into project with:
 ```bash
-cp ~/.brudi/assets/fonts/woff2/*.woff2 ./public/fonts/
+cp ~/Brudi/assets/fonts/woff2/*.woff2 ./public/fonts/
 ```
 
 **License:** ITF Free Font License (FFL) — free for personal and commercial use in end projects.

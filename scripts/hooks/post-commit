@@ -1,12 +1,12 @@
 #!/bin/bash
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 REPO_PKG="$REPO_ROOT/skills"
-INSTALL_DIR="$HOME/.brudi"
+INSTALL_DIR="$HOME/Brudi"
 
 echo "🔄 Brudi: Syncing after commit..."
 
 if [ ! -d "$INSTALL_DIR" ]; then
-  echo "⚠️  ~/.brudi/ existiert nicht — überspringe Sync"
+  echo "⚠️  ~/Brudi/ existiert nicht — überspringe Sync"
   exit 0
 fi
 

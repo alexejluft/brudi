@@ -46,7 +46,7 @@ export default { plugins: { "@tailwindcss/postcss": {} } }
 ```
 ---
 ## Step 3: Copy Brudi Assets
-Copy from `~/.brudi/assets/`: `configs/globals.css` → `src/styles/`, `fonts/woff2/*` → `public/fonts/`. Edit globals.css to set `:root` colors, `.dark` colors, and font vars in `@theme inline`.
+Copy from `~/Brudi/assets/`: `configs/globals.css` → `src/styles/`, `fonts/woff2/*` → `public/fonts/`. Edit globals.css to set `:root` colors, `.dark` colors, and font vars in `@theme inline`.
 
 **CRITICAL: Dark Theme Layers (4 required, NOT 1-2)**
 Your globals.css MUST define these 4 distinct background values:

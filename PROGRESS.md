@@ -133,15 +133,15 @@ Ein Skill-System für KI-Agenten. Der Agent lädt beim Start eines Projekts auto
 ## Infrastruktur
 
 ```
-~/.brudi/          ← lokale Kopie der Skills (wird von use.sh installiert)
-install.sh         ← einmalig: kopiert Skills nach ~/.brudi/
+~/Brudi/          ← lokale Kopie der Skills (wird von use.sh installiert)
+install.sh         ← einmalig: kopiert Skills nach ~/Brudi/
 use.sh             ← pro Projekt: kopiert Skills ins Projekt
 ```
 
 **Skills-Update Workflow:**
 1. Skill in `/skills/skills/[name]/SKILL.md` bearbeiten
 2. CLAUDE.md + AGENTS.md + README.md updaten
-3. `cp -r skills/ ~/.brudi/`
+3. `cp -r skills/ ~/Brudi/`
 4. `git add -A && git commit && git push`
 
 ---

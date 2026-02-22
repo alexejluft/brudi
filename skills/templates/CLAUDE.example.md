@@ -13,13 +13,13 @@
 Egal was der Nutzer schreibt — führe beim Start diese Schritte aus:
 
 **Schritt 1 — Brudi Identity laden:**
-Lies: `~/.brudi/CLAUDE.md`
+Lies: `~/Brudi/CLAUDE.md`
 
 **Schritt 2 — TASK.md lesen:**
 Lies `TASK.md` in diesem Projektordner. Dort steht die aktuelle Aufgabe.
 
 **Schritt 3 — Relevante Brudi Skills lesen:**
-Lies `~/.brudi/assets/INDEX.md` für verfügbare Assets, dann die Skills die zur Aufgabe passen.
+Lies `~/Brudi/assets/INDEX.md` für verfügbare Assets, dann die Skills die zur Aufgabe passen.
 
 ---
 
@@ -41,7 +41,7 @@ Luxury Brands, innovative Startups und Tech-Unternehmen die nach Premium Creativ
 - **Sprache:** TypeScript (strict mode)
 - **Styling:** Tailwind CSS
 - **Animationen:** GSAP + Lenis (Smooth Scroll)
-- **Fonts:** next/font/local — Variable Fonts aus `~/.brudi/assets/fonts/woff2/`
+- **Fonts:** next/font/local — Variable Fonts aus `~/Brudi/assets/fonts/woff2/`
 - **Icons:** Lucide React
 
 Kein Astro. Kein Vite. Kein Pages Router.
@@ -51,9 +51,9 @@ Kein Astro. Kein Vite. Kein Pages Router.
 ## Brudi Skills & Assets
 
 Das Brudi Skill Package ist installiert unter:
-`~/.brudi/skills/` (Skills) und `~/.brudi/assets/` (Fonts, i18n, Legal, Configs)
+`~/Brudi/skills/` (Skills) und `~/Brudi/assets/` (Fonts, i18n, Legal, Configs)
 
-Lies `~/.brudi/assets/INDEX.md` am Projektstart einmalig.
+Lies `~/Brudi/assets/INDEX.md` am Projektstart einmalig.
 Brudi ist dein Regelwerk. Improvisieren ohne Brudi ist nicht erlaubt.
 
 ---

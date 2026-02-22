@@ -1,6 +1,6 @@
 #!/bin/bash
 # Brudi Post-Merge Hook
-# Runs automatically after every `git pull` — syncs ~/.brudi/ without manual steps.
+# Runs automatically after every `git pull` — syncs ~/Brudi/ without manual steps.
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 REPO_SKILLS="$REPO_ROOT/skills/skills"
@@ -18,7 +18,7 @@ if [ -d "$INSTALLED_SKILLS" ]; then
   SKILL_COUNT=$(ls "$INSTALLED_SKILLS" | wc -l | tr -d ' ')
   echo "✅ Skills synced ($SKILL_COUNT skills)"
 else
-  echo "⚠️  ~/.brudi/skills/ not found — skipping"
+  echo "⚠️  ~/Brudi/skills/ not found — skipping"
 fi
 
 # ── Assets ──
@@ -26,7 +26,7 @@ if [ -d "$INSTALLED_ASSETS" ]; then
   cp -r "$REPO_ASSETS"/. "$INSTALLED_ASSETS/"
   echo "✅ Assets synced"
 else
-  echo "⚠️  ~/.brudi/assets/ not found — skipping"
+  echo "⚠️  ~/Brudi/assets/ not found — skipping"
 fi
 
 # ── Templates ──
@@ -34,7 +34,7 @@ if [ -d "$INSTALLED_TEMPLATES" ]; then
   cp -r "$REPO_TEMPLATES"/. "$INSTALLED_TEMPLATES/"
   echo "✅ Templates synced"
 else
-  echo "⚠️  ~/.brudi/templates/ not found — skipping"
+  echo "⚠️  ~/Brudi/templates/ not found — skipping"
 fi
 
 echo "✅ Brudi up to date."

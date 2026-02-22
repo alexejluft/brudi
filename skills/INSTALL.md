@@ -7,12 +7,12 @@
 Brudi funktioniert in zwei Schritten:
 
 ```
-Schritt 1 (einmalig):   Brudi global auf deinen PC laden → ~/.brudi/
+Schritt 1 (einmalig):   Brudi global auf deinen PC laden → ~/Brudi/
 Schritt 2 (pro Projekt): Projekt mit Brudi verbinden → AGENTS.md / CLAUDE.md
 ```
 
 **Warum zwei Schritte?**
-Brudi liegt einmal auf deinem PC (`~/.brudi/`). Jedes Projekt bekommt
+Brudi liegt einmal auf deinem PC (`~/Brudi/`). Jedes Projekt bekommt
 eine kleine Datei (AGENTS.md), die deinem KI-Agenten sagt: "Lies Brudi."
 `~` bedeutet immer dein Home-Verzeichnis — das funktioniert auf jedem Mac,
 jedem Linux-PC, ohne absoluten Pfad, ohne Anpassung.
@@ -27,29 +27,29 @@ jedem Linux-PC, ohne absoluten Pfad, ohne Anpassung.
 curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/install.sh | sh
 ```
 
-Brudi landet danach in: `~/.brudi/`
+Brudi landet danach in: `~/Brudi/`
 
 ### Option B: Manuell (wenn du Brudi bereits heruntergeladen hast)
 
 Du hast Brudi irgendwo auf deinem PC, z.B. unter:
 `~/Downloads/brudi/` oder `/projects/brudi/`
 
-Dann einfach den `skills/` Ordner nach `~/.brudi/` kopieren:
+Dann einfach den `skills/` Ordner nach `~/Brudi/` kopieren:
 
 ```bash
-cp -r /pfad/zu/brudi/skills/ ~/.brudi/
+cp -r /pfad/zu/brudi/skills/ ~/Brudi/
 ```
 
 Beispiel wenn Brudi unter `/AI/Brudi Workspace/projects/brudi/` liegt:
 
 ```bash
-cp -r "/AI/Brudi Workspace/projects/brudi/skills/" ~/.brudi/
+cp -r "/AI/Brudi Workspace/projects/brudi/skills/" ~/Brudi/
 ```
 
 ### Prüfen ob es funktioniert hat
 
 ```bash
-ls ~/.brudi/
+ls ~/Brudi/
 # Ausgabe sollte zeigen: AGENTS.md  CLAUDE.md  INSTALL.md  skills/  use.sh
 ```
 
@@ -61,7 +61,7 @@ ls ~/.brudi/
 
 ```bash
 cd ~/projects/fairsplit      # in den Projektordner wechseln
-sh ~/.brudi/use.sh           # Brudi verbinden
+sh ~/Brudi/use.sh           # Brudi verbinden
 ```
 
 Das Skript legt `AGENTS.md` und `CLAUDE.md` im Projektordner an.
@@ -75,17 +75,17 @@ Erstelle eine Datei `AGENTS.md` in deinem Projektordner mit diesem Inhalt:
 # Arbeitsanweisungen
 
 Lies vor dem Start vollständig:
-- ~/.brudi/AGENTS.md         ← Standards, Stack, Anti-Patterns
-- ~/.brudi/CLAUDE.md         ← Dasselbe für Claude Code
+- ~/Brudi/AGENTS.md         ← Standards, Stack, Anti-Patterns
+- ~/Brudi/CLAUDE.md         ← Dasselbe für Claude Code
 
-Skills bei Bedarf laden aus: ~/.brudi/skills/[skill-name]/SKILL.md
+Skills bei Bedarf laden aus: ~/Brudi/skills/[skill-name]/SKILL.md
 ```
 
 Für Claude Code zusätzlich `CLAUDE.md` im Projektordner:
 
 ```markdown
-Lies vor dem Start: ~/.brudi/CLAUDE.md
-Skills: ~/.brudi/skills/[skill-name]/SKILL.md
+Lies vor dem Start: ~/Brudi/CLAUDE.md
+Skills: ~/Brudi/skills/[skill-name]/SKILL.md
 ```
 
 ---
@@ -97,7 +97,7 @@ KI-Agent startet im Projektordner fairsplit/
       ↓
 Liest AGENTS.md (oder CLAUDE.md)
       ↓
-Folgt der Anweisung: liest ~/.brudi/AGENTS.md
+Folgt der Anweisung: liest ~/Brudi/AGENTS.md
       ↓
 Weiß: Alex's Stack, Standards, Anti-Patterns, Workflow
       ↓
@@ -116,7 +116,7 @@ Das löst das Gedächtnis-Problem von KI-Agenten.
 ```bash
 mkdir ~/projects/fairsplit
 cd ~/projects/fairsplit
-sh ~/.brudi/use.sh
+sh ~/Brudi/use.sh
 # → Agent kann sofort starten
 ```
 
@@ -125,21 +125,21 @@ sh ~/.brudi/use.sh
 Sag deinem Agent:
 
 > Installiere Brudi. Es liegt unter [Pfad zu brudi/skills/] auf diesem PC.
-> Kopiere es nach ~/.brudi/ und führe dann use.sh im aktuellen Projektordner aus.
+> Kopiere es nach ~/Brudi/ und führe dann use.sh im aktuellen Projektordner aus.
 
 Der Agent führt diese zwei Befehle aus:
 ```bash
-cp -r /pfad/zu/brudi/skills/ ~/.brudi/
-sh ~/.brudi/use.sh
+cp -r /pfad/zu/brudi/skills/ ~/Brudi/
+sh ~/Brudi/use.sh
 ```
 
 ### "Ich habe Brudi von GitHub heruntergeladen und will es manuell einrichten"
 
 ```bash
 # Brudi liegt z.B. in ~/Downloads/brudi/
-cp -r ~/Downloads/brudi/skills/ ~/.brudi/
+cp -r ~/Downloads/brudi/skills/ ~/Brudi/
 cd ~/projects/mein-projekt
-sh ~/.brudi/use.sh
+sh ~/Brudi/use.sh
 ```
 
 ### "Ich will Brudi updaten"
@@ -147,7 +147,7 @@ sh ~/.brudi/use.sh
 ```bash
 curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/install.sh | sh
 # Bestätigung mit "j" → Brudi wird neu installiert
-# Alle Projekte profitieren sofort, weil sie auf ~/.brudi/ zeigen
+# Alle Projekte profitieren sofort, weil sie auf ~/Brudi/ zeigen
 ```
 
 ---
@@ -155,7 +155,7 @@ curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/instal
 ## Struktur nach der Installation
 
 ```
-~/.brudi/                   ← Brudi global (einmalig)
+~/Brudi/                   ← Brudi global (einmalig)
 ├── AGENTS.md               ← Master-Identität (alle Agents)
 ├── CLAUDE.md               ← Master-Identität (Claude Code)
 ├── INSTALL.md              ← Diese Datei
@@ -178,7 +178,7 @@ curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/instal
     └── starting-a-project/
 
 ~/projects/fairsplit/       ← Dein Projekt (pro Projekt)
-├── AGENTS.md               ← Zeigt auf ~/.brudi/AGENTS.md
-├── CLAUDE.md               ← Zeigt auf ~/.brudi/CLAUDE.md
+├── AGENTS.md               ← Zeigt auf ~/Brudi/AGENTS.md
+├── CLAUDE.md               ← Zeigt auf ~/Brudi/CLAUDE.md
 └── src/...
 ```

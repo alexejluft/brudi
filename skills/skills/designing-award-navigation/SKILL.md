@@ -43,7 +43,7 @@ The indicator is a UI signal — it must be subtle, not decorative noise.
 **Rules:**
 - Position: `absolute`, never in document flow (doesn't affect layout)
 - Fade it out with GSAP when user scrolls past 100px
-- For users with `prefers-reduced-motion`, disable animation but keep the indicator visible. See `~/.brudi/assets/patterns/reduced-motion.md`
+- For users with `prefers-reduced-motion`, disable animation but keep the indicator visible. See `~/Brudi/assets/patterns/reduced-motion.md`
 
 ---
 

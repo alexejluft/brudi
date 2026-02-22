@@ -7,7 +7,7 @@ description: Use when implementing keyboard navigation, focus styles, prefers-re
 
 ## prefers-reduced-motion — Always
 
-For implementation → see `~/.brudi/assets/patterns/reduced-motion.md`
+For implementation → see `~/Brudi/assets/patterns/reduced-motion.md`
 
 **Not all animation must be removed** — fade and opacity transitions are
 acceptable. Remove: translate, scale, rotate. Keep: opacity, color, shadow.

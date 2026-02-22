@@ -28,22 +28,22 @@ Two steps. That's it.
 curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/install.sh | sh
 ```
 
-Brudi lands in `~/.brudi/` — one fixed location on your machine.
+Brudi lands in `~/Brudi/` — one fixed location on your machine.
 
 **Already have Brudi downloaded?** Copy it manually:
 ```bash
-cp -r /path/to/brudi/skills/ ~/.brudi/
+cp -r /path/to/brudi/skills/ ~/Brudi/
 ```
 
 ### Step 2 — Connect a project (once per project)
 
 ```bash
 cd ~/projects/fairsplit
-sh ~/.brudi/use.sh
+sh ~/Brudi/use.sh
 ```
 
 This creates `AGENTS.md` and `CLAUDE.md` in your project folder.
-Both point to `~/.brudi/` — your agent reads Brudi on every session start.
+Both point to `~/Brudi/` — your agent reads Brudi on every session start.
 
 **That's it. Your agent now works at award level.**
 

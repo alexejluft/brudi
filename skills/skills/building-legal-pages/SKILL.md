@@ -83,7 +83,7 @@ export default function ImpressumPage() {
 
 ## 4 — Datenschutzerklärung (DSGVO Art. 13)
 
-> 💡 Asset: `~/.brudi/assets/legal/legal.{lang}.json`
+> 💡 Asset: `~/Brudi/assets/legal/legal.{lang}.json`
 
 **Required sections:** Verantwortlicher, Zweck + Rechtsgrundlage, Empfänger, Speicherdauer, Betroffenenrechte (Auskunft, Löschung, Portabilität), Beschwerderecht.
 

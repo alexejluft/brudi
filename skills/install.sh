@@ -5,18 +5,18 @@ set -e
 # Brudi — Global Installer
 #
 # Was dieses Skript macht:
-#   Installiert Brudi einmalig global nach ~/.brudi/
+#   Installiert Brudi einmalig global nach ~/Brudi/
 #   Das ist ALLES. Kein Projekt wird berührt.
 #
 # Verwendung:
 #   curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/skills/install.sh | sh
 #
 # Danach für jedes neue Projekt:
-#   Lies ~/.brudi/INSTALL.md — dort steht der nächste Schritt.
+#   Lies ~/Brudi/INSTALL.md — dort steht der nächste Schritt.
 # -----------------------------------------------------------------------------
 
 REPO_URL="https://github.com/alexejluft/brudi.git"
-INSTALL_DIR="${HOME}/.brudi"
+INSTALL_DIR="${HOME}/Brudi"
 
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -71,9 +71,9 @@ echo "  │                                                  │"
 echo "  │  Nächster Schritt:                               │"
 echo "  │  Gehe in deinen Projektordner und führe aus:     │"
 echo "  │                                                  │"
-echo "  │    sh ~/.brudi/use.sh                            │"
+echo "  │    sh ~/Brudi/use.sh                            │"
 echo "  │                                                  │"
 echo "  │  Das verbindet Brudi mit deinem Projekt.         │"
-echo "  │  Mehr Infos: ~/.brudi/INSTALL.md                 │"
+echo "  │  Mehr Infos: ~/Brudi/INSTALL.md                 │"
 echo "  └─────────────────────────────────────────────────┘"
 echo ""

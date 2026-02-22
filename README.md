@@ -29,7 +29,7 @@ Jetzt installieren wir Brudi mit einem einzigen Befehl. Das Script richtet alles
 bash scripts/setup-brudi.sh
 ```
 
-Das Script installiert Brudi unter `~/.brudi/`. Ab jetzt findet dein KI-Agent alles automatisch. ✅ Brudi ist bereit!
+Das Script installiert Brudi unter `~/Brudi/`. Ab jetzt findet dein KI-Agent alles automatisch. ✅ Brudi ist bereit!
 
 ---
 
@@ -41,8 +41,8 @@ Erstelle einen neuen Ordner für dein Projekt und kopiere die beiden Startdateie
 
 ```bash
 mkdir ~/Projects/mein-projekt
-cp ~/.brudi/templates/CLAUDE.md ~/Projects/mein-projekt/
-cp ~/.brudi/templates/TASK.md ~/Projects/mein-projekt/
+cp ~/Brudi/templates/CLAUDE.md ~/Projects/mein-projekt/
+cp ~/Brudi/templates/TASK.md ~/Projects/mein-projekt/
 ```
 
 ### Schritt 2 — Projektdetails ausfüllen

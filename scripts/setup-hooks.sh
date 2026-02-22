@@ -22,4 +22,4 @@ fi
 cp "$HOOKS_SRC/post-commit" "$HOOKS_DST/post-commit"
 chmod +x "$HOOKS_DST/post-commit"
 echo "✅ post-commit Hook installiert"
-echo "   Jeder Commit synct jetzt automatisch nach ~/.brudi/"
+echo "   Jeder Commit synct jetzt automatisch nach ~/Brudi/"

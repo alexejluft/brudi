@@ -76,7 +76,7 @@ export function generateStaticParams() { return locales.map((l) => ({ locale: l 
 ---
 ## 4 — Translations + Messages
 
-> 💡 Asset: `~/.brudi/assets/i18n/base.{lang}.json`
+> 💡 Asset: `~/Brudi/assets/i18n/base.{lang}.json`
 
 ```tsx
 // ✅ Client: useTranslations       ✅ Server: getTranslations (async)

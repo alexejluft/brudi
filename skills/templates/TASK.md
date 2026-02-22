@@ -8,8 +8,8 @@
 
 ## Phase 0: Foundation
 
-- [ ] Brudi Identity laden (`~/.brudi/CLAUDE.md`)
-- [ ] `~/.brudi/assets/INDEX.md` lesen
+- [ ] Brudi Identity laden (`~/Brudi/CLAUDE.md`)
+- [ ] `~/Brudi/assets/INDEX.md` lesen
 - [ ] Skills lesen: `starting-a-project`, `crafting-brand-systems`, `crafting-typography`, `implementing-design-tokens`, `implementing-dark-mode`, `designing-award-layouts-core`, `creating-visual-depth`
 - [ ] `create-next-app` + Abhängigkeiten installieren
 - [ ] globals.css mit 4 Dark-Layers + Tokens + Brand Colors

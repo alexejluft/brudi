@@ -36,7 +36,7 @@ h1 { font-size: 48px; }
 /* Use: className="text-fluid-display" or "text-fluid-lg" */
 ```
 
-See `~/.brudi/assets/configs/globals.css` for the complete fluid scale.
+See `~/Brudi/assets/configs/globals.css` for the complete fluid scale.
 
 ---
 
@@ -51,7 +51,7 @@ See `~/.brudi/assets/configs/globals.css` for the complete fluid scale.
 /* ❌ WRONG: static font files per weight — cannot animate */
 ```
 
-**Brudi ships 5 variable fonts** (`~/.brudi/assets/fonts/woff2/`): Clash Display, Satoshi, etc.
+**Brudi ships 5 variable fonts** (`~/Brudi/assets/fonts/woff2/`): Clash Display, Satoshi, etc.
 
 ---
 

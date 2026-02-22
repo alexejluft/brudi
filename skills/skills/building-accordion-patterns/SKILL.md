@@ -114,7 +114,7 @@ Correct technique for animating `height: auto` with GSAP. Use `gsap.fromTo()` â€
 
 **Single-open variant:** Close all other items when opening one (see original skill for full code).
 
-Reduced-motion: See `~/.brudi/assets/patterns/reduced-motion.md` or wrap GSAP in `gsap.matchMedia()` check.
+Reduced-motion: See `~/Brudi/assets/patterns/reduced-motion.md` or wrap GSAP in `gsap.matchMedia()` check.
 
 ---
 

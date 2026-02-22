@@ -17,13 +17,13 @@
 Egal was der Nutzer schreibt — führe beim Start diese Schritte aus:
 
 **Schritt 1 — Brudi Identity laden:**
-Lies: `~/.brudi/CLAUDE.md`
+Lies: `~/Brudi/CLAUDE.md`
 
 **Schritt 2 — TASK.md lesen:**
 Lies `TASK.md` in diesem Projektordner. Dort steht die aktuelle Aufgabe.
 
 **Schritt 3 — Relevante Brudi Skills lesen:**
-Lies `~/.brudi/assets/INDEX.md` für verfügbare Assets, dann die Skills die zur Aufgabe passen.
+Lies `~/Brudi/assets/INDEX.md` für verfügbare Assets, dann die Skills die zur Aufgabe passen.
 
 ---
 
@@ -60,7 +60,7 @@ Lies `~/.brudi/assets/INDEX.md` für verfügbare Assets, dann die Skills die zur
 - **Sprache:** TypeScript (strict mode)
 - **Styling:** Tailwind CSS
 - **Animationen:** GSAP + Lenis (Smooth Scroll)
-- **Fonts:** next/font/local — Variable Fonts aus `~/.brudi/assets/fonts/woff2/`
+- **Fonts:** next/font/local — Variable Fonts aus `~/Brudi/assets/fonts/woff2/`
 - **Icons:** Lucide React
 
 Kein Astro. Kein Vite. Kein Pages Router.
@@ -70,9 +70,9 @@ Kein Astro. Kein Vite. Kein Pages Router.
 ## Brudi Skills & Assets
 
 Das Brudi Skill Package ist installiert unter:
-`~/.brudi/skills/` (Skills) und `~/.brudi/assets/` (Fonts, i18n, Legal, Configs)
+`~/Brudi/skills/` (Skills) und `~/Brudi/assets/` (Fonts, i18n, Legal, Configs)
 
-Lies `~/.brudi/assets/INDEX.md` am Projektstart einmalig.
+Lies `~/Brudi/assets/INDEX.md` am Projektstart einmalig.
 Brudi ist dein Regelwerk. Improvisieren ohne Brudi ist nicht erlaubt.
 
 ---
@@ -110,7 +110,7 @@ Brudi ist dein Regelwerk. Improvisieren ohne Brudi ist nicht erlaubt.
   Wähle eine für Headlines und eine für Fließtext:
 
   Verfügbar: Clash Display, Satoshi, General Sans, Cabinet Grotesk, Switzer
-  Siehe ~/.brudi/assets/fonts/FONTS.md für Empfehlungen.
+  Siehe ~/Brudi/assets/fonts/FONTS.md für Empfehlungen.
 -->
 
 - **Display (Headlines):** [z.B. Clash Display]
@@ -181,7 +181,7 @@ Ein Run endet NUR wenn:
 Offene Phasen existieren → automatisch weitermachen.
 
 ### PROJECT_STATUS.md Pflicht
-Erstelle PROJECT_STATUS.md zu Projektbeginn. Template: `~/.brudi/templates/PROJECT_STATUS.md`
+Erstelle PROJECT_STATUS.md zu Projektbeginn. Template: `~/Brudi/templates/PROJECT_STATUS.md`
 
 ### Definition of Done
 - Keine schwarzen Platzhalter-Boxen

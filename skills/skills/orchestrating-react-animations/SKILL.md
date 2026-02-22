@@ -60,7 +60,7 @@ function AnimatedCard() {
 
 **`gsap.context()` is non-negotiable.** Scopes, cleans up, and fixes StrictMode double-runs. Alternativ: manuelles Cleanup wie oben (tween.kill + ScrollTrigger.kill).
 
-> 💡 Asset: `~/.brudi/assets/configs/framer-motion-snippets.ts`
+> 💡 Asset: `~/Brudi/assets/configs/framer-motion-snippets.ts`
 
 ## Framer Motion in React
 

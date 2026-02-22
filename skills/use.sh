@@ -6,15 +6,15 @@ set -e
 #
 # Was dieses Skript macht:
 #   Legt eine AGENTS.md im aktuellen Projektordner an.
-#   Diese Datei zeigt auf ~/.brudi/ und wird von jedem KI-Agenten
+#   Diese Datei zeigt auf ~/Brudi/ und wird von jedem KI-Agenten
 #   automatisch gelesen wenn er in diesem Ordner arbeitet.
 #
 # Verwendung:
 #   cd ~/projects/fairsplit
-#   sh ~/.brudi/use.sh
+#   sh ~/Brudi/use.sh
 # -----------------------------------------------------------------------------
 
-BRUDI_DIR="${HOME}/.brudi"
+BRUDI_DIR="${HOME}/Brudi"
 PROJECT_DIR="${PWD}"
 AGENTS_FILE="${PROJECT_DIR}/AGENTS.md"
 CLAUDE_FILE="${PROJECT_DIR}/CLAUDE.md"
@@ -58,10 +58,10 @@ if [ -z "${AGENTS_DONE}" ]; then
 
 Bevor du irgendetwas in diesem Projekt tust, lies folgende Dateien vollständig:
 
-1. ~/.brudi/AGENTS.md       ← Wer Alex ist, sein Stack, seine Standards
-2. ~/.brudi/CLAUDE.md       ← Dasselbe, optimiert für Claude Code
+1. ~/Brudi/AGENTS.md       ← Wer Alex ist, sein Stack, seine Standards
+2. ~/Brudi/CLAUDE.md       ← Dasselbe, optimiert für Claude Code
 
-Die Skills (Detailwissen) liegen in: ~/.brudi/skills/[skill-name]/SKILL.md
+Die Skills (Detailwissen) liegen in: ~/Brudi/skills/[skill-name]/SKILL.md
 Lade den passenden Skill wenn du an dem jeweiligen Thema arbeitest.
 
 ## Projektname
@@ -89,8 +89,8 @@ if [ -z "${CLAUDE_DONE}" ]; then
 # Arbeitsanweisungen für dieses Projekt
 
 Lies vor dem Start vollständig:
-- ~/.brudi/CLAUDE.md   ← Wer Alex ist, Standards, Stack, Anti-Patterns
-- Passende Skills aus ~/.brudi/skills/[skill-name]/SKILL.md laden wenn nötig
+- ~/Brudi/CLAUDE.md   ← Wer Alex ist, Standards, Stack, Anti-Patterns
+- Passende Skills aus ~/Brudi/skills/[skill-name]/SKILL.md laden wenn nötig
 
 Projektname: $(basename "${PROJECT_DIR}")
 EOF
@@ -108,7 +108,7 @@ echo "  │  startet, liest er automatisch:                  │"
 echo "  │    → AGENTS.md  (alle Agents)                   │"
 echo "  │    → CLAUDE.md  (Claude Code)                   │"
 echo "  │                                                  │"
-echo "  │  Beide zeigen auf ~/.brudi/ — das funktioniert  │"
+echo "  │  Beide zeigen auf ~/Brudi/ — das funktioniert  │"
 echo "  │  auf jedem Mac, unabhängig vom Installationspfad│"
 echo "  └─────────────────────────────────────────────────┘"
 echo ""
