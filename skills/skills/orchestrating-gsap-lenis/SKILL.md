@@ -77,11 +77,13 @@ document.addEventListener('astro:page-load', () => {
 ## ScrollTrigger with Lenis
 
 ```javascript
-// ✅ Works correctly after setup above
-gsap.to('.element', {
+// ✅ Works correctly after setup above — IMMER Element-Refs statt String-Selektoren
+const element = document.querySelector('.element')
+const section = document.querySelector('.section')
+gsap.to(element, {
   y: -100,
   scrollTrigger: {
-    trigger: '.section',
+    trigger: section,
     start: 'top center',
     end: 'bottom center',
     scrub: 0.5,   // smooth catch-up (not true — that's jerky)
@@ -89,8 +91,9 @@ gsap.to('.element', {
 })
 
 // ✅ Pin a section while scrolling through it
+const pinnedEl = document.querySelector('.pinned')
 ScrollTrigger.create({
-  trigger: '.pinned',
+  trigger: pinnedEl,
   start: 'top top',
   end: '+=500',
   pin: true,

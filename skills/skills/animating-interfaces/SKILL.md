@@ -49,20 +49,22 @@ Then use in classes: `duration-300 ease-out-expo`, `duration-600 ease-in-out-qui
 ## Performance: Transform & Opacity Only
 
 ```tsx
-// ✅ Correct: GPU-accelerated properties only
-gsap.to('.card', { x: 200, opacity: 1, scale: 1.05 })
+// ✅ Correct: GPU-accelerated properties only — Element-Refs, nicht Strings
+const card = document.querySelector('.card') // oder ref.current in React
+gsap.to(card, { x: 200, opacity: 1, scale: 1.05 })
 
 // ❌ WRONG: Layout-triggering — causes jank
-// gsap.to('.card', { width: 200, height: 300, top: 50 })
+// gsap.to(card, { width: 200, height: 300, top: 50 })
 ```
 
 ### `will-change` — Apply Before, Remove After
 
 ```tsx
-// ✅ Set before animation, release after — never globally
-gsap.set('.card', { willChange: 'transform, opacity' })
-gsap.to('.card', { y: 0, opacity: 1, onComplete: () =>
-  gsap.set('.card', { willChange: 'auto' })
+// ✅ Set before animation, release after — Element-Refs verwenden
+const card = document.querySelector('.card') // oder ref.current in React
+gsap.set(card, { willChange: 'transform, opacity' })
+gsap.to(card, { y: 0, opacity: 1, onComplete: () =>
+  gsap.set(card, { willChange: 'auto' })
 })
 ```
 
@@ -110,8 +112,9 @@ function HeroSection() {
 GSAP animates `font-variation-settings` — weight, slant in real-time. Only works with variable fonts.
 
 ```tsx
-// ✅ Hover: thin → bold
-gsap.to('.nav-link', { fontVariationSettings: '"wght" 700', duration: 0.3 })
+// ✅ Hover: thin → bold — Element-Ref verwenden
+const navLink = document.querySelector('.nav-link') // oder ref.current
+gsap.to(navLink, { fontVariationSettings: '"wght" 700', duration: 0.3 })
 ```
 
 ## Common Mistakes

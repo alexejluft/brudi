@@ -38,10 +38,12 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
         },
       })
 
-      // Phase 1: Letters reveal (stagger)
-      tl.from('[data-letter]', {
-        opacity: 0,
-        y: 40,
+      // Phase 1: Letters reveal (stagger) — set() + to(), NIEMALS from()
+      const letters = containerRef.current?.querySelectorAll('[data-letter]')
+      if (letters) gsap.set(letters, { opacity: 0, y: 40 })
+      tl.to(letters, {
+        opacity: 1,
+        y: 0,
         duration: 0.5,
         ease: 'power3.out',
         stagger: 0.08,

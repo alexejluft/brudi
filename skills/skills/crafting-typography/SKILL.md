@@ -58,21 +58,26 @@ See `~/.brudi/assets/configs/globals.css` for the complete fluid scale.
 ## Font Variation Animations with GSAP
 
 ```tsx
-// ✅ Animate font-variation-settings on variable fonts
-gsap.to('.headline', {
+// ✅ Animate font-variation-settings on variable fonts (mit Element-Refs)
+const headline = document.querySelector('.headline') // Vanilla JS
+// In React: const headline = headlineRef.current
+gsap.to(headline, {
   fontVariationSettings: '"wght" 700',
   duration: 0.4,
   ease: 'power2.out'
 })
 
 // ✅ Scroll-driven: text weight increases as user scrolls
-gsap.to('.hero-title', {
+const heroTitle = document.querySelector('.hero-title')
+const heroSection = document.querySelector('.hero')
+gsap.to(heroTitle, {
   fontVariationSettings: '"wght" 800',
-  scrollTrigger: { trigger: '.hero', start: 'top center', scrub: true }
+  scrollTrigger: { trigger: heroSection, start: 'top center', scrub: true }
 })
 
 // ❌ WRONG: animating font-weight (steps only)
 // ❌ WRONG: fontVariationSettings on static fonts
+// ❌ WRONG: String-Selektoren in gsap.to() (z.B. gsap.to('.headline', ...))
 ```
 
 ---

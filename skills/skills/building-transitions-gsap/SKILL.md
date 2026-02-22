@@ -74,9 +74,12 @@ const { title } = Astro.props
 
       function initPageAnimations() {
         ctx = gsap.context(() => {
-          gsap.from('[data-animate="fade-up"]', {
-            opacity: 0,
-            y: 48,
+          // ✅ set() + to() — NIEMALS from()
+          const elements = document.querySelectorAll('[data-animate="fade-up"]')
+          gsap.set(elements, { opacity: 0, y: 48 })
+          gsap.to(elements, {
+            opacity: 1,
+            y: 0,
             duration: 0.7,
             ease: 'power3.out',
             stagger: 0.08,
@@ -148,8 +151,9 @@ let lenis: Lenis | null = null
 let ctx: gsap.Context | null = null
 
 function init() {
-  lenis = new Lenis()
-  gsap.ticker.add((time) => lenis!.raf(time * 1000))
+  lenis = new Lenis({ autoRaf: false }) // ⚠️ CRITICAL: must be false
+  const rafCallback = (time: number) => lenis!.raf(time * 1000)
+  gsap.ticker.add(rafCallback)
   gsap.ticker.lagSmoothing(0)
 
   ctx = gsap.context(() => {

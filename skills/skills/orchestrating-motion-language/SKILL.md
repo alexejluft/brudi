@@ -93,11 +93,14 @@ export function useEntrance(ref, { y = 20, delay = 0 } = {}) {
 export function usePageTransition() {
   const router = useRouter()
   return async (href) => {
-    await gsap.to('main', { opacity: 0, y: -10, duration: motion.duration.base })
+    const mainEl = document.querySelector('main')
+    if (!mainEl) return
+
+    await gsap.to(mainEl, { opacity: 0, y: -10, duration: motion.duration.base })
     router.push(href)
-    // ✅ set() + to() statt from()
-    gsap.set('main', { opacity: 0, y: 10 })
-    gsap.to('main', { opacity: 1, y: 0, duration: motion.duration.base })
+    // ✅ set() + to() mit Element-Ref
+    gsap.set(mainEl, { opacity: 0, y: 10 })
+    gsap.to(mainEl, { opacity: 1, y: 0, duration: motion.duration.base })
   }
 }
 

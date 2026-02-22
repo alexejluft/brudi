@@ -30,16 +30,18 @@ description: Use when building scroll-driven storytelling interfaces. Combines L
 ```tsx
 // ✅ Correct: Sync Lenis with GSAP ticker
 'use client'
-import Lenis from '@studio-freight/lenis'
+import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 export default function SmoothScrollProvider({ children }) {
   useEffect(() => {
-    const lenis = new Lenis({ duration: 1.2, smoothWheel: true, smoothTouch: false })
-    const raf = (time) => { lenis.raf(time * 1000); ScrollTrigger.update() } // GSAP=seconds, Lenis=ms
+    const lenis = new Lenis({ lerp: 0.1, autoRaf: false, smoothTouch: false })
+    lenis.on('scroll', ScrollTrigger.update)
+    const raf = (time) => lenis.raf(time * 1000) // GSAP=seconds, Lenis=ms
     gsap.ticker.add(raf)
+    gsap.ticker.lagSmoothing(0)
     return () => { gsap.ticker.remove(raf); lenis.destroy() }
   }, [])
   return children

@@ -23,9 +23,13 @@ export function AnimatedSection() {
   const container = useRef(null)
 
   useGSAP(() => {
-    gsap.to(".box", {
+    // ✅ Element-Refs statt String-Selektoren
+    const box = container.current?.querySelector(".box")
+    if (!box) return
+
+    gsap.to(box, {
       scrollTrigger: {
-        trigger: ".box",
+        trigger: box,
         start: "top center",
         end: "bottom center",
         scrub: 1,
@@ -82,7 +86,7 @@ gsap.to(".panels", {
     pin: true,
     scrub: 1,                          // lag in seconds — prevents jitter
     start: "top top",
-    end: () => "+=" + document.querySelector(".panels").offsetWidth,
+    end: () => "+=" + (document.querySelector(".panels")?.offsetWidth ?? 0),
   },
 })
 ```
