@@ -20,26 +20,14 @@ AI builds only `Content`. That's not a UI — it's a prototype.
 ## The 4 States
 
 ### 1. Loading
-User needs to know something is happening. Never show a blank screen.
+Show something. Never blank screen.
 
 ```tsx
-// ✅ Skeleton — always preferred over spinner for layout-heavy content
-function CardSkeleton() {
-  return (
-    <div className="animate-pulse">
-      <div className="h-4 bg-muted rounded w-3/4 mb-2" />
-      <div className="h-4 bg-muted rounded w-1/2" />
-    </div>
-  )
-}
-
-// ✅ Spinner — for actions (submit, delete, save)
+// ✅ Skeleton for page load, Spinner for actions
 <button disabled={isPending}>
   {isPending ? <Spinner /> : 'Save'}
 </button>
 ```
-
-**Rule:** Skeleton for page/content loads. Spinner for user-triggered actions.
 
 ### 2. Error
 Tell the user what went wrong. Give them a way out.
@@ -63,27 +51,10 @@ function ErrorState({ error, onRetry }: { error: Error; onRetry: () => void }) {
 - Never expose technical details (stack traces, SQL errors)
 
 ### 3. Empty
-No data ≠ broken. Show intent and next steps.
-
-```tsx
-// ✅ Empty state with purpose
-function EmptyState() {
-  return (
-    <div>
-      <p>No items yet.</p>
-      <button>Create your first item</button>
-    </div>
-  )
-}
-```
-
-**Rules:**
-- Explain what would be here
-- Give a clear next action
-- Empty ≠ error — different visual treatment
+No data ≠ broken. Explain what would appear + give next action. Never just "No items."
 
 ### 4. Content
-The actual UI. Only reached after the other 3 are handled.
+The actual UI. Only rendered after loading/error/empty.
 
 ---
 
@@ -113,31 +84,13 @@ function DataComponent({ id }: { id: string }) {
 
 ## Form States
 
-Forms have their own state lifecycle:
-
 ```tsx
-function Form() {
-  const [status, setStatus] = useState<'idle' | 'pending' | 'success' | 'error'>('idle')
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input disabled={status === 'pending'} />
-
-      <button disabled={status === 'pending'}>
-        {status === 'pending' ? 'Saving...' : 'Save'}
-      </button>
-
-      {status === 'success' && <p role="status">Saved successfully.</p>}
-      {status === 'error' && <p role="alert">Could not save. Try again.</p>}
-    </form>
-  )
-}
+<button disabled={isPending}>
+  {isPending ? 'Saving...' : 'Save'}
+</button>
 ```
 
-**Rules:**
-- Disable inputs and button while pending
-- Confirm success explicitly — don't just reset silently
-- Error on form level AND field level where relevant
+**Rule:** Disable inputs while pending. Confirm success explicitly.
 
 ---
 

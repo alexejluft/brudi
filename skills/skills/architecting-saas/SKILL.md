@@ -7,89 +7,24 @@ description: Use when structuring a Next.js SaaS app, protecting routes with Sup
 
 ## The Rule
 
-Four architectural decisions determine whether a SaaS is production-ready or
-a security incident waiting to happen.
-
----
-
-## Route Groups — Three-Section Layout
-
-```
-app/
-├── (marketing)/            # Public, SEO, marketing layout
-│   ├── layout.tsx
-│   ├── page.tsx            → /
-│   └── pricing/page.tsx    → /pricing
-├── (auth)/                 # Centered auth layout
-│   ├── layout.tsx
-│   ├── login/page.tsx      → /login
-│   └── register/page.tsx   → /register
-└── (app)/                  # Authenticated, sidebar layout
-    ├── layout.tsx
-    ├── dashboard/page.tsx  → /dashboard
-    └── settings/page.tsx   → /settings
-```
-
-Route groups are URL-invisible — `(auth)/login` resolves to `/login`.
-Each section gets its own layout with no conflicts. Only use separate root
-layouts (`<html><body>`) when sections need completely different HTML — this
-causes full-page reload on navigation between them.
+Four architectural decisions determine whether a SaaS is production-ready or a security incident waiting to happen.
 
 ---
 
 ## Auth Middleware — getUser(), Not getSession()
 
 ```typescript
-// ❌ getSession() reads cookie without server validation — spoofable
+// ❌ getSession() reads cookie without validation — spoofable
 const { data: { session } } = await supabase.auth.getSession()
-// Attacker modifies cookie → session.user.id is a different user's ID
+
+// ✅ Use getUser() in middleware — validates against Auth server
+const { data: { user } } = await supabase.auth.getUser()
+if (!user) return NextResponse.redirect(new URL('/login', request.url))
 ```
 
-```typescript
-// ✅ middleware.ts — full Supabase SSR pattern
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+See integrating-supabase for full middleware setup.
 
-export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({ request: { headers: request.headers } })
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get: (name) => request.cookies.get(name)?.value,
-        set: (name, value, options) => {
-          request.cookies.set({ name, value, ...options })
-          response = NextResponse.next({ request: { headers: request.headers } })
-          response.cookies.set({ name, value, ...options })
-        },
-        remove: (name, options) => {
-          request.cookies.set({ name, value: '', ...options })
-          response = NextResponse.next({ request: { headers: request.headers } })
-          response.cookies.set({ name, value: '', ...options })
-        },
-      },
-    }
-  )
-
-  // getUser() validates against Auth server — cryptographically verified
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user && !request.nextUrl.pathname.startsWith('/login')) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
-
-  return response
-}
-
-export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg)$).*)'],
-}
-```
-
-**Rule:** `getUser()` in all server-side auth checks. `getSession()` only for
-reading non-security-sensitive session data on the client.
+**Rule:** `getUser()` for all server auth checks. `getSession()` only for non-sensitive client data.
 
 ---
 

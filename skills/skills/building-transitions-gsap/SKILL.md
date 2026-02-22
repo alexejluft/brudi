@@ -1,140 +1,13 @@
 ---
-name: building-page-transitions
-description: Use when building any multi-page Astro website. Defines two premium transition approaches: Astro View Transitions (native, minimal) and GSAP curtain transitions (custom, premium). Instant page changes feel cheap — transitions define the perceived quality of a site.
+name: building-transitions-gsap
+description: Use when implementing GSAP curtain transitions for premium, cinematic page transitions. Covers full implementation, all 4 curtain variations, cleanup rules (critical), Barba.js comparison, and decision guide.
 ---
 
-# Building Page Transitions
-
-## The Two Options
-
-Always propose both to the user before building. They have different trade-offs.
-
-```
-Option A — Astro View Transitions
-  Native browser API + Astro router
-  Setup: 2 lines of code
-  Feel: Clean, modern, app-like
-  Control: Limited (CSS-driven)
-  Best for: Most projects
-
-Option B — GSAP Curtain Transition
-  Custom overlay animated by GSAP
-  Setup: ~60 lines
-  Feel: Cinematic, premium, agency-level
-  Control: Full (timing, easing, effects)
-  Best for: Award-level portfolios, agency sites
-```
-
-**Do not implement a transition without asking.** The choice changes the feel of the entire site.
-
----
-
-## Option A — Astro View Transitions (Native)
-
-**Browser support (2025):** Chrome 111+, Edge 111+, Safari 18+, Firefox 144+ — ~85%+. Astro provides automatic fallback for the rest.
-
-### Implementation
-
-```astro
----
-// src/layouts/Layout.astro
-import { ViewTransitions } from 'astro:transitions'
----
-<html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <ViewTransitions />   <!-- ← This is all you need -->
-  </head>
-  <body>
-    <slot />
-  </body>
-</html>
-```
-
-**Default behavior:** Astro morphs between pages with a cross-fade. Works instantly.
-
-### Customize the Transition
-
-```css
-/* In global.css — override the default animation */
-::view-transition-old(root) {
-  animation: fade-out 0.3s ease-out forwards;
-}
-
-::view-transition-new(root) {
-  animation: fade-in 0.3s ease-out forwards;
-}
-
-@keyframes fade-out {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-```
-
-### Persist Elements Across Pages (Nav, Music Player)
-
-```astro
-<!-- Navigation stays, doesn't re-animate -->
-<nav transition:persist>
-  <a href="/">Home</a>
-  <a href="/work">Work</a>
-</nav>
-```
-
-### Link Specific Elements Between Pages (Shared Hero Image)
-
-```astro
-<!-- On /work page -->
-<img src={project.image} transition:name={`project-${project.id}`} />
-
-<!-- On /work/[slug] page — morphs between the two -->
-<img src={project.image} transition:name={`project-${project.id}`} />
-```
-
-### Lifecycle Events
-
-```ts
-// astro:page-load = replaces DOMContentLoaded for View Transitions
-document.addEventListener('astro:page-load', () => {
-  initAnimations()   // Called on every page load including transitions
-})
-
-// astro:before-swap = fires before DOM is replaced
-document.addEventListener('astro:before-swap', () => {
-  destroyAnimations()   // Cleanup GSAP, ScrollTrigger, Lenis
-})
-
-// astro:after-swap = fires after DOM is replaced
-document.addEventListener('astro:after-swap', () => {
-  reinitAnimations()    // Reinit if needed
-})
-```
-
-### Zero-JavaScript Option (Modern Browsers Only)
-
-```css
-/* In global.css — no ViewTransitions component needed */
-@view-transition {
-  navigation: auto;
-}
-```
-
-Works in Chrome 126+, Edge 126+. No JavaScript required. Add as progressive enhancement.
-
----
-
-## Option B — GSAP Curtain Transition
+# Building Transitions — GSAP Curtain Transition
 
 **The pattern:** A full-screen overlay slides in to cover the old page, the new page loads underneath, the overlay slides away. Used by AntiGravity, GSAB, Locomotive.
 
-### Setup
+## Setup
 
 The curtain lives in the Layout — it persists across all page navigations.
 
@@ -226,7 +99,7 @@ const { title } = Astro.props
 </style>
 ```
 
-### Curtain Variations
+## Curtain Variations
 
 **Solid color (minimal):**
 ```css
@@ -261,8 +134,6 @@ gsap.to(['#curtain-left', '#curtain-right'], {
 gsap.to('#curtain-left',  { x: '-100%', duration: 0.5, ease: 'power3.inOut' })
 gsap.to('#curtain-right', { x: '100%',  duration: 0.5, ease: 'power3.inOut' })
 ```
-
----
 
 ## Cleanup Rules (Critical)
 
@@ -302,30 +173,26 @@ document.addEventListener('astro:before-swap', destroy)
 2. `astro:after-swap` → curtain out + start page animations
 3. `astro:page-load` → final init (Lenis running, ScrollTrigger refreshed)
 
----
-
 ## Barba.js — Not Recommended
 
 Barba.js works, but has a critical limitation: **it cannot update `<head>` tags** between pages. This breaks meta titles, descriptions, and canonical URLs. For Astro projects, native View Transitions + GSAP is always the better choice.
 
 Use Barba.js only if you need its specific hooks and are managing head updates manually.
 
----
-
 ## Decision Guide
 
 ```
 Building a portfolio or agency site?
-  → Option B (GSAP curtain) — premium feel, defines the experience
+  → GSAP curtain — premium feel, defines the experience
 
 Building a SaaS or content site?
-  → Option A (Astro native) — clean, fast, no extra JS
+  → Astro native View Transitions — clean, fast, no extra JS
 
 User says "same as AntiGravity / GSAB"?
-  → Option B, curtain with var(--color-bg) as background
+  → GSAP curtain with var(--color-bg) as background
 
 User says "keep it simple"?
-  → Option A, fade with 0.3s duration
+  → Astro native, fade with 0.3s duration
 
 No preference stated?
   → Ask. Do not choose for the user.

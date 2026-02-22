@@ -15,147 +15,63 @@ vulnerabilities — all of which TypeScript misses without the correct setup.
 ## Client Creation — Server vs Browser
 
 ```typescript
-// ❌ createBrowserClient in Server Component — uses localStorage, breaks auth
+// ❌ createBrowserClient in Server Component → runtime error
 import { createBrowserClient } from "@supabase/ssr"
 export default async function Page() {
-  const supabase = createBrowserClient(url, key)  // Runtime error
+  const supabase = createBrowserClient(url, key)  // breaks
 }
+
+// ✅ Two files: server.ts and client.ts
+// server.ts: createServerClient (Server Components, Route Handlers, Server Actions)
+// client.ts: createBrowserClient ("use client" components only)
+// Both pass <Database> type, always use getUser() server-side
 ```
 
-```typescript
-// utils/supabase/server.ts
-import { createServerClient } from "@supabase/ssr"
-import { cookies } from "next/headers"
-import type { Database } from "@/database.types"
-
-export async function createClient() {
-  const cookieStore = await cookies()
-  return createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: (cookiesToSet) => {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
-          } catch {}
-        },
-      },
-    }
-  )
-}
-
-// utils/supabase/client.ts — browser only
-import { createBrowserClient } from "@supabase/ssr"
-import type { Database } from "@/database.types"
-
-export function createClient() {
-  return createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
-}
-```
-
-**Rule:** `createServerClient` for Server Components, Route Handlers, Server
-Actions. `createBrowserClient` for `"use client"` components only. Always
-`getUser()` server-side — never `getSession()`.
+**Rule:** Server Components → `createServerClient`. Client Components → `createBrowserClient`. Always `getUser()` server-side — never `getSession()`.
 
 ---
 
 ## Realtime — Always removeChannel
 
 ```typescript
-// ❌ No cleanup → memory leak + Strict Mode duplicate subscription bug
+// ❌ No cleanup → memory leak
 useEffect(() => {
   supabase.channel("room").on(...).subscribe()
-}, [messages])  // messages in deps = new channel on every message
-```
+}, [messages])
 
-```typescript
-// ✅ Correct Realtime pattern
-"use client"
-import type { Database } from "@/database.types"
-type Message = Database["public"]["Tables"]["messages"]["Row"]
-
+// ✅ Dedup in Strict Mode, cleanup required
 useEffect(() => {
-  const channel = supabase
-    .channel("messages-channel")  // unique name
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "messages" },
-      (payload) => {
-        const msg = payload.new as Message
-        setMessages((prev) =>
-          prev.find((m) => m.id === msg.id) ? prev : [...prev, msg]
-        )
-      }
-    )
-    .subscribe()
-
-  return () => { supabase.removeChannel(channel) }  // ← required
-}, [supabase])  // supabase only — stable reference
+  const channel = supabase.channel("messages-channel")
+    .on("postgres_changes", { event: "INSERT", table: "messages" }, (payload) => {
+      setMessages((prev) =>
+        prev.find((m) => m.id === payload.new.id) ? prev : [...prev, payload.new]
+      )
+    }).subscribe()
+  return () => { supabase.removeChannel(channel) }
+}, [supabase])
 ```
 
-Realtime subscriptions only work in Client Components. Strict Mode
-double-mounts require the deduplication check (`prev.find(m => m.id === msg.id)`).
+**Rule:** Always `removeChannel()` in cleanup. Deduplication check required for Strict Mode.
 
 ---
 
 ## Storage — RLS + User-Scoped Paths
 
-```typescript
-// ❌ No RLS → "new row violates row-level security policy"
-// ❌ No user scope → user A overwrites user B's "profile.jpg"
-await supabase.storage.from("uploads").upload("profile.jpg", file)
-```
-
 ```sql
--- ✅ RLS on storage.objects using user-scoped path
-CREATE POLICY "Users can upload own files"
-ON storage.objects FOR INSERT TO authenticated
-WITH CHECK (
-  bucket_id = 'uploads'
-  AND (storage.foldername(name))[1] = auth.uid()::text
-);
-
-CREATE POLICY "Users can view own files"
-ON storage.objects FOR SELECT TO authenticated
-USING (
-  bucket_id = 'uploads'
-  AND (storage.foldername(name))[1] = auth.uid()::text
-);
-
--- upsert: true requires UPDATE policy too
-CREATE POLICY "Users can update own files"
-ON storage.objects FOR UPDATE TO authenticated
-USING (
-  bucket_id = 'uploads'
-  AND (storage.foldername(name))[1] = auth.uid()::text
-);
+-- ✅ RLS on storage.objects — check first folder = user ID
+CREATE POLICY "Users can upload/view own files" ON storage.objects
+FOR ALL TO authenticated
+USING ((storage.foldername(name))[1] = auth.uid()::text)
+WITH CHECK ((storage.foldername(name))[1] = auth.uid()::text);
 ```
 
 ```typescript
-// ✅ Upload with user-scoped path
-export async function uploadFile(file: File, userId: string) {
-  const ext = file.name.split(".").pop()
-  const path = `${userId}/${Date.now()}.${ext}`  // "user-123/1234.jpg"
-
-  const { error } = await supabase.storage
-    .from("uploads")
-    .upload(path, file, { cacheControl: "3600", upsert: true })
-
-  if (error) throw error
-
-  return supabase.storage.from("uploads").getPublicUrl(path).data.publicUrl
-}
+// ✅ Upload with user scope: ${userId}/${filename}
+const path = `${userId}/${Date.now()}.${ext}`
+await supabase.storage.from("uploads").upload(path, file)
 ```
 
-`storage.foldername(name)[1]` = first folder segment. Public bucket bypasses
-RLS for reads, but INSERT/UPDATE/DELETE still require policies.
+**Rule:** Every file scoped by user ID folder. RLS checks `(storage.foldername(name))[1]`.
 
 ---
 

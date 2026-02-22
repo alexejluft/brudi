@@ -16,10 +16,7 @@ these look designed.
 ## Layered Shadows
 
 ```css
-/* ❌ AI default — one layer, generic */
-.card { box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-
-/* ✅ Layered — each layer doubles, same opacity per layer */
+/* ✅ Each layer doubles, constant opacity per layer */
 .card {
   box-shadow:
     0 1px 1px rgba(0, 0, 0, 0.075),
@@ -29,72 +26,45 @@ these look designed.
     0 16px 16px rgba(0, 0, 0, 0.075);
 }
 
-/* ✅ On colored backgrounds: match shadow hue to background */
-.card-on-blue {
-  box-shadow:
-    0 1px 2px rgba(37, 99, 235, 0.1),
-    0 4px 8px rgba(37, 99, 235, 0.15),
-    0 8px 16px rgba(37, 99, 235, 0.08);
-}
+/* On colored: match hue, not pure black */
+.on-blue { box-shadow: 0 1px 2px rgba(37, 99, 235, 0.1), 0 4px 8px rgba(37, 99, 235, 0.15); }
 ```
 
-**Rule:** Each layer doubles the y-offset and blur-radius. Keep opacity low per
-layer — they stack. Pure black shadows desaturate color backgrounds. Match the
-hue instead.
+**Rule:** Double y-offset+blur per layer. Low opacity stacks. Match hue on colors.
 
 ---
 
-## Glassmorphism — With Limits
+## Glassmorphism
 
 ```css
 .glass {
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);          /* 12px = sweetspot */
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
-
-/* Mobile: reduce blur, increase opacity to compensate */
 @media (max-width: 768px) {
-  .glass {
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    background: rgba(255, 255, 255, 0.15);
-  }
+  .glass { backdrop-filter: blur(6px); background: rgba(255, 255, 255, 0.15); }
 }
 ```
 
-**Hard limits:**
-- Max **2–3 glass elements per viewport** — each one costs GPU
-- Max **12px blur** — above 16px: visible jank on mid-range devices
-- Always include mobile fallback — battery drain is real
-- Check text contrast against the blurred background (WCAG 4.5:1)
+**Rule:** Max 2–3 per viewport. Max 12px blur (>16px = jank). Mobile fallback required.
 
 ---
 
 ## Grainy Gradients
 
 ```css
-.hero {
-  position: relative;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-/* SVG noise layer — no external file needed */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,...");  /* SVG noise */
   opacity: 0.35;
   mix-blend-mode: overlay;
-  pointer-events: none;
 }
 ```
 
-Smooth gradients band on large surfaces. The grain layer prevents banding and
-adds tactile depth — the difference between a developer gradient and a designer
-gradient. `mix-blend-mode: overlay` keeps it subtle.
+Prevents banding, adds tactile depth. `overlay` keeps it subtle.
 
 ---
 

@@ -35,26 +35,9 @@ description: Use when improving page speed, fixing Core Web Vitals, or diagnosin
 
 ## INP: Interaction to Next Paint
 
-**Target < 200ms.** Caused by: heavy JS on main thread, synchronous operations blocking response.
+**Target < 200ms.** Caused by heavy JS blocking main thread.
 
-```javascript
-// ❌ Blocks main thread
-button.addEventListener('click', () => {
-  const result = expensiveCalculation() // freezes UI
-  updateDOM(result)
-})
-
-// ✅ Defer heavy work
-button.addEventListener('click', () => {
-  updateDOM(optimisticResult) // immediate visual feedback
-  setTimeout(() => {          // defer heavy work
-    const result = expensiveCalculation()
-    updateDOM(result)
-  }, 0)
-})
-```
-
-**Key actions:** Avoid long tasks (> 50ms), use `setTimeout`/`requestIdleCallback` for non-critical work, debounce input handlers.
+**Key actions:** Avoid tasks > 50ms, defer heavy work with `setTimeout`, debounce handlers.
 
 ## CLS: Cumulative Layout Shift
 

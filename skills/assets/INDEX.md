@@ -29,6 +29,18 @@
 - GDPR/DSGVO compliant
 - 📌 Load when: Building legal pages (Phase 2-3)
 
+## Shared Patterns (`./patterns/`)
+Reusable code patterns referenced by multiple skills. Load when the skill says "See patterns/..."
+
+| File | Description |
+|---|---|
+| `reduced-motion.md` | prefers-reduced-motion CSS + JS + GSAP pattern |
+| `keyboard-accessibility.md` | :focus-visible + keyboard navigation + ARIA |
+| `gsap-react-cleanup.md` | useGSAP hook + context cleanup + ScrollTrigger.kill |
+| `lenis-quick-setup.md` | Lenis smooth scroll minimal setup |
+
+📌 Load when: A skill documentation says "See patterns/..." in setup instructions
+
 ## Templates (`./templates/`)
 - **CLAUDE.md** — Project context template
 - **CLAUDE.example.md** — Example with Forma Studio

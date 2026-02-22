@@ -7,8 +7,7 @@ description: Use when designing SaaS onboarding, pricing pages, empty states, or
 
 ## The Rule
 
-Four UX moments define whether users stay or leave in the first week.
-Each has documented patterns from SaaS research and leading products.
+Four UX moments define first-week stay/leave. Each has documented patterns.
 
 ---
 
@@ -29,15 +28,7 @@ Each has documented patterns from SaaS research and leading products.
    4. Credit card only when user chooses to convert
 ```
 
-Lincoln Murphy: "Free trials are about building trust — asking for CC before
-they can try you on for size is a non-starter."
-
-Samuel Hulick: "What's the shortest path to get a user to think this product
-will make them more awesome at a specific task?"
-
-Demo data from day one — show what the product looks like when full.
-Notion pre-fills with example pages. Trello adds a demo board. Asana
-personalizes the first dashboard with sample projects.
+Demo data from day one — show what the product looks like when full (Notion, Trello, Asana examples).
 
 ---
 
@@ -69,32 +60,13 @@ Intercom: consolidated 6 plans → 3, saw +17% conversion immediately.
 
 ---
 
-## Empty States — Show What Full Looks Like
+## Empty States
 
-```
-❌ Dashboard
-   [empty area]
-   "No data found."
-   — no context, no action, looks like an error
+Show what full looks like. Never just "No data found."
 
-✅ Dashboard (Shopify Polaris pattern)
+**See handling-ui-states for detailed empty-state pattern (heading, description, CTA, illustration).**
 
-   [Illustration showing what the dashboard looks like when populated]
-
-   "Your projects and team activity appear here"
-   Once you create your first project, it will show up here.
-
-   [Create first project →]        [Load demo data]
-```
-
-Shopify Polaris empty state requires: heading, description, primary CTA,
-optional secondary action, illustration.
-
-Material Design: "If the purpose isn't conveyed through an image and tagline,
-show educational content instead."
-
-Every view that can be empty must be designed. Never allow a blank page
-that doesn't confirm nothing is wrong.
+Every view that can be empty must be designed — it's part of the 4-state requirement.
 
 ---
 

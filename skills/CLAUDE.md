@@ -60,7 +60,7 @@ orchestration skill before writing code.
 Critical combinations:
 - GSAP + Lenis → `orchestrating-gsap-lenis`
 - GSAP + React → `orchestrating-react-animations`
-- CSS + JS animations → `orchestrating-css-js-animations`
+- CSS + JS animations → `orchestrating-css-gsap-conflicts`, `orchestrating-keyframes-js`, or `orchestrating-will-change`
 
 ---
 
@@ -96,13 +96,19 @@ Read these when building features, components, and animations.
 
 **Layout & Components:**
 - `building-layouts` — Grid, Flexbox, Container Queries
-- `building-components` — Accordions, carousels, dropdowns, ARIA, state variants
-- `building-interactions` — Hover states, :active feedback, focus-visible, prefers-reduced-motion
+- `building-components-core` — Component fundamentals, state architecture
+- `building-accordion-patterns` — Accordion mechanics, nested state, accessibility
+- `building-disclosure-patterns` — Disclosure widgets, collapse patterns, animation
+- `building-button-states` — Button variants, states, feedback, disabled states
+- `building-interaction-accessibility` — Decision trees, ARIA, AI failure modes
 - `handling-ui-states` — All 4 states (Loading, Error, Empty, Content), skeletons
 
 **Design & Perception:**
-- `designing-award-layouts` — 8pt spacing, dark theme layering, scroll indicators, motion systems
-- `designing-with-perception` — Human perception, contrast, fluid scaling
+- `designing-award-layouts-core` — 8pt spacing, dark theme layering, principles
+- `designing-award-navigation` — Navigation patterns, scroll indicators, hierarchy
+- `designing-award-motion` — Motion systems, animation timing, choreography
+- `designing-motion-timing` — Easing functions, duration rules, rhythm
+- `designing-visual-hierarchy` — Visual weight, contrast, focal points, depth
 - `creating-visual-depth` — Layered shadows, glassmorphism, grainy gradients, z-index systems
 - `designing-for-awards` — Visual decisions, avoiding AI-slop
 
@@ -123,12 +129,15 @@ Read these when building features, components, and animations.
 - `animating-interfaces` — Timing, easing, performance rules
 - `orchestrating-react-animations` — GSAP/Framer in React lifecycle
 - `orchestrating-gsap-lenis` — GSAP + Lenis: autoRaf, ticker, cleanup
-- `orchestrating-css-js-animations` — CSS vs GSAP ownership, fill-mode conflict
+- `orchestrating-css-gsap-conflicts` — CSS vs GSAP ownership, fill-mode conflict
+- `orchestrating-keyframes-js` — @keyframes with JavaScript control, timing
+- `orchestrating-will-change` — will-change optimization, performance patterns
 - `orchestrating-motion-language` — Consistent motion principles, timing systems
 - `orchestrating-3d-in-react` — Three.js in React, Babylon.js, performance
 - `scrolling-with-purpose` — ScrollTrigger cleanup, Lenis integration, sequential animations
 - `narrating-web-experiences` — Storytelling through motion, pacing, atmosphere
-- `building-page-transitions` — Astro View Transitions vs GSAP, cleanup order
+- `building-transitions-astro` — Astro View Transitions, page transition lifecycle
+- `building-transitions-gsap` — GSAP page transitions, cleanup order, sequencing
 
 **SaaS & Apps:**
 - `architecting-saas` — Route groups, auth patterns, multi-tenancy schema, service layer

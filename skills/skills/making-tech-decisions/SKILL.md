@@ -83,46 +83,13 @@ wrong abstraction."
 
 ---
 
-## Rendering Strategy — Next.js Decision Tree
+## Rendering Strategy
 
 ```typescript
-// ❌ CSR for a blog post — no SEO, slow initial render, loading state needed
-"use client"
-export default function BlogPost({ slug }) {
-  const [post, setPost] = useState(null)
-  useEffect(() => { fetch(`/api/posts/${slug}`).then(...) }, [slug])
-  if (!post) return <div>Loading...</div>
-  return <article>{post.content}</article>
-}
-```
-
-```typescript
-// ✅ SSG for blog post — built at deploy time, instant render, perfect SEO
-export async function generateStaticParams() {
-  return (await getPosts()).map(post => ({ slug: post.slug }))
-}
-
-export default async function BlogPost({ params }) {
-  const post = await getPost(params.slug)
-  return <article>{post.content}</article>
-}
-
-// ISR for product catalog — revalidate periodically
-export const revalidate = 3600
-
-// SSR for dashboard — Server Component (default in App Router)
-export default async function Dashboard() {
-  const session = await getSession()
-  return <div>Welcome, {session.user.name}</div>
-}
-```
-
-**Decision:**
-```
-Rarely changes (blog, docs, marketing)  → SSG
-Periodically updates (products, prices) → ISR (revalidate: N seconds)
-Fresh on every request (dashboard, feed) → SSR (default Server Component)
-Not SEO-critical, highly interactive    → CSR ('use client')
+// Blog/docs → SSG: export async function generateStaticParams()
+// Products → ISR: export const revalidate = 3600
+// Dashboard → SSR: export default async function Dashboard()
+// Interactive → CSR: "use client"
 ```
 
 ---

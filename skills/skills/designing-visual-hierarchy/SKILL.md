@@ -1,50 +1,15 @@
 ---
-name: designing-with-perception
-description: Use when making any visual design decision — font sizes, animation timing, colors, spacing, or layout. Ensures the result feels premium and human, not technically correct but emotionally wrong.
+name: designing-visual-hierarchy
+description: Use when making typography, color, spacing, and layout decisions. Ensures visuals feel premium and form positive first impressions in 50ms.
 ---
 
-# Designing with Perception
+# Designing Visual Hierarchy
 
 ## The Core Rule
 
 **Users form opinions in 50ms. 94% of first impressions are design-related.**
 
-Design is not code. A button with `duration: 0.3s` and a button with `duration: 0.8s` are both valid CSS. Only one feels right. This skill teaches you which one — and why.
-
----
-
-## Animation Timing
-
-### The Hierarchy (non-negotiable)
-
-| Type | Duration | Examples |
-|------|----------|---------|
-| Micro | 100–200ms | Button hover, toggle, icon swap |
-| Standard | 200–400ms | Card reveal, dropdown, panel slide |
-| Dramatic | 400–800ms | Hero entrance, page transition, modal |
-
-**Rule:** Duration scales with visual size and emotional weight. A hero takes longer than a checkbox. Never the reverse.
-
-### What Wrong Timing Feels Like
-
-- **< 100ms**: Jarring, mechanical — user misses the transition entirely
-- **> 500ms**: Sluggish, unresponsive — interface feels out of control
-- **Linear easing**: Robotic — nothing in nature moves at constant speed
-
-### Easing by Context
-
-```css
-/* Elements entering → ease-out (responsive, impactful) */
-transition: transform 300ms cubic-bezier(0, 0, 0.58, 1);
-
-/* Elements leaving → ease-in (graceful exit) */
-transition: transform 200ms cubic-bezier(0.42, 0, 1, 1);
-
-/* Complex movements → ease-in-out (smooth, car-like) */
-transition: transform 500ms cubic-bezier(0.42, 0, 0.58, 1);
-
-/* Never use linear for movement — only for loaders/spinners */
-```
+Design is not code. A button with perfect semantics still feels wrong if spacing is tight or colors are harsh. This skill teaches you which choices feel right — and why.
 
 ---
 
@@ -130,18 +95,15 @@ Before any visual is shipped, answer:
 - [ ] Is spacing generous and consistent?
 - [ ] Does text feel comfortable to read — not too small, not too tight?
 - [ ] Are contrast ratios passing AA minimum?
-- [ ] Are animations timed to their visual weight?
 - [ ] Does it look right from outside — not just in the code?
 
 ---
 
-## Common AI Mistakes
+## Common AI Design Mistakes
 
 | AI does | Why it's wrong | Correct |
 |---------|---------------|---------|
-| `duration: 0.3s` everywhere | Ignores visual weight | Hero: 0.6s, button: 0.15s |
 | `color: #000` on `#fff` | Eye strain, harsh | `#1a1a1a` on `#fafafa` |
 | `font-size: 14px` on mobile | iOS zooms, feels cheap | min 16px, ideally 18px |
 | Fixed font sizes | Wrong on all devices | `clamp()` always |
-| `linear` easing on transitions | Robotic, unnatural | `ease-out` entering, `ease-in` exiting |
 | Shadow on every element | No hierarchy | Shadow = elevation = purpose |

@@ -7,46 +7,33 @@ description: Use when writing TanStack Query mutations, optimistic updates, cach
 
 ## The Rule
 
-Four TanStack Query mistakes are invisible at authoring time — they only fail
-when an API errors, the list updates, the scroll reaches end, or the user
-submits twice.
+Four TanStack Query mistakes fail at runtime: API errors, list updates, scroll end, double-submit.
 
 ---
 
 ## Optimistic Updates — Never Mutate the Cache Object
 
 ```typescript
-// ❌ Direct mutation — rollback fails on error (previousTodo is already changed)
-const previousTodo = queryClient.getQueryData(["todos", id])
-previousTodo.title = newTitle  // mutates in place!
-queryClient.setQueryData(["todos", id], previousTodo)
-return { previousTodo }  // this snapshot is already mutated
-```
+// ❌ Mutate in place → rollback has already mutated reference
+const prev = queryClient.getQueryData(["todos", id])
+prev.title = newTitle  // ← mutates cache directly
 
-```typescript
-// ✅ Snapshot before, set new object, deep clone for rollback
+// ✅ Create new object, deep clone for rollback
 const mutation = useMutation({
   mutationFn: updateTodo,
   onMutate: async (newTodo) => {
     await queryClient.cancelQueries({ queryKey: ["todos", newTodo.id] })
-
-    const previousTodo = queryClient.getQueryData(["todos", newTodo.id])
-    queryClient.setQueryData(["todos", newTodo.id], newTodo)  // new object
-
-    return { previousTodo: structuredClone(previousTodo) }  // deep clone
+    const prev = queryClient.getQueryData(["todos", newTodo.id])
+    queryClient.setQueryData(["todos", newTodo.id], newTodo)
+    return { previousTodo: structuredClone(prev) }
   },
   onError: (_err, newTodo, context) => {
     queryClient.setQueryData(["todos", newTodo.id], context?.previousTodo)
   },
-  onSettled: (newTodo) => {
-    queryClient.invalidateQueries({ queryKey: ["todos"] })          // parent
-    queryClient.invalidateQueries({ queryKey: ["todos", newTodo.id] })  // child
-  },
 })
 ```
 
-`structuredClone` prevents the snapshot from sharing a reference with the
-cache object. `cancelQueries` prevents race conditions with in-flight refetches.
+**Rule:** Never mutate cache. `structuredClone` for snapshot. `cancelQueries` prevents races.
 
 ---
 
@@ -124,58 +111,19 @@ Returning `0` is a valid cursor — it will keep fetching.
 ## Forms — useMutation, Not useState + fetch
 
 ```typescript
-// ❌ Manual state — no double-submit protection, easy to forget invalidation
+// ❌ Manual state — no double-submit protection
 const [loading, setLoading] = useState(false)
 const handleSubmit = async (e) => {
   setLoading(true)
   await fetch("/api/projects", { method: "POST", body: JSON.stringify(data) })
-  // no cache invalidation → list stays stale
 }
+
+// ✅ useMutation with auto-invalidation
+const mutation = useMutation({
+  mutationFn: (data) => fetch("/api/projects", { method: "POST", body: JSON.stringify(data) }),
+  onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
+})
+<button disabled={mutation.isPending}>Submit</button>
 ```
 
-```typescript
-// ✅ react-hook-form + useMutation + Zod
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-
-const Schema = z.object({ name: z.string().min(1) })
-type FormData = z.infer<typeof Schema>
-
-export function ProjectForm() {
-  const queryClient = useQueryClient()
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(Schema),
-  })
-
-  const mutation = useMutation({
-    mutationFn: (data: FormData) =>
-      fetch("/api/projects", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      }).then(r => { if (!r.ok) throw new Error("Failed"); return r.json() }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["projects"] })
-      reset()
-    },
-  })
-
-  return (
-    <form onSubmit={handleSubmit((data) => mutation.mutate(data))}>
-      <input {...register("name")} />
-      {errors.name && <p>{errors.name.message}</p>}
-      <button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Creating..." : "Create"}
-      </button>
-      {mutation.isError && <p>{mutation.error.message}</p>}
-    </form>
-  )
-}
-```
-
-`mutation.isPending` blocks double-submit automatically. No `useState` for
-loading, error, or response data — all of it lives in `mutation`.
-
-TkDodo: "Rigorously separate the states: keep Server State in React Query,
-and only track user changes with Client State."
+**Rule:** `mutation.isPending` prevents double-submit. Never use `useState` for server state.
