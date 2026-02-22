@@ -45,9 +45,37 @@ fi
 
 if [ -d "${INSTALL_DIR}" ]; then
   if [ -d "${INSTALL_DIR}/.git" ]; then
-    # Fall A: Bereits als Repo installiert -> Update
-    echo "${BLUE}  > Brudi ist bereits installiert. Aktualisiere...${RESET}"
+    # Fall A: Bereits als Repo installiert -> Dirty-Check + Update
     cd "${INSTALL_DIR}"
+
+    # Dirty-Check: Lokale Aenderungen verhindern sauberes Pull
+    if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+      echo "${RED}  x ~/Brudi/ enthält lokale Aenderungen.${RESET}"
+      echo ""
+      echo "  Brudi ist ein Framework-Repo. Lokale Aenderungen sind nicht vorgesehen."
+      echo "  Projektspezifische Anpassungen gehoeren ins Projekt (CLAUDE.md, TASK.md)."
+      echo ""
+      echo "  Loesung:"
+      echo "    1. mv ~/Brudi ~/Brudi_backup_\$(date +%Y%m%d_%H%M%S)"
+      echo "    2. git clone --depth=1 ${REPO_URL} ~/Brudi"
+      echo ""
+      exit 1
+    fi
+
+    # Detached HEAD Check
+    if ! git symbolic-ref HEAD >/dev/null 2>&1; then
+      echo "${RED}  x ~/Brudi/ ist in Detached-HEAD-Zustand.${RESET}"
+      echo ""
+      echo "  Loesung:"
+      echo "    cd ~/Brudi && git checkout main"
+      echo "  Oder Neuinstallation:"
+      echo "    mv ~/Brudi ~/Brudi_backup_\$(date +%Y%m%d_%H%M%S)"
+      echo "    git clone --depth=1 ${REPO_URL} ~/Brudi"
+      echo ""
+      exit 1
+    fi
+
+    echo "${BLUE}  > Brudi ist bereits installiert. Aktualisiere...${RESET}"
     if git pull --quiet; then
       VERSION=$(cat "${INSTALL_DIR}/VERSION" 2>/dev/null || echo "unknown")
       echo "${GREEN}  v Brudi aktualisiert auf v${VERSION}${RESET}"
