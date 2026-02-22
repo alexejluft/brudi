@@ -81,6 +81,9 @@ Before starting any project, read `~/.brudi/assets/INDEX.md` to discover pre-bui
 
 Read skills on demand as you work. Never load all skills at project start.
 
+**How to read a skill:** `Read ~/.brudi/skills/[skill-name]/SKILL.md`
+Always append `/SKILL.md` — the skill name is a directory, not a file.
+
 ### Phase 1: Project Setup
 Read these FIRST when starting any project.
 

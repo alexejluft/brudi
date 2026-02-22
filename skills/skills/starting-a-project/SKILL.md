@@ -5,15 +5,13 @@ globs: ["**/package.json", "**/next.config.*"]
 # Starting a Project
 
 ## Step 0: Bash Permissions
-Check if Bash is allowed via `.claude/settings.json`:
-✅ If `bash_allowed: true`, proceed to Step 1.
-❌ If missing/false, use Write tool fallback (Step 1B).
+Test Bash with: `echo "ok"`. If it returns "ok", proceed to Approach A. If blocked → Approach B.
 ---
 ## Step 1: Project Setup
 ### Approach A: create-next-app (if Bash available)
-Move CLAUDE.md/TASK.md to `/tmp` first (create-next-app fails in non-empty dirs):
+Move ALL existing files to `/tmp` first — create-next-app fails on ANY existing file or folder:
 ```bash
-mv CLAUDE.md TASK.md /tmp/ && npx create-next-app@latest . --yes --typescript --tailwind --eslint --app --src-dir --use-npm && mv /tmp/CLAUDE.md /tmp/TASK.md . && rm README.md
+[ -d .claude ] && mv .claude /tmp/.claude-bak; mv CLAUDE.md TASK.md /tmp/ && npx create-next-app@latest . --yes --typescript --tailwind --eslint --app --src-dir --use-npm && mv /tmp/CLAUDE.md /tmp/TASK.md .; [ -d /tmp/.claude-bak ] && mv /tmp/.claude-bak .claude; rm README.md
 ```
 ### Approach B: Manual (if Bash blocked)
 Write: `package.json`, `tsconfig.json`, `next.config.ts`, `postcss.config.mjs`, + dirs.
@@ -45,7 +43,7 @@ npm run dev
 ## Common Mistakes
 | Mistake | Fix |
 |---------|-----|
-| `create-next-app` fails | Move CLAUDE.md/TASK.md to /tmp first |
+| `create-next-app` fails | Move ALL files+folders to /tmp — including .claude/ |
 | Interactive prompts | Use `--yes` flag |
 | Writing `tailwind.config.ts` | Tailwind v4 uses `@theme` in CSS |
 | Font on `<body>` | Must be on `<html>` |
