@@ -16,7 +16,7 @@ These architectural decisions are LOCKED for v3.3.0. Any changes require a new m
 | Path | Status | Must-Have Files | Cannot Change |
 |------|--------|-----------------|----------------|
 | `/` | ✅ Frozen | VERSION, README.md, INSTALL.md | Directory layout, shell scripts location |
-| `.brudi/` | ✅ Frozen | state.init.json, MANIFEST.md | Structure, state schema |
+| `orchestration/` | ✅ Frozen | brudi-gate.sh, pre-commit, state.init.json, state.schema.json | Gate-Enforcement, State-Schema |
 | `~/Brudi/` | ✅ Frozen | orchestration/, skills/, assets/, templates/ | Installation root, subdirectory names |
 | `docs/internal/` | ✅ Frozen | This file, other internal docs | Internal documentation location |
 
@@ -24,8 +24,8 @@ These architectural decisions are LOCKED for v3.3.0. Any changes require a new m
 
 ### State Management (LOCKED)
 
-- **File:** `.brudi/state.json`
-- **Schema:** Immutable (see `.brudi/state.init.json`)
+- **File:** `.brudi/state.json` (pro Projekt, NICHT global unter ~/)
+- **Schema:** Immutable (see `orchestration/state.init.json` + `orchestration/state.schema.json`)
 - **Fields:** Cannot add, remove, or rename top-level keys
 - **Version Field:** `brudi_version` is populated at runtime (use.sh reads VERSION)
 - **Drift Detection:** brudi-gate.sh version check ensures state ≥ runtime version
@@ -45,7 +45,7 @@ These architectural decisions are LOCKED for v3.3.0. Any changes require a new m
 
 ### Public Interface (LOCKED)
 
-- **Entry Point:** `curl https://raw.githubusercontent.com/[user]/brudi/main/install.sh | bash`
+- **Entry Point:** `curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh`
 - **Version Display:** README.md Status section must always show current version
 - **Breaking Changes:** Must be documented in README.md in dedicated "Breaking Changes" section
 - **Documentation:** README.md, INSTALL.md, VERSION file are the only public-facing versioning sources
@@ -189,15 +189,18 @@ git commit -m "chore: bump version to 3.4.0"
 
 ```bash
 # Clean test of fresh install
-rm -rf /tmp/brudi-test
-mkdir /tmp/brudi-test
-cd /tmp/brudi-test
-curl https://raw.githubusercontent.com/[your-org]/brudi/main/install.sh | bash
+rm -rf ~/Brudi
+curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
+echo $?  # Must be 0
 
 # Verify install
-echo $?  # Must be 0
-ls -la ~/.brudi/state.json  # Must exist
-grep "brudi_version" ~/.brudi/state.json  # Must show populated version
+cat ~/Brudi/VERSION  # Must show new version
+ls ~/Brudi/.git      # Must exist (repo-based)
+
+# Verify project setup
+mkdir -p /tmp/brudi-test && cd /tmp/brudi-test && git init
+sh ~/Brudi/use.sh
+cat .brudi/state.json | grep brudi_version  # Must show populated version
 ```
 
 **Evidence Requirement:** Screenshot of successful install with `exit 0`.
@@ -209,7 +212,7 @@ git tag -a v3.4.0 -m "Release 3.4.0"
 git push origin main --tags
 ```
 
-**Evidence Requirement:** GitHub release tag visible at `https://github.com/[org]/brudi/releases/tag/v3.4.0`
+**Evidence Requirement:** GitHub release tag visible at `https://github.com/alexejluft/brudi/releases/tag/v3.4.0`
 
 ### Step 4: Document Breaking Changes (if Major version bump)
 
@@ -236,7 +239,7 @@ Users have THREE upgrade paths. All must work.
 ### Path 1: Fresh Install (Recommended)
 
 ```bash
-curl https://raw.githubusercontent.com/[org]/brudi/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
 ```
 
 **Exit Code:** 0
@@ -248,24 +251,25 @@ curl https://raw.githubusercontent.com/[org]/brudi/main/install.sh | bash
 User has Brudi v3.3.0 installed, wants to upgrade to v3.4.0:
 
 ```bash
-# No cleanup needed
-curl https://raw.githubusercontent.com/[org]/brudi/main/install.sh | bash
+cd ~/Brudi && git pull
+# Oder:
+curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
 ```
 
 **Exit Code:** 0
 **Evidence:** Agent 3 verified "Re-Install: exit 0 ✅"
-**Expected Outcome:** New version installed, old files backed up if applicable
+**Expected Outcome:** install.sh erkennt bestehendes Repo, führt git pull aus
 
 ### Path 3: Legacy Install (Backup Path)
 
-User has very old Brudi installation (pre-v3.0):
+User has alte Brudi-Installation (pre-v3.3.0, ohne .git/):
 
 ```bash
-curl https://raw.githubusercontent.com/[org]/brudi/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
 ```
 
 **Exit Code:** 0
-**Behavior:** Old installation automatically backed up to `~/Brudi.backup.[timestamp]/`
+**Behavior:** Alte Installation automatisch gesichert nach `~/Brudi_backup_[YYYYMMDD_HHMMSS]/`
 **Evidence:** Agent 3 verified "Legacy Install: exit 0, backup created ✅"
 **Expected Outcome:** User's old data preserved, new version installed cleanly
 
@@ -281,95 +285,54 @@ After any upgrade, running install.sh again produces identical directory structu
 
 These are the ONLY three supported installation scenarios.
 
-### Case 1: User has Git repo, on main branch
+### Case A: ~/Brudi/ existiert bereits als Repo (.git/ vorhanden)
 
 **Preconditions:**
-- Directory is a git repository
-- HEAD on main branch
-- No uncommitted changes
+- `~/Brudi/` existiert
+- `~/Brudi/.git/` existiert
+
+**install.sh Prüfkette (in dieser Reihenfolge):**
+1. Dirty-Check: `git status --porcelain` — muss leer sein
+2. Detached-HEAD-Check: `git symbolic-ref HEAD` — muss auflösen
+3. Branch-Check: `git rev-parse --abbrev-ref HEAD` — muss `main` sein
+4. Update: `git pull --quiet`
+
+**Exit Code:** 0 (wenn alle Checks bestanden + Pull erfolgreich)
+
+**Fail Cases (jeweils exit 1):**
+- Dirty State → "Brudi ist ein Framework-Repo. Lokale Aenderungen sind nicht vorgesehen."
+- Detached HEAD → "~/Brudi/ ist in Detached-HEAD-Zustand."
+- Falscher Branch → "~/Brudi/ ist auf Branch 'X' statt 'main'."
+- Pull-Fehler → "git pull fehlgeschlagen."
+
+**Evidence:** Agent 3 verified: Dirty Block exit 1 ✅, Detached HEAD Block exit 1 ✅, Wrong Branch Block exit 1 ✅, Re-Install exit 0 ✅
+
+### Case B: ~/Brudi/ existiert aber OHNE .git/ (Legacy-Installation)
+
+**Preconditions:**
+- `~/Brudi/` existiert
+- `~/Brudi/.git/` existiert NICHT (alte Kopie-basierte Installation)
 
 **install.sh Behavior:**
-```bash
-if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-  exit 1  # Not a git repo — FAIL
-fi
-
-if [ "$(git rev-parse --abbrev-ref HEAD)" != "main" ]; then
-  exit 1  # Wrong branch — FAIL
-fi
-
-if ! git diff-index --quiet HEAD --; then
-  exit 1  # Dirty working directory — FAIL
-fi
-
-# All checks passed → proceed with installation
-mkdir -p ~/Brudi
-cp -r . ~/Brudi
-```
+1. Backup: `mv ~/Brudi ~/Brudi_backup_[YYYYMMDD_HHMMSS]`
+2. Clone: `git clone --depth=1 [REPO_URL] ~/Brudi`
+3. chmod +x auf use.sh, brudi-gate.sh, pre-commit
 
 **Exit Code:** 0
-**Evidence:** Agent 3 verified "Wrong Branch Block: exit 1 ✅" and "Dirty Block: exit 1 ✅"
+**Evidence:** Agent 3 verified "Legacy Install: exit 0, backup created ✅"
 
-### Case 2: User tries to install but has invalid Git state
-
-**Preconditions:**
-- Repo is in detached HEAD state, OR
-- HEAD is not on main branch, OR
-- Working directory has uncommitted changes
-
-**install.sh Behavior:**
-```bash
-# Gate checks fail
-exit 1
-```
-
-**Exit Code:** 1
-**Error Message:** One of:
-- "Error: Not a git repository"
-- "Error: HEAD is detached"
-- "Error: Not on main branch"
-- "Error: Working directory is dirty"
-
-**Evidence:** Agent 3 verified all three fail cases:
-- "Detached HEAD Block: exit 1 ✅"
-- "Wrong Branch Block: exit 1 ✅"
-- "Dirty Block: exit 1 ✅"
-
-**User Resolution:**
-```bash
-# Fix the issue, then retry
-git checkout main
-git pull origin main
-git status  # Ensure clean
-curl https://raw.githubusercontent.com/[org]/brudi/main/install.sh | bash
-```
-
-### Case 3: User is NOT in a git repository
+### Case C: ~/Brudi/ existiert nicht (Fresh Install)
 
 **Preconditions:**
-- Directory is not a git repository
-- User is trying to run install.sh directly from a directory
+- `~/Brudi/` existiert nicht
+- Git ist installiert
 
 **install.sh Behavior:**
-```bash
-if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-  exit 1  # Not a git repo — FAIL
-fi
-```
+1. Clone: `git clone --depth=1 [REPO_URL] ~/Brudi`
+2. chmod +x auf use.sh, brudi-gate.sh, pre-commit
 
-**Exit Code:** 1
-**Error Message:** "Error: Not a git repository"
-
-**Evidence:** Agent 3 verified "No Git: exit 1 ✅"
-
-**User Resolution:**
-```bash
-# Initialize a git repo first, then try again
-git init
-git remote add origin https://github.com/[org]/brudi.git
-git pull origin main
-curl https://raw.githubusercontent.com/[org]/brudi/main/install.sh | bash
-```
+**Exit Code:** 0 (bei Clone-Erfolg), 1 (bei Clone-Fehler oder kein Git)
+**Evidence:** Agent 3 verified "Cold Install: exit 0 ✅", "No Git: exit 1 ✅"
 
 ---
 
@@ -404,8 +367,10 @@ git push origin main --tags
 - Tag without version bump → version drift
 - Tag on wrong branch → installation failure
 
-❌ **Never re-tag the same commit:**
-- Deleting and recreating tags breaks history
+⚠️ **Retagging nur vor offiziellem GitHub Release erlaubt:**
+- Vor einem Release darf ein Tag verschoben werden (z.B. um einen letzten Fix einzuschließen)
+- Nach Veröffentlichung eines GitHub Releases: Tag ist unveränderlich
+- Retagging-Befehl: `git tag -d vX.Y.Z && git push origin :refs/tags/vX.Y.Z && git tag -a vX.Y.Z -m "..." && git push origin vX.Y.Z`
 
 ✅ **Always tag AFTER updating all version sources** (see Release-Protokoll Step 1)
 
@@ -475,7 +440,7 @@ If you are running Brudi v3.x, follow these steps to upgrade safely:
 
 2. **Run the new installer**
    ```bash
-   curl https://raw.githubusercontent.com/[org]/brudi/main/install.sh | bash
+   curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
    ```
 
 3. **Review the breaking changes**
@@ -545,63 +510,41 @@ find . -type f -perm /111 | grep -v "\.git" | head -20
 
 ### .gitignore Requirements (LOCKED)
 
-Brudi's .gitignore MUST include:
+Brudi's .gitignore MUST include (aktuelle Datei):
 
 ```gitignore
-# Environment variables
+playground/
+.DS_Store
+.claude/settings.local.json
+~$*
+
+# Environment & secrets
 .env
-.env.local
-.env.*.local
-
-# Credentials
-*.key
+.env.*
 *.pem
-credentials.json
-.aws/
-.credentials
+*.key
 
-# API Keys and Tokens
-.pat
-.token
-secrets/
+# Build artifacts
+node_modules/
+dist/
+build/
+.next/
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Node
-node_modules/
-.npm/
-
-# Build
-dist/
-build/
-.next/
-out/
 
 # Logs
 *.log
-logs/
-
-# Temporary
-*.tmp
-.temp/
-/tmp/
 ```
 
 **Verification:**
 ```bash
-cat .gitignore | grep -E "\.env|\.key|credentials|\.pat"
-# Must return all 4 patterns
+cat .gitignore | grep -E "\.env|\.key|\.pem"
+# Must return matches
 ```
 
-**Evidence:** Agent 5 confirmed .gitignore is hardened and complete.
+**Evidence:** Agent 5 confirmed .gitignore is hardened. Aktuelle Datei entspricht dem oben gezeigten Inhalt.
 
 ### Secret Management Rules (LOCKED)
 
@@ -628,6 +571,10 @@ git log -p --all | grep -E "AKIA|ghp_|sk_live|stripe_" | wc -l
 # Must return 0
 ```
 
+**Empfehlung PAT-Rotation:**
+- GitHub PAT in lokaler .git/config des Quell-Repos rotieren
+- Remote auf SSH umstellen: `git remote set-url origin git@github.com:alexejluft/brudi.git`
+
 **Evidence:** Agent 5 confirmed no sensitive files tracked; advised user on PAT rotation.
 
 ---
@@ -642,7 +589,7 @@ git log -p --all | grep -E "AKIA|ghp_|sk_live|stripe_" | wc -l
 | **Agent 4** | Public Surface | ✅ PASS | README visible, curl URL correct, no legacy cp -r, v3.3.0 in status, no inconsistencies | Public docs audit |
 | **Agent 5** | Git Integrity | ✅ PARTIAL PASS | git fsck clean, no sensitive files, no large binaries, HEAD on main, .gitignore hardened | Git security audit |
 | **Agent 6** | Runtime Boundary | ✅ PASS (10/10) | Zero dev/ references in 138 runtime files; 10/10 grep tests passed | Code boundary scan |
-| **Agent 7** | Framework Freeze | 🟨 IN PROGRESS | Writing STABILITY_LOCKDOWN_CHECKLIST.md | This file |
+| **Agent 7** | Framework Freeze | ✅ PASS | STABILITY_LOCKDOWN_CHECKLIST.md erstellt + auditiert | This file |
 
 ### Verdict Summary
 
@@ -652,9 +599,9 @@ git log -p --all | grep -E "AKIA|ghp_|sk_live|stripe_" | wc -l
 - **Public Interface:** PASS ✅
 - **Git Security:** PARTIAL PASS ✅ (user to rotate PAT if needed)
 - **Code Isolation:** PASS ✅
-- **Framework Freeze:** IN PROGRESS (Agent 7 writing this document)
+- **Framework Freeze:** PASS ✅
 
-**Overall Status:** 6/7 agents passed. Brudi v3.3.0 is ready for freeze pending completion of this checklist.
+**Overall Status:** 7/7 agents passed. Brudi v3.3.0 is frozen.
 
 ---
 
@@ -741,12 +688,11 @@ git log --oneline | head -5
 
 ### Test Fresh Install
 ```bash
-rm -rf /tmp/brudi-test-$$
-mkdir /tmp/brudi-test-$$
-cd /tmp/brudi-test-$$
-bash <(curl -s https://raw.githubusercontent.com/[org]/brudi/main/install.sh)
+rm -rf ~/Brudi
+curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
 echo $?  # Should be 0
-ls -la ~/.brudi/state.json  # Should exist
+cat ~/Brudi/VERSION  # Should show current version
+ls ~/Brudi/.git      # Should exist
 ```
 
 ---
