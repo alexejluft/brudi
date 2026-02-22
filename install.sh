@@ -75,6 +75,19 @@ if [ -d "${INSTALL_DIR}" ]; then
       exit 1
     fi
 
+    # Branch Check: Nur main ist erlaubt
+    CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+    if [ "$CURRENT_BRANCH" != "main" ]; then
+      echo "${RED}  x ~/Brudi/ ist auf Branch '${CURRENT_BRANCH}' statt 'main'.${RESET}"
+      echo ""
+      echo "  Brudi ist ein Framework-Repo. Nur der main-Branch wird unterstuetzt."
+      echo ""
+      echo "  Loesung:"
+      echo "    cd ~/Brudi && git checkout main"
+      echo ""
+      exit 1
+    fi
+
     echo "${BLUE}  > Brudi ist bereits installiert. Aktualisiere...${RESET}"
     if git pull --quiet; then
       VERSION=$(cat "${INSTALL_DIR}/VERSION" 2>/dev/null || echo "unknown")
