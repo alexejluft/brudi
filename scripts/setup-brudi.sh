@@ -51,8 +51,10 @@ cat > "$HOOKS_DIR/post-commit" << 'HOOK'
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 REPO_SKILLS="$REPO_ROOT/skills/skills"
 REPO_ASSETS="$REPO_ROOT/skills/assets"
+REPO_TEMPLATES="$REPO_ROOT/skills/templates"
 INSTALLED_SKILLS="$HOME/.brudi/skills"
 INSTALLED_ASSETS="$HOME/.brudi/assets"
+INSTALLED_TEMPLATES="$HOME/.brudi/templates"
 
 echo "🔄 Brudi: Syncing after commit..."
 
@@ -65,6 +67,11 @@ fi
 if [ -d "$INSTALLED_ASSETS" ]; then
   cp -r "$REPO_ASSETS"/. "$INSTALLED_ASSETS/"
   echo "✅ Assets synced"
+fi
+
+if [ -d "$INSTALLED_TEMPLATES" ]; then
+  cp -r "$REPO_TEMPLATES"/. "$INSTALLED_TEMPLATES/"
+  echo "✅ Templates synced"
 fi
 HOOK
 chmod +x "$HOOKS_DIR/post-commit"
