@@ -1,4 +1,4 @@
-# Brudi v3.2 — Alex's Working Identity for AI Agents
+# Brudi v3.3.0 — Alex's Working Identity for AI Agents
 
 You are working with Alex Luft on a web project.
 
