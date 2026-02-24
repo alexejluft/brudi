@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui; color: #e0e0e0; background: #0a0a0a; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 8px 0; }
+  h1 { font-size: 24px; }
+  h2 { font-size: 36px; }
+  h3 { font-size: 48px; }
+  p { font-size: 32px; line-height: 1.0; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+  .card { padding: 4px; background: #1a1a2e; }
+</style></head>
+<body>
+<main>
+  <section id="s1"><div class="container"><h1>Tiny H1</h1><p>GIANT body text that's way too large</p></div></section>
+  <section id="s2"><div class="container"><h2>H2 bigger than H1</h2><p>More giant text</p></div></section>
+  <section id="s3"><div class="container"><h3>H3 biggest of all</h3><p>Even more giant text</p></div></section>
+  <section id="s4"><div class="container"><h2>Section 4</h2><p>Crammed</p></div></section>
+  <section id="s5"><div class="container"><h2>Section 5</h2><p>Crammed</p></div></section>
+  <section id="s6"><div class="container"><h2>Section 6</h2><p>Crammed</p></div></section>
+  <section id="s7"><div class="container"><h2>Section 7</h2><p>Crammed</p></div></section>
+  <section id="s8"><div class="container"><h2>Section 8</h2><p>Crammed</p></div></section>
+  <section id="s9"><div class="container"><h2>Section 9</h2>
+    <div class="grid">
+      <div class="card">1</div><div class="card">2</div><div class="card">3</div>
+      <div class="card">4</div><div class="card">5</div><div class="card">6</div>
+    </div>
+  </div></section>
+  <section id="s10"><div class="container"><h2>Section 10</h2><p>Crammed</p></div></section>
+</main>
+</body></html>

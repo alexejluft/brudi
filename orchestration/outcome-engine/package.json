@@ -1,0 +1,11 @@
+{
+  "name": "brudi-outcome-engine",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "analyze": "node index.js"
+  },
+  "dependencies": {
+    "playwright": "^1.58.0"
+  }
+}
