@@ -218,15 +218,20 @@ Die häufigsten Probleme:
 ## Zusammenfassung: Die 3 Minuten Version
 
 ```
-1. Ordner erstellen: ~/projects/studio-noir
-2. Terminal: cd ~/projects/studio-noir && git init
-3. Brudi verbinden: sh ~/Brudi/use.sh
-4. CLAUDE.md ausfüllen (Projekt, Farben, Schriften, Seiten)
-5. TASK.md anpassen (Homepage-Abschnitte, Unterseiten)
-6. Claude starten und schreiben:
+1. Brudi installieren (einmalig, dauert 1-3 Min):
+   curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
+2. Ordner erstellen: ~/projects/studio-noir
+3. Terminal: cd ~/projects/studio-noir && git init
+4. Brudi verbinden: sh ~/Brudi/use.sh
+5. CLAUDE.md ausfüllen (Projekt, Farben, Schriften, Seiten)
+6. TASK.md anpassen (Homepage-Abschnitte, Unterseiten)
+7. Claude starten und schreiben:
    "Lies CLAUDE.md und TASK.md, dann Phase 0"
-7. Zuschauen wie dein Projekt entsteht
+8. Zuschauen wie dein Projekt entsteht
 ```
+
+> **Hinweis:** Die Installation prueft automatisch ob Git und Node.js vorhanden sind
+> und installiert alle internen Abhaengigkeiten. Du musst dich darum nicht kuemmern.
 
 ---
 

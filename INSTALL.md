@@ -19,7 +19,31 @@ KI-Agenten sagen: "Lies Brudi und befolge die Regeln."
 jedem Linux-PC, ohne absoluten Pfad, ohne Anpassung.
 
 **Ab v3.3.0:** `~/Brudi/` IST das Git-Repo. Es gibt keine Kopie, keinen Sync.
-Updates laufen direkt über `cd ~/Brudi && git pull`.
+Updates laufen direkt ueber `sh ~/Brudi/install.sh` (re-run safe).
+
+---
+
+## Voraussetzungen
+
+Brudi benoetigt folgende Software auf deinem System:
+
+| Software | Minimum | Pruefung |
+|----------|---------|----------|
+| Git | beliebig | `git --version` |
+| Node.js | **>= 18** | `node --version` |
+| npm | beliebig (kommt mit Node) | `npm --version` |
+
+**Warum Node.js?** Brudi enthaelt zwei Engines fuer automatische Code-Qualitaet:
+die AST Engine (Layer 5, statische Analyse) und die Outcome Engine (Layer 6,
+visuelle Qualitaetsbewertung mit Playwright). Beide sind Node.js-basiert.
+
+**Installation von Node.js:**
+- macOS: `brew install node`
+- Linux: `curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs`
+- Oder: [nodejs.org](https://nodejs.org/)
+
+`install.sh` prueft alle Voraussetzungen automatisch und bricht mit klarer
+Fehlermeldung ab, wenn etwas fehlt.
 
 ---
 
@@ -31,11 +55,19 @@ Updates laufen direkt über `cd ~/Brudi && git pull`.
 curl -fsSL https://raw.githubusercontent.com/alexejluft/brudi/main/install.sh | sh
 ```
 
-Das Skript klont das Brudi-Repo nach `~/Brudi/`.
+Das Skript:
+1. Prueft Voraussetzungen (Git, Node >= 18, npm)
+2. Klont das Brudi-Repo nach `~/Brudi/`
+3. Installiert Engine-Dependencies (`npm ci` in ast-engine + outcome-engine)
+4. Installiert Playwright Chromium Browser
+5. Verifiziert: Alle Engines lauffaehig
 
-**Was passiert bei erneutem Ausführen?**
-- Wenn `~/Brudi/` bereits ein Repo ist → `git pull` (Update)
-- Wenn `~/Brudi/` existiert aber kein Repo ist (alte Version) → Backup erstellen, dann neu klonen
+**Was passiert bei erneutem Ausfuehren?**
+- Wenn `~/Brudi/` bereits ein Repo ist → `git pull` + Engine-Dependencies aktualisieren
+- Wenn `~/Brudi/` existiert aber kein Repo ist (alte Version) → Backup erstellen, dann neu klonen + Engines installieren
+
+Die Installation dauert beim ersten Mal 1-3 Minuten (abhaengig von Internetverbindung).
+Bei Updates ist es deutlich schneller.
 
 ### Option B: Manuell
 
@@ -116,12 +148,13 @@ Bei jeder neuen Session wiederholt sich dieser Ablauf automatisch.
 ## Brudi updaten
 
 ```bash
-cd ~/Brudi && git pull
+sh ~/Brudi/install.sh
 ```
 
+Das aktualisiert das Repo (`git pull`) UND die Engine-Dependencies.
 Alle bestehenden Projekte profitieren sofort, weil sie auf `~/Brudi/` zeigen.
 
-Bei großen Versionssprüngen prüft `brudi-gate.sh pre-slice` automatisch,
+Bei grossen Versionsspruengen prueft `brudi-gate.sh pre-slice` automatisch,
 ob die installierte Version zur Projektversion passt und warnt bei Drift.
 
 ---
@@ -150,7 +183,9 @@ ob die installierte Version zur Projektversion passt und warnt bei Drift.
 │   ├── brudi-gate.sh         ← Gate Runner (5 Subcommands)
 │   ├── pre-commit            ← Git Pre-Commit Hook
 │   ├── state.init.json       ← Initialer State
-│   └── state.schema.json     ← Schema-Validierung
+│   ├── state.schema.json     ← Schema-Validierung
+│   ├── ast-engine/           ← Layer 5: AST-level Code-Analyse (Node.js)
+│   └── outcome-engine/       ← Layer 6: Visuelle Qualitaet (Playwright)
 ├── assets/                   ← Fonts, i18n, Legal, Configs
 │   └── INDEX.md
 └── docs/                     ← Interne Dokumentation

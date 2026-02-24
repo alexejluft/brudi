@@ -95,8 +95,8 @@ Appends comment about `.brudi/state.json` to existing `.gitignore` (commented ou
 | `state.schema.json` | JSON schema for state validation |
 | `COMPLEXITY_EVIDENCE_SCHEMA.md` | Schema documentation |
 | `CONSTRAINTS-README.md` | Constraints documentation |
-| `ast-engine/` | Layer 5 — AST-level code enforcement (9 analyzers) |
-| `outcome-engine/` | Layer 6 — Playwright-based visual quality engine |
+| `ast-engine/` | Layer 5 — AST-level code enforcement (5 analyzers) |
+| `outcome-engine/` | Layer 6 — Playwright-based visual quality engine (7 modules) |
 
 ### AST Engine (Layer 5) Components
 
@@ -106,12 +106,8 @@ Appends comment about `.brudi/state.json` to existing `.gitignore` (commented ou
 | `ast-engine/ts-analyzer.js` | TypeScript: NO_ANY, NO_IMPLICIT_ANY, NO_UNUSED_IMPORTS, NO_DEFAULT_EXPORT_ANON, NO_DEEP_NESTING, NO_PROP_DRILLING, STRICT_MODE, NO_DUPLICATED_TYPES, NO_CIRCULAR_IMPORTS |
 | `ast-engine/jsx-analyzer.js` | JSX: MAX_JSX_DEPTH, NO_INLINE_STYLES, REQUIRE_KEY_PROP, SEMANTIC_HTML, NO_DIV_SOUP, MAX_COMPONENT_LENGTH |
 | `ast-engine/tailwind-analyzer.js` | Tailwind: class tokenization, conflict detection, responsive audit, container max-width |
-| `ast-engine/a11y-analyzer.js` | Accessibility: ARIA, alt text, heading order, focus management |
-| `ast-engine/perf-analyzer.js` | Performance: bundle size, re-render detection |
 | `ast-engine/token-analyzer.js` | Token bridge: CSS ↔ GSAP token compliance |
 | `ast-engine/import-graph-analyzer.js` | Import graph: circular deps, orphans |
-| `ast-engine/security-analyzer.js` | Security: XSS, injection, env exposure |
-| `ast-engine/seo-analyzer.js` | SEO: meta tags, structured data |
 
 ### Outcome Engine (Layer 6) Components
 
@@ -119,9 +115,12 @@ Appends comment about `.brudi/state.json` to existing `.gitignore` (commented ou
 |------|---------|
 | `outcome-engine/index.js` | Orchestrator — launches Playwright, collects metrics |
 | `outcome-engine/dom-extractor.js` | DOM analysis: font extraction, color extraction, animation detection |
-| `outcome-engine/layout-scorer.js` | Layout quality scoring |
-| `outcome-engine/motion-scorer.js` | Animation quality scoring |
-| `outcome-engine/visual-scorer.js` | Visual quality scoring |
+| `outcome-engine/layout-analyzer.js` | Layout quality analysis |
+| `outcome-engine/typography-analyzer.js` | Typography quality analysis |
+| `outcome-engine/animation-density-analyzer.js` | Animation density analysis |
+| `outcome-engine/cognitive-load-analyzer.js` | Cognitive load analysis |
+| `outcome-engine/cta-analyzer.js` | CTA effectiveness analysis |
+| `outcome-engine/scoring-engine.js` | Composite scoring engine |
 
 ---
 
@@ -144,7 +143,7 @@ Appends comment about `.brudi/state.json` to existing `.gitignore` (commented ou
 
 ## 5. Skills Directory — `~/Brudi/skills/`
 
-73 skill directories, each containing a `SKILL.md` file. Agents load the relevant skill when working on a specific topic. Skills are NOT copied by `use.sh` — they are read directly from `~/Brudi/skills/`.
+74 skill directories, each containing a `SKILL.md` file. Agents load the relevant skill when working on a specific topic. Skills are NOT copied by `use.sh` — they are read directly from `~/Brudi/skills/`.
 
 ### Key Skill Categories
 
