@@ -35,6 +35,8 @@ Lies diese Skills VOR dem ersten Slice:
 - `~/Brudi/skills/designing-award-materiality/SKILL.md` — Depth, Elevation, Materials
 - `~/Brudi/skills/designing-creative-constraints/SKILL.md` — Complexity Floor pro Komponente
 - `~/Brudi/skills/verifying-ui-quality/SKILL.md` — Quality Gate + Evidence
+- `~/Brudi/skills/building-layout-primitives/SKILL.md` — Container, Section, Stack, Grid (PFLICHT Phase 0)
+- `~/Brudi/skills/implementing-token-bridge/SKILL.md` — GSAP ↔ CSS Token Bridge (PFLICHT Phase 0)
 
 **Schritt 6 — Assets & weitere Skills:**
 Lies `~/Brudi/assets/INDEX.md` für verfügbare Assets, dann die Skills die zur Aufgabe passen.

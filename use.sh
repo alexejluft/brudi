@@ -16,7 +16,7 @@ set -e
 #   sh ~/Brudi/use.sh
 # -----------------------------------------------------------------------------
 
-BRUDI_DIR="${HOME}/Brudi"
+BRUDI_DIR="${BRUDI_DIR:-${HOME}/Brudi}"
 PROJECT_DIR="${PWD}"
 PROJECT_NAME="$(basename "${PROJECT_DIR}")"
 AGENTS_FILE="${PROJECT_DIR}/AGENTS.md"
@@ -170,6 +170,50 @@ if [ ! -f "${PROJECT_DIR}/PROJECT_STATUS.md" ]; then
   fi
 fi
 
+# --- Primitives (Layout + Token Bridge + Animation Hooks) --------------------
+
+PRIMITIVES_SRC="${BRUDI_DIR}/templates/primitives"
+if [ -d "${PRIMITIVES_SRC}" ]; then
+  mkdir -p "${PROJECT_DIR}/src/primitives"
+  for f in layout.tsx tokens.ts use-scroll-reveal.ts use-stagger-entrance.ts; do
+    if [ -f "${PRIMITIVES_SRC}/${f}" ] && [ ! -f "${PROJECT_DIR}/src/primitives/${f}" ]; then
+      cp "${PRIMITIVES_SRC}/${f}" "${PROJECT_DIR}/src/primitives/${f}"
+      echo "${GREEN}  ✓ src/primitives/${f} kopiert${RESET}"
+    fi
+  done
+else
+  echo "${YELLOW}  ! templates/primitives/ nicht gefunden — Layout Primitives übersprungen${RESET}"
+fi
+
+# --- Problems_and_Effectivity.md (Pflicht) -----------------------------------
+
+if [ ! -f "${PROJECT_DIR}/Problems_and_Effectivity.md" ]; then
+  cat > "${PROJECT_DIR}/Problems_and_Effectivity.md" << 'PEEOF'
+# Problems & Effectivity Log
+
+Dieses Dokument ist Pflichtbestandteil jedes Brudi-Projekts.
+Jeder KI-Agent MUSS hier Fehler, Fehlinterpretationen und Debugging-Schritte dokumentieren.
+
+**Mindestens 1 Eintrag pro Slice. Leere Datei blockt. Fehlende Datei blockt.**
+
+---
+
+## Slice 0 — Phase 0 Setup
+
+**Problem:** (noch kein Problem aufgetreten)
+**Root Cause:** N/A
+**Was habe ich falsch verstanden:** N/A
+**Welche Skill war unklar:** N/A
+**Warum ist es passiert:** N/A
+**Wie wurde es gelöst:** N/A
+**Wie hätte Brudi es verhindern können:** N/A
+**Zeitverlust:** 0 min
+PEEOF
+  echo "${GREEN}  ✓ Problems_and_Effectivity.md erstellt (Pflichtdokument)${RESET}"
+else
+  echo "${YELLOW}  ! Problems_and_Effectivity.md existiert bereits — wird nicht überschrieben.${RESET}"
+fi
+
 # --- ESLint Config (Creative DNA Rules) ---------------------------------------
 
 if [ ! -f "${PROJECT_DIR}/eslint.config.brudi.js" ]; then
@@ -222,6 +266,8 @@ echo "  │    → .brudi/state.json      (Mode, Phase, Evidence)   │"
 echo "  │    → screenshots/           (Evidence-Verzeichnis)     │"
 echo "  │    → TASK.md                (Aufgaben-Template)        │"
 echo "  │    → PROJECT_STATUS.md      (Status-Tracking)          │"
+echo "  │    → Problems_and_Effectivity.md (Lern-Log)            │"
+echo "  │    → src/primitives/        (Layout+Token Bridge)      │"
 echo "  │    → .git/hooks/pre-commit  (Gate-Enforcement)         │"
 echo "  │                                                        │"
 echo "  │  Der Agent startet mit:                                │"

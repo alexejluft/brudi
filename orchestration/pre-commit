@@ -119,7 +119,18 @@ if [ -n "$staged_code" ]; then
   fi
 fi
 
-# ── 6. Check PROJECT_STATUS.md for forbidden patterns ───────────────────────
+# ── 6. Check Problems_and_Effectivity.md existence and content ─────────────
+
+if [ ! -f "Problems_and_Effectivity.md" ]; then
+  errors+=("Problems_and_Effectivity.md missing — this file is required in every Brudi project")
+else
+  pe_entries=$(grep -c "^## Slice" "Problems_and_Effectivity.md" 2>/dev/null || echo "0")
+  if [ "$pe_entries" -lt 1 ]; then
+    errors+=("Problems_and_Effectivity.md has 0 slice entries — minimum 1 required")
+  fi
+fi
+
+# ── 7. Check PROJECT_STATUS.md for forbidden patterns ───────────────────────
 
 if [ -f "PROJECT_STATUS.md" ]; then
   # Check for dash as status symbol (but not in headers, comments, or descriptions)

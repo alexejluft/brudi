@@ -132,7 +132,7 @@ cmd_pre_slice() {
   phase=$(get_state '.phase')
 
   # 0. Version drift check (warning, not blocking)
-  local brudi_dir="${BRUDI_DIR:-${HOME}/Brudi}"
+  local brudi_dir="${BRUDI_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
   local installed_version
   installed_version=$(cat "${brudi_dir}/VERSION" 2>/dev/null || echo "unknown")
   local state_version
@@ -237,18 +237,18 @@ cmd_post_slice() {
     errors+=("Slice $slice_id: npm run build has errors (build_zero_errors=false)")
   fi
 
-  # 3. Desktop screenshot
+  # 3. Desktop screenshot (BLOCKING — file MUST exist)
   if [ -z "$screenshot_d" ] || [ "$screenshot_d" = "null" ]; then
     errors+=("Slice $slice_id: Desktop screenshot path missing")
   elif [ ! -f "$screenshot_d" ]; then
-    warn "Slice $slice_id: Desktop screenshot file not found at '$screenshot_d' (path recorded but file missing)"
+    errors+=("Slice $slice_id: Desktop screenshot file does not exist at '$screenshot_d' — file must be committed")
   fi
 
-  # 4. Mobile screenshot
+  # 4. Mobile screenshot (BLOCKING — file MUST exist)
   if [ -z "$screenshot_m" ] || [ "$screenshot_m" = "null" ]; then
     errors+=("Slice $slice_id: Mobile 375px screenshot path missing")
   elif [ ! -f "$screenshot_m" ]; then
-    warn "Slice $slice_id: Mobile screenshot file not found at '$screenshot_m' (path recorded but file missing)"
+    errors+=("Slice $slice_id: Mobile screenshot file does not exist at '$screenshot_m' — file must be committed")
   fi
 
   # 5. Console
@@ -256,11 +256,45 @@ cmd_post_slice() {
     errors+=("Slice $slice_id: Console errors present (console_zero_errors=false)")
   fi
 
-  # 6. Quality gate checks (need exactly 3)
+  # 6. Quality gate checks (need exactly 3, with validated content)
   if [ "$qg_count" -lt 3 ]; then
     errors+=("Slice $slice_id: Quality gate needs 3 checks, has $qg_count")
+  else
+    # Validate check content — each must start with a recognized prefix
+    local valid_prefixes="UI State:|Visual:|Animation:|Motion:|Performance:|Interaction:|Accessibility:|Responsive:|Layout:|Token:|Component:"
+    local qg_checks
+    qg_checks=$(jq -r --argjson id "$slice_id" \
+      '.slices[] | select(.id == $id) | .evidence.quality_gate_checks[]' "$STATE_FILE" 2>/dev/null || echo "")
+    local check_idx=0
+    while IFS= read -r check_content; do
+      check_idx=$((check_idx + 1))
+      if [ -z "$check_content" ] || [ "$check_content" = "null" ]; then
+        errors+=("Slice $slice_id: Quality gate check $check_idx is empty")
+      elif ! echo "$check_content" | grep -qE "^($valid_prefixes)" ; then
+        errors+=("Slice $slice_id: Quality gate check $check_idx must start with a valid prefix (UI State:|Visual:|Animation:|Motion:|Layout:|Token:|Component:...). Got: '$check_content'")
+      fi
+    done <<< "$qg_checks"
   fi
 
+  # 7. TypeScript strict mode check
+  if [ -f "tsconfig.json" ]; then
+    if ! grep -qE '"strict"\s*:\s*true' tsconfig.json 2>/dev/null; then
+      errors+=("Slice $slice_id: TypeScript strict mode not enabled in tsconfig.json")
+    fi
+  fi
+
+  # 8. Problems_and_Effectivity.md check
+  if [ ! -f "Problems_and_Effectivity.md" ]; then
+    errors+=("Slice $slice_id: Problems_and_Effectivity.md missing (required file)")
+  else
+    local pe_entries
+    pe_entries=$(grep -c "^## Slice" "Problems_and_Effectivity.md" 2>/dev/null || echo "0")
+    if [ "$pe_entries" -lt 1 ]; then
+      errors+=("Slice $slice_id: Problems_and_Effectivity.md has 0 entries (minimum 1 required per slice)")
+    fi
+  fi
+
+  # Check accumulated errors before proceeding to complexity + constraint gates
   if [ ${#errors[@]} -gt 0 ]; then
     local msg
     msg=$(printf '%s\n' "${errors[@]}")
@@ -268,9 +302,64 @@ cmd_post_slice() {
 $msg"
   fi
 
-  # 7. Creative DNA Complexity Floor (forbidden patterns + creative metrics)
+  # 9. Creative DNA Complexity Floor (forbidden patterns + creative metrics)
   if type run_complexity_check &>/dev/null; then
     run_complexity_check "post-slice" "$slice_id" || die "Creative DNA Complexity Floor Violations in slice $slice_id"
+  fi
+
+  # 10. Constraint Gate (spacing consistency, containers, section IDs, token adoption)
+  local brudi_dir="${BRUDI_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+  local constraint_gate="${brudi_dir}/orchestration/brudi-gate-constraints.sh"
+  if [ -f "$constraint_gate" ]; then
+    echo "  Running constraint gate checks..."
+    if ! bash "$constraint_gate" check-all; then
+      die "Constraint gate failed for slice $slice_id — layout/spacing violations detected"
+    fi
+  fi
+
+  # 11. AST Enforcement Engine — Layer 5 (structural code analysis, HARD GATE)
+  local ast_engine="${brudi_dir}/orchestration/ast-engine/index.js"
+  if [ ! -f "$ast_engine" ]; then
+    die "AST engine not found at ${ast_engine}. Layer 5 is REQUIRED."
+  fi
+  if ! command -v node &>/dev/null; then
+    die "Node.js is required for AST enforcement engine"
+  fi
+  echo "  Running AST enforcement engine..."
+  local ast_output
+  ast_output=$(node "$ast_engine" . --json --severity=error 2>&1)
+  local ast_exit=$?
+  if [ $ast_exit -ne 0 ]; then
+    echo "$ast_output"
+    die "AST enforcement gate failed for slice $slice_id — structural violations detected"
+  fi
+
+  # Extract animation count from AST results for Layer 6 bridge
+  local animation_count=0
+  if command -v jq &>/dev/null && echo "$ast_output" | jq . &>/dev/null 2>&1; then
+    animation_count=$(echo "$ast_output" | jq '[.violations[] | select(.rule | test("GSAP|ANIMATION"))] | length' 2>/dev/null || echo 0)
+  fi
+
+  # 12. Outcome Quality Engine — Layer 6 (visual/UX quality analysis, HARD GATE)
+  local outcome_engine="${brudi_dir}/orchestration/outcome-engine/index.js"
+  if [ ! -f "$outcome_engine" ]; then
+    die "Outcome engine not found at ${outcome_engine}. Layer 6 is REQUIRED."
+  fi
+  # Check for pre-built HTML output
+  local html_file=""
+  for candidate in "out/index.html" "dist/index.html" ".next/server/app/index.html" "public/index.html"; do
+    if [ -f "$candidate" ]; then
+      html_file="$candidate"
+      break
+    fi
+  done
+  if [ -n "$html_file" ]; then
+    echo "  Running outcome quality engine on $html_file (animations=${animation_count})..."
+    if ! node "$outcome_engine" "$html_file" --animations=${animation_count} 2>&1; then
+      die "Outcome quality gate failed for slice $slice_id — visual quality score below threshold"
+    fi
+  else
+    warn "No pre-built HTML found. Outcome engine requires a build. Run 'npm run build' first."
   fi
 
   pass "Post-slice check passed for slice $slice_id. All evidence complete."
