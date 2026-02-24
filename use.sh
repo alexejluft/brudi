@@ -170,6 +170,17 @@ if [ ! -f "${PROJECT_DIR}/PROJECT_STATUS.md" ]; then
   fi
 fi
 
+# --- ESLint Config (Creative DNA Rules) ---------------------------------------
+
+if [ ! -f "${PROJECT_DIR}/eslint.config.brudi.js" ]; then
+  if [ -f "${BRUDI_DIR}/templates/eslint.config.brudi.js" ]; then
+    cp "${BRUDI_DIR}/templates/eslint.config.brudi.js" "${PROJECT_DIR}/eslint.config.brudi.js"
+    echo "${GREEN}  ✓ eslint.config.brudi.js kopiert (Creative DNA ESLint Rules)${RESET}"
+  fi
+else
+  echo "${YELLOW}  ! eslint.config.brudi.js existiert bereits — wird nicht überschrieben.${RESET}"
+fi
+
 # --- Pre-Commit Hook ----------------------------------------------------------
 
 if [ -d "${PROJECT_DIR}/.git" ]; then

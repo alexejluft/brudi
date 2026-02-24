@@ -30,7 +30,13 @@ Lies `TASK.md` in diesem Projektordner. Dort steht die aktuelle Aufgabe.
 Führe aus: `BRUDI_STATE_FILE=.brudi/state.json bash ~/Brudi/orchestration/brudi-gate.sh pre-slice`
 Bei Exit-Code 1 → Fehler beheben bevor du loslegst.
 
-**Schritt 5 — Relevante Brudi Skills lesen:**
+**Schritt 5 — Creative DNA Skills laden (PFLICHT bei GSAP-Projekten):**
+Lies diese Skills VOR dem ersten Slice:
+- `~/Brudi/skills/designing-award-materiality/SKILL.md` — Depth, Elevation, Materials
+- `~/Brudi/skills/designing-creative-constraints/SKILL.md` — Complexity Floor pro Komponente
+- `~/Brudi/skills/verifying-ui-quality/SKILL.md` — Quality Gate + Evidence
+
+**Schritt 6 — Assets & weitere Skills:**
 Lies `~/Brudi/assets/INDEX.md` für verfügbare Assets, dann die Skills die zur Aufgabe passen.
 
 ## 🔧 Tier-1 Orchestrierung (PFLICHT)
@@ -284,3 +290,57 @@ Erstelle PROJECT_STATUS.md zu Projektbeginn. Template: `~/Brudi/templates/PROJEC
 - Mobile 375px getestet (Screenshot-DATEIPFAD dokumentiert)
 - Console: 0 Errors
 - PROJECT_STATUS.md vollständig mit Evidenz
+
+---
+
+## Creative Complexity Floor — Deterministic Award-Level (KOMPAKT)
+
+Minimum-Standard für alle Projekte mit GSAP. Vollständige Regeln: `~/Brudi/CLAUDE.md` → Creative Complexity Floor.
+
+### Pflicht-Regeln (Hero & Section)
+
+**Hero Section:**
+- 5+ GSAP Animationen (Headline Stagger, Background Shift, Scroll Indicator, CTA Scale, CTA Shadow)
+- 3+ Easing-Typen (power2.out, power3.out, sine.inOut minimum)
+- Alle 4 Depth-Layer sichtbar (--bg, --bg-elevated, --surface, --surface-high)
+- Scroll-Indicator mit @keyframes (1.5s Zyklus)
+- Asymmetrisches Hover-Timing: Enter 150ms ≠ Exit 250ms
+
+**Section Container:**
+- Entrance-Reveal (fade + translateY, 0.6–0.8s)
+- Stagger auf Children (0.06–0.12s zwischen Items)
+- 3+ Easing-Typen auf Seite
+- Card Hover: 3+ Properties (shadow, color, border) mit verschiedenen Timings
+- Card Shadow: Minimum shadow-md (NIEMALS nur border)
+
+### Component States (Alle Pflicht)
+
+- **Button:** 5 States (base/hover/active/focus/disabled) mit 3 Properties pro Hover
+- **Input:** 4 States (base/focus/error/success)
+- **Card:** Hover Shadow Elevation (raised → floating)
+- **Navigation:** Scroll-reaktiv (opacity oder backdrop-blur nach 30px)
+
+### Verbotene Patterns (ESLint enforced, 0 Toleranz)
+
+- Kein `transition: all` (spezifische Properties nur)
+- Kein `gsap.from()` in React (gsap.set() + gsap.to() mit Refs)
+- Kein Animieren von margin/width/height (transform nutzen)
+- Keine verwaisten ScrollTrigger (cleanup in useEffect return)
+- Keine hardcodierten Farben (Token nutzen)
+- Kein Hero ohne Scroll-Indicator
+- Keine Section ohne gestaggerte Entrance
+- Keine Card ohne Hover-Depth-Change
+
+### Verification Pre-Screenshot
+
+1. `npm run lint` — 0 ESLint Violations
+2. `npm run build` — Exit Code 0
+3. Console: 0 Errors
+4. Desktop: Alle Animationen smooth
+5. Mobile 375px: Lesbar + smooth
+6. Scroll: Parallax + Reveals aktiv
+7. PROJECT_STATUS.md mit Animation-Count updaten
+
+**Wenn ANY failt → Erst fixen, DANN Screenshot.**
+
+---

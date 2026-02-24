@@ -98,7 +98,28 @@ for sid in $completed_ids; do
   fi
 done
 
-# ── 5. Check PROJECT_STATUS.md for forbidden patterns ───────────────────────
+# ── 5. Creative DNA Forbidden Pattern Check (on staged code files) ───────────
+
+if [ -n "$staged_code" ]; then
+  COMPLEXITY_SCRIPT="${HOME}/Brudi/orchestration/brudi-gate-complexity.sh"
+  if [ -f "$COMPLEXITY_SCRIPT" ]; then
+    # Check staged files for forbidden patterns
+    for f in $staged_code; do
+      if [ -f "$f" ]; then
+        # transition: all
+        if grep -qE "transition:\s*['\"]?all" "$f" 2>/dev/null || grep -q "transition-all" "$f" 2>/dev/null; then
+          errors+=("CREATIVE DNA: '$f' contains 'transition: all' (VERBOTEN)")
+        fi
+        # gsap.from() in React
+        if grep -qE "gsap\.from\s*\(" "$f" 2>/dev/null; then
+          errors+=("CREATIVE DNA: '$f' contains 'gsap.from()' (use gsap.set()+gsap.to())")
+        fi
+      fi
+    done
+  fi
+fi
+
+# ── 6. Check PROJECT_STATUS.md for forbidden patterns ───────────────────────
 
 if [ -f "PROJECT_STATUS.md" ]; then
   # Check for dash as status symbol (but not in headers, comments, or descriptions)

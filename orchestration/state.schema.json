@@ -115,6 +115,44 @@
               "console_zero_errors",
               "quality_gate_checks"
             ]
+          },
+          "complexity_evidence": {
+            "type": "object",
+            "description": "Creative DNA Complexity Floor Evidence (optional but recommended)",
+            "additionalProperties": false,
+            "properties": {
+              "animation_count": {
+                "type": "object",
+                "description": "Count of animations per section",
+                "additionalProperties": { "type": "integer", "minimum": 0 }
+              },
+              "easing_variety": {
+                "type": "array",
+                "description": "List of distinct easing functions used (e.g., 'power2.out', 'sine.inOut')",
+                "items": { "type": "string", "minLength": 1 }
+              },
+              "depth_layers": {
+                "type": "object",
+                "description": "Count of visual depth layers per layer type",
+                "properties": {
+                  "bg": { "type": "integer", "minimum": 0 },
+                  "bg_elevated": { "type": "integer", "minimum": 0 },
+                  "surface": { "type": "integer", "minimum": 0 },
+                  "surface_high": { "type": "integer", "minimum": 0 }
+                },
+                "additionalProperties": { "type": "integer", "minimum": 0 }
+              },
+              "forbidden_patterns": {
+                "type": "object",
+                "description": "Count of violations of forbidden patterns",
+                "additionalProperties": false,
+                "properties": {
+                  "transition_all": { "type": "integer", "minimum": 0 },
+                  "gsap_from": { "type": "integer", "minimum": 0 },
+                  "orphaned_triggers": { "type": "integer", "minimum": 0 }
+                }
+              }
+            }
           }
         }
       }

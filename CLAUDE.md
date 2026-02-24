@@ -288,6 +288,140 @@ If any answer is "no" — it's not done.
 
 ---
 
+## Creative Complexity Floor — Deterministic Award-Level
+
+The minimum creative threshold. No award-level project drops below this baseline.
+
+### Hero Section (Absolutes Minimum)
+
+- **5+ GSAP Animations (Pflicht)**
+  - Headline stagger (letter or line-by-line)
+  - Background shift (parallax or color transition)
+  - Scroll indicator (@keyframes or GSAP tween)
+  - CTA scale (hover + entrance)
+  - CTA shadow elevation (on hover)
+
+- **3+ Easing-Typen (Minimum)**
+  - power2.out (common entrance)
+  - power3.out (emphasis animations)
+  - sine.inOut (smooth scroll-based)
+
+- **4 Depth-Layers sichtbar**
+  - --bg (base background)
+  - --bg-elevated (section background)
+  - --surface (card/element background)
+  - --surface-high (floating/elevated elements)
+
+- **Asymmetrisches Hover-Timing**
+  - Enter: 150ms
+  - Exit: 250ms
+  - NEVER use same timing both directions
+
+- **Scroll-Indicator (@keyframes)**
+  - 1.5s cycle minimum
+  - Continuous loop
+  - Position: bottom of hero, above fold
+
+- **Parallax-Background (Optional but Recommended)**
+  - Speed: 0.3–0.5 (subtler = better)
+  - Paired with gsap.to() on scroll
+
+### Section (Generischer Container)
+
+- **Entrance-Reveal Animation (Pflicht)**
+  - Fade + translateY (not just fade)
+  - Duration: 0.6–0.8s
+  - Trigger: ScrollTrigger (start: "top 80%")
+
+- **Stagger auf Children**
+  - Delay: 0.06–0.12s zwischen Items
+  - gsap.to() mit stagger property
+  - Sichtbar beim Scrollen
+
+- **3+ Easing-Typen auf Seite**
+  - Verschiedene Easing pro Animation Type
+  - Nicht alle dieselbe Kurve
+
+- **Card Hover: 3+ Properties ändern**
+  - Shadow elevation (md → lg oder lg → xl)
+  - Color shift (text oder accent)
+  - Border/outline change
+  - Alle mit unterschiedlichen Timings
+
+- **Background nutzt Layer-Token**
+  - Kein hardcodiertes rgb() oder hex()
+  - Mindestens --bg oder --bg-elevated
+  - NIEMALS nur ein Hintergrund
+
+- **Card Base-Shadow (Minimum)**
+  - shadow-md oder besser
+  - Nicht nur border
+
+### Component States (Alle Pflicht)
+
+**Button (5 States):**
+- Base: keine Decoration (nur Text/Icon)
+- Hover: 3 Properties (shadow, color, transform scale)
+- Active: darker shade + inset shadow
+- Focus: outline oder ring (visible)
+- Disabled: 50% opacity + cursor-not-allowed
+
+**Button Hover Properties:**
+- Transform: scale(1.02–1.05)
+- Shadow: md → lg
+- Color: base → accent (or inverse)
+- Alle mit unterschiedlichen Timings
+
+**Input (4 States):**
+- Base: subtle border (1px, var(--border))
+- Focus: 2px ring (var(--accent))
+- Error: red ring + error icon
+- Success: green ring + checkmark icon
+
+**Card Hover Shadow Elevation:**
+- Base: shadow-md
+- Hover: shadow-lg or shadow-xl
+- Difference SICHTBAR (nicht 1px Change)
+
+**Card Border:**
+- Kein flacher 1px solid border
+- Entweder: Gradient border OR Light-top edge (top: 1px solid rgba(255,255,255,0.1))
+
+**Navigation (Scroll-Reaktiv):**
+- Start: transparent/no blur
+- After 30px scroll: backdrop-blur + slight bg opacity change
+- Scroll down: opacity fade (optional)
+- MUST be smooth
+
+### Verbotene Patterns (0 erlaubt, ESLint enforced)
+
+| Pattern | Status | Grund |
+|---------|--------|-------|
+| `transition: all` | ⛔ VERBOTEN | Zu vage; nutze spezifische Properties |
+| `gsap.from()` in React | ⛔ VERBOTEN | Immer `gsap.set()` + `gsap.to()` mit Element-Refs |
+| Animieren von margin/width/height | ⛔ VERBOTEN | Nutze `transform: translateX()` / `scale()` |
+| Verwaiste ScrollTrigger | ⛔ VERBOTEN | Cleanup in useEffect return obligatorisch |
+| Hardcodierte Farben in strukturellen Elementen | ⛔ VERBOTEN | Nutze --surface, --bg, --accent Tokens |
+| Hero ohne Scroll-Indicator | ⛔ VERBOTEN | Minimum 1 animated scroll hint |
+| Section ohne gestaggerte Entrance | ⛔ VERBOTEN | Alle Children müssen staggered sein |
+| Card ohne Hover-Depth-Change | ⛔ VERBOTEN | Shadow elevation mindestens |
+
+### Quality Gate Verification (Pflicht vor Screenshot)
+
+Alle Checks müssen BESTANDEN sein bevor ein Slice als "done" markiert wird:
+
+1. **Lint:** `npm run lint` — 0 ESLint Violations
+2. **Build:** `npm run build` — Exit Code 0
+3. **Console:** Browser DevTools Console = 0 Errors
+4. **Desktop Render:** Screenshot zeigt alle Animationen smooth spielend
+5. **Mobile Render 375px:** Text lesbar, Animationen smooth (nicht jank)
+6. **Scroll Desktop:** Parallax aktiviert, Entrance Reveals triggerieren
+7. **Animation Count:** PROJECT_STATUS.md aktualisiert mit Animation-Count pro Section
+
+**Wenn IRGENDETWAS davon failt → KEIN SCREENSHOT. Erst fixen, dann neu verifizieren.**
+
+---
+
 ## 🔒 Mode Control — Modus-Steuerung
 
 Du arbeitest IMMER in genau EINEM der folgenden Modi. Der Modus wird vom User zugewiesen — NIEMALS eigenmächtig gewechselt.

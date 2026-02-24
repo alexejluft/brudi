@@ -91,6 +91,12 @@ get_state_raw() {
   jq "$1" "$STATE_FILE"
 }
 
+# ── Load Complexity Check Module ──────────────────────────────────────────────
+COMPLEXITY_MODULE="$(dirname "$0")/brudi-gate-complexity.sh"
+if [ -f "$COMPLEXITY_MODULE" ]; then
+  source "$COMPLEXITY_MODULE"
+fi
+
 # ── Core: State Validation ───────────────────────────────────────────────────
 
 validate_state() {
@@ -176,6 +182,11 @@ cmd_pre_slice() {
     check_slice_evidence "$last_completed_id"
   fi
 
+  # 5. Creative DNA Complexity Floor (token check)
+  if type run_complexity_check &>/dev/null; then
+    run_complexity_check "pre-slice" || die "Creative DNA Complexity Floor nicht erfüllt (fehlende Tokens/Styles)"
+  fi
+
   pass "Pre-slice check passed. Mode=$mode, Phase=$phase. Ready for next slice."
 }
 
@@ -255,6 +266,11 @@ cmd_post_slice() {
     msg=$(printf '%s\n' "${errors[@]}")
     die "Post-slice check failed for slice $slice_id:
 $msg"
+  fi
+
+  # 7. Creative DNA Complexity Floor (forbidden patterns + creative metrics)
+  if type run_complexity_check &>/dev/null; then
+    run_complexity_check "post-slice" "$slice_id" || die "Creative DNA Complexity Floor Violations in slice $slice_id"
   fi
 
   pass "Post-slice check passed for slice $slice_id. All evidence complete."

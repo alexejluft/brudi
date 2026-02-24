@@ -48,10 +48,36 @@
   --z-index-modal: 300;
   --z-index-toast: 400;
 
-  /* Easings — GSAP-friendly curves */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
-  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+  /* Easings — BRUDI Motion Protocol v1.0 (GSAP + Tailwind compatible) */
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);           /* power3.out — aggressive, impactful */
+  --ease-exit: cubic-bezier(0.25, 1, 0.5, 1);            /* power2.out — responsive, standard */
+  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);          /* power2.out — subtle, premium */
+  --ease-dramatic: cubic-bezier(0.16, 1, 0.3, 1);        /* power3.out — hero, luxury */
+  --ease-spring: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* back.out(1.5) — bouncy, playful */
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);         /* power2.inOut — symmetric */
+  --ease-linear: cubic-bezier(0, 0, 1, 1);               /* ONLY for spinners/loaders! */
+
+  /* Durations — BRUDI Motion Protocol (milliseconds as decimal) */
+  --duration-micro: 120ms;    /* 0.12s — toggles, checkboxes, focus */
+  --duration-fast: 180ms;     /* 0.18s — button hover, focus state */
+  --duration-normal: 350ms;   /* 0.35s — card reveal, dropdown, panel */
+  --duration-slow: 650ms;     /* 0.65s — section entrance, page transition */
+  --duration-hero: 1000ms;    /* 1.0s — hero banner, icon entrance, max attention */
+  --duration-stagger: 80ms;   /* 0.08s — delay between staggered items */
+  --duration-stagger-tight: 50ms;  /* 0.05s — dense sequences */
+  --duration-stagger-loose: 120ms; /* 0.12s — distributed spacing */
+
+  /* Distance (for transform translate — with multiplier applied) */
+  --distance-micro: 4px;
+  --distance-xs: 8px;
+  --distance-sm: 12px;
+  --distance-base: 24px;      /* Standard entrance y-offset */
+  --distance-md: 32px;
+  --distance-lg: 40px;
+  --distance-xl: 48px;        /* 3 × 8pt = 3 spacing units */
+  --distance-xxl: 64px;
+  --distance-xxxl: 80px;
+  --distance-full: 100px;     /* Max for hero parallax */
 
   /* Border Radius */
   --radius-xs: 0.125rem;
