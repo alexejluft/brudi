@@ -1,0 +1,10 @@
+/* FAIL: No tokens defined (empty file or minimal tokens) */
+
+:root {
+  /* No --duration-*, --easing-*, --color-* tokens */
+}
+
+body {
+  background: #ffffff;
+  color: #000000;
+}

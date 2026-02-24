@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #0a0a0a;
+  --color-bg-elevated: #1a1a1a;
+  --color-surface: #262626;
+  --color-surface-high: #333333;
+  --color-accent: #3b82f6;
+
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+
+  --easing-power2-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --easing-power3-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --easing-sine-in-out: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+}

@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "brudi_version": "3.4.0",
+  "mode": "BUILD",
+  "phase": 0,
+  "project": "Test Fixture: complexity-FAIL",
+  "phase_gate_passed": {},
+  "slices": [],
+  "gates": {
+    "last_check": "2026-02-24T08:23:11Z",
+    "last_check_result": "fail",
+    "last_check_errors": [
+      "Phase gate 0_to_1 not passed. Cannot work in phase 1.",
+      "Creative DNA Complexity Floor nicht erfüllt (fehlende Tokens/Styles)",
+      "Creative DNA Complexity Floor nicht erfüllt (fehlende Tokens/Styles)",
+      "Creative DNA Complexity Floor nicht erfüllt (fehlende Tokens/Styles)",
+      "Creative DNA Complexity Floor nicht erfüllt (fehlende Tokens/Styles)",
+      "Creative DNA Complexity Floor nicht erfüllt (fehlende Tokens/Styles)",
+      "Creative DNA Complexity Floor nicht erfüllt (fehlende Tokens/Styles)"
+    ]
+  }
+}

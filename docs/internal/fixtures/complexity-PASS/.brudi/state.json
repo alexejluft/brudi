@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "brudi_version": "3.4.0",
+  "mode": "BUILD",
+  "phase": 1,
+  "project": "Test Fixture: complexity-PASS",
+  "phase_gate_passed": {
+    "0_to_1": true
+  },
+  "slices": [
+    {
+      "id": 1,
+      "phase": 1,
+      "status": "completed",
+      "evidence": {
+        "skill_read": true,
+        "build_zero_errors": true,
+        "screenshot_desktop": "screenshots/slice-1-desktop.png",
+        "screenshot_mobile": "screenshots/slice-1-mobile.png",
+        "console_zero_errors": true,
+        "quality_gate_checks": [
+          "5+ GSAP animations",
+          "3+ easing types",
+          "4 depth layers"
+        ]
+      }
+    }
+  ],
+  "gates": {
+    "last_check": "2026-02-24T08:23:10Z",
+    "last_check_result": "pass",
+    "last_check_errors": []
+  }
+}

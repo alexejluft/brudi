@@ -1,0 +1,17 @@
+{
+  "name": "brudi-ast-engine",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "analyze": "node --loader ts-node/esm index.ts",
+    "test": "node --loader ts-node/esm test-runner.ts"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.24.0",
+    "@babel/traverse": "^7.24.0",
+    "@babel/types": "^7.24.0",
+    "typescript": "^5.4.0",
+    "ts-node": "^10.9.0",
+    "glob": "^10.3.0"
+  }
+}

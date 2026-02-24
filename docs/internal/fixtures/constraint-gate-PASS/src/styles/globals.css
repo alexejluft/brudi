@@ -1,0 +1,48 @@
+/* PASS: Complete token definitions */
+
+:root {
+  /* Color tokens (4-layer system) */
+  --color-bg: #ffffff;
+  --color-bg-elevated: #f5f5f5;
+  --color-surface: #efefef;
+  --color-surface-high: #e0e0e0;
+  --accent: #3b82f6;
+  --text-primary: #000000;
+  --text-secondary: #666666;
+
+  /* Motion tokens */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+  --easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Distance tokens */
+  --distance-xs: 0.25rem;
+  --distance-sm: 0.5rem;
+  --distance-md: 1rem;
+  --distance-lg: 1.5rem;
+  --distance-xl: 2rem;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--text-primary);
+  transition: background-color var(--duration-base) var(--easing-out);
+}
+
+h1, h2, h3 {
+  color: var(--text-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1a1a1a;
+    --color-bg-elevated: #2d2d2d;
+    --color-surface: #3a3a3a;
+    --color-surface-high: #4a4a4a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+  }
+}
